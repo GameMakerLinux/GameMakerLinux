@@ -19,7 +19,7 @@
 #include "allresourceitems.h"
 
 ResourceItem::ResourceItem(ResourceType type)
-    : type { type }
+    : m_type { type }
 {
 }
 
@@ -35,6 +35,10 @@ ResourceItem *ResourceItem::child(int index)
         return children[index];
     }
     return nullptr;
+}
+
+void ResourceItem::save()
+{
 }
 
 void ResourceItem::setName(QString name)

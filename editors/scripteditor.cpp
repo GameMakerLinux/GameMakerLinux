@@ -41,7 +41,7 @@ void ScriptEditor::save()
     QFile f(path);
     if (!f.open(QFile::WriteOnly))
     {
-        qCritical() << "Can't open file to write";
+        qCritical() << "Can't open file" << path << "in write only mode";
         return;
     }
 
@@ -59,7 +59,7 @@ void ScriptEditor::reset()
     QFile f(path);
     if (!f.open(QFile::ReadOnly))
     {
-        qCritical() << "Can't open file to read";
+        qCritical() << "Can't open file" << path << "in read only mode";
         return;
     }
 

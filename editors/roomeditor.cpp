@@ -46,9 +46,12 @@ RoomEditor::~RoomEditor()
     delete ui;
 }
 
-
 void RoomEditor::save()
 {
+    auto pItem = item<RoomResourceItem>();
+    pItem->save();
+
+    setDirty(false);
 }
 
 void RoomEditor::reset()
@@ -101,4 +104,6 @@ void RoomEditor::setLayerVisibility(QString id, bool visible)
 {
     graphicsLayers[id]->setVisible(visible);
     ui->layersListView->update();
+
+    setDirty();
 }
