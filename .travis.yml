@@ -14,7 +14,7 @@ before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -q
   - sudo apt-get install gcc-7 -y
-  - qt510-meta-minimal
+  - sudo apt-get install qt510-meta-minimal -y
 
 script:
   - source /opt/qt510/bin/qt510-env.sh
