@@ -29,7 +29,14 @@
     </property>
     <addaction name="action_Open_project"/>
    </widget>
+   <widget class="QMenu" name="menu_Windows">
+    <property name="title">
+     <string>&amp;Windows</string>
+    </property>
+    <addaction name="action_Resources"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_Windows"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -43,6 +50,17 @@
   <action name="action_Open_project">
    <property name="text">
     <string>&amp;Open project</string>
+   </property>
+  </action>
+  <action name="action_Resources">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Resources</string>
    </property>
   </action>
  </widget>

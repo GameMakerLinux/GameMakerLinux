@@ -20,5 +20,6 @@
 
 #include "objecteditor.h"
 #include "scripteditor.h"
+#include "roomeditor.h"
 
 #endif // ALLEDITORS_H

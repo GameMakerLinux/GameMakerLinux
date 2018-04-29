@@ -22,6 +22,7 @@
 #include <QVector>
 #include <QJsonObject>
 #include <QObject>
+#include <QMap>
 
 enum class ResourceType
 {
@@ -30,6 +31,8 @@ enum class ResourceType
     Room,
     Sprite,
     Script,
+    Font,
+    Sound,
     MainOptions,
     iOSOptions,
     IncludedFile,
@@ -46,7 +49,6 @@ class ResourceItem : public QObject
     Q_OBJECT
 
 public:
-    ResourceItem(ResourceType type);
     virtual ~ResourceItem();
 
     ResourceItem* child(int index);
@@ -62,16 +64,18 @@ public:
     QVector<ResourceItem*> children;
     ResourceItem* parentItem = nullptr;
 
-    static ResourceItem* create(ResourceType type);
+    static ResourceItem* create(ResourceType type, QString id);
+    static ResourceItem* get(QString id);
 
 signals:
     void nameChanged();
 
 protected:
-    ResourceItem();
+    ResourceItem(ResourceType type);
 
 private:
     QString m_name;
+    static inline QMap<QString, ResourceItem*> allResources;
 };
 
 class SpriteResourceItem;

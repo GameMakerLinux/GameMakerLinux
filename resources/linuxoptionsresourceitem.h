@@ -22,6 +22,8 @@
 
 class LinuxOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     LinuxOptionsResourceItem();
 

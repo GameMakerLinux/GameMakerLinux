@@ -22,6 +22,8 @@
 
 class AndroidOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     AndroidOptionsResourceItem();
 

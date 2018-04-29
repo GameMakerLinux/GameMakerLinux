@@ -22,6 +22,8 @@
 
 class AmazonFireOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     AmazonFireOptionsResourceItem();
 

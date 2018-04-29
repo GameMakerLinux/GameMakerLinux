@@ -22,6 +22,8 @@
 
 class RoomResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     RoomResourceItem();
 

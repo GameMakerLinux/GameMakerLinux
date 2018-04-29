@@ -139,8 +139,17 @@ int ResourcesModel::rowCount(const QModelIndex &parent) const
 
 int ResourcesModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
     return 1;
+}
+
+QVariant ResourcesModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole)
+    {
+        return QString("Resources");
+    }
+    return QVariant();
 }
 
 QVariant ResourcesModel::data(const QModelIndex &index, int role) const
@@ -163,6 +172,8 @@ static QMap<QString, ResourceType> resourcesTypesStrings = {
     { "GMRoom",             ResourceType::Room              },
     { "GMSprite",           ResourceType::Sprite            },
     { "GMScript",           ResourceType::Script            },
+    { "GMFont",             ResourceType::Font              },
+    { "GMSound",            ResourceType::Sound             },
     { "GMMainOptions",      ResourceType::MainOptions,      },
     { "GMiOSOptions",       ResourceType::iOSOptions,       },
     { "GMIncludedFile",     ResourceType::IncludedFile,     },

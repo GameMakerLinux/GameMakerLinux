@@ -25,5 +25,6 @@ MainOptionsResourceItem::MainOptionsResourceItem()
 
 void MainOptionsResourceItem::load(QJsonObject object)
 {
+    Q_UNUSED(object)
     setName("Main");
 }

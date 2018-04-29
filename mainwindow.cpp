@@ -18,10 +18,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QJsonValue>
+#include "utils/utils.h"
 #include "models/resourcesmodel.h"
 #include "docks/resourcestreedock.h"
 #include <QDebug>
@@ -51,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // CONNECT
     connect(ui->action_Open_project, &QAction::triggered, this, &MainWindow::openProject);
+    connect(ui->action_Resources, &QAction::toggled, resourcesTreeDock, &ResourcesTreeDock::setVisible);
 
     connect(resourcesTreeDock, &ResourcesTreeDock::openAmazonFireOptions, this, &MainWindow::openAmazonFireOptions);
     connect(resourcesTreeDock, &ResourcesTreeDock::openAndroidOptions, this, &MainWindow::openAndroidOptions);
@@ -64,11 +62,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(resourcesTreeDock, &ResourcesTreeDock::openScript, this, &MainWindow::openScript);
     connect(resourcesTreeDock, &ResourcesTreeDock::openSprite, this, &MainWindow::openSprite);
     connect(resourcesTreeDock, &ResourcesTreeDock::openWindowsOptions, this, &MainWindow::openWindowsOptions);
+    connect(resourcesTreeDock, &ResourcesTreeDock::visibilityChanged, ui->action_Resources, &QAction::setChecked);
 
     connect(tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
     // // // // // // //
-    loadProject("/home/minirop/GameMaker Projects/hitmango/hitmango.yyp");
+    loadProject("/home/minirop/GameMaker Projects/shoot the notes/shoot the notes.yyp");
 }
 
 MainWindow::~MainWindow()
@@ -78,7 +77,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openProject()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open project", "/home/minirop/GameMaker Projects/hitmango", "GameMaker Studio project (*.yyp)");
+    QString filename = QFileDialog::getOpenFileName(this, "Open project", "/home/minirop/GameMaker Projects/shoot the notes", "GameMaker Studio project (*.yyp)");
     if (!filename.isEmpty())
     {
         loadProject(filename);
@@ -92,7 +91,8 @@ void MainWindow::openRoom(RoomResourceItem * item)
         return;
     }
 
-    int pos = tabWidget->addTab(new QLabel("room"), item->name());
+    auto editor = new RoomEditor(item);
+    int pos = tabWidget->addTab(editor, item->name());
 
     idOfOpenedTabs.push_back(item->id);
 
@@ -264,28 +264,15 @@ void MainWindow::openObject(ObjectResourceItem * item)
 
 void MainWindow::loadProject(QString filename)
 {
-    QFile f(filename);
-    if (!f.open(QFile::ReadOnly))
-    {
-        qCritical() << "Can't open" << filename;
-        return;
-    }
-
-    QFileInfo fi(f);
+    QFileInfo fi(filename);
     GameSettings::setRootPath(fi.absolutePath());
 
-    auto data = f.readAll();
-    f.close();
-
-    QJsonParseError error;
-    auto doc = QJsonDocument::fromJson(data, &error);
-    if (error.error != QJsonParseError::NoError)
+    auto json = Utils::readFile(filename);
+    if (json.isEmpty())
     {
-        qCritical() << "JSON error:" << error.errorString();
         return;
     }
 
-    auto json = doc.object();
     auto resourcesJson = json["resources"].toArray();
     for (const auto & value : resourcesJson)
     {
@@ -295,8 +282,7 @@ void MainWindow::loadProject(QString filename)
         auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
 
         auto type = ResourceStringToType(data["resourceType"].toString());
-        auto item = ResourceItem::create(type);
-        item->id = id;
+        auto item = ResourceItem::create(type, id);
         item->filename = GameSettings::rootPath() + "/" + filenameYY;
 
         resources[id] = item;
@@ -306,12 +292,11 @@ void MainWindow::loadProject(QString filename)
     {
         auto obj = json["parentProject"].toObject()["alteredResources"].toArray().first().toObject();
         auto data = obj["Value"].toObject();
-        auto id = obj["Key"].toString(); // ed6a955d-5826-4f98-a450-10b414266c27
+        auto id = obj["Key"].toString();
         auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
         filenameYY.replace("options_main", "inherited/options_main.inherited");
         auto type = ResourceStringToType(data["resourceType"].toString());
-        auto item = ResourceItem::create(type);
-        item->id = id;
+        auto item = ResourceItem::create(type, id);
         item->filename = GameSettings::rootPath() + "/" + filenameYY;
 
         resources[id] = item;

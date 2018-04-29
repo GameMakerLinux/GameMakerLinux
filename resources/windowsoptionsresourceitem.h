@@ -22,6 +22,8 @@
 
 class WindowsOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     WindowsOptionsResourceItem();
 

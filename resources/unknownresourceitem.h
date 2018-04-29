@@ -22,6 +22,8 @@
 
 class UnknownResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     UnknownResourceItem();
 

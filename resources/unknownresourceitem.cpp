@@ -25,5 +25,6 @@ UnknownResourceItem::UnknownResourceItem()
 
 void UnknownResourceItem::load(QJsonObject object)
 {
+    Q_UNUSED(object)
     setName("Unknown");
 }

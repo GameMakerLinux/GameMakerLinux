@@ -22,6 +22,8 @@
 
 class IncludedFileResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     IncludedFileResourceItem();
 

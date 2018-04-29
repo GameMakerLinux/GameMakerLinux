@@ -22,6 +22,8 @@
 
 class iOSOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     iOSOptionsResourceItem();
 

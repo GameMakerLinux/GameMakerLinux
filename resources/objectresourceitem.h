@@ -22,6 +22,8 @@
 
 class ObjectResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     ObjectResourceItem();
 

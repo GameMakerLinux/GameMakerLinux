@@ -43,37 +43,62 @@ void ResourceItem::setName(QString name)
     emit nameChanged();
 }
 
-ResourceItem *ResourceItem::create(ResourceType type)
+ResourceItem *ResourceItem::create(ResourceType type, QString id)
 {
+    ResourceItem * item = nullptr;
+
     switch (type)
     {
     case ResourceType::AmazonFireOptions:
-        return new AmazonFireOptionsResourceItem;
+        item = new AmazonFireOptionsResourceItem;
+        break;
     case ResourceType::AndroidOptions:
-        return new AndroidOptionsResourceItem;
+        item = new AndroidOptionsResourceItem;
+        break;
     case ResourceType::Folder:
-        return new FolderResourceItem;
+        item = new FolderResourceItem;
+        break;
     case ResourceType::IncludedFile:
-        return new IncludedFileResourceItem;
+        item = new IncludedFileResourceItem;
+        break;
     case ResourceType::iOSOptions:
-        return new iOSOptionsResourceItem;
+        item = new iOSOptionsResourceItem;
+        break;
     case ResourceType::LinuxOptions:
-        return new LinuxOptionsResourceItem;
+        item = new LinuxOptionsResourceItem;
+        break;
     case ResourceType::MacOptions:
-        return new MacOptionsResourceItem;
+        item = new MacOptionsResourceItem;
+        break;
     case ResourceType::MainOptions:
-        return new MainOptionsResourceItem;
+        item = new MainOptionsResourceItem;
+        break;
     case ResourceType::Object:
-        return new ObjectResourceItem;
+        item = new ObjectResourceItem;
+        break;
     case ResourceType::Room:
-        return new RoomResourceItem;
+        item = new RoomResourceItem;
+        break;
     case ResourceType::Script:
-        return new ScriptResourceItem;
+        item = new ScriptResourceItem;
+        break;
     case ResourceType::Sprite:
-        return new SpriteResourceItem;
+        item = new SpriteResourceItem;
+        break;
     case ResourceType::WindowsOptions:
-        return new WindowsOptionsResourceItem;
+        item = new WindowsOptionsResourceItem;
+        break;
     default:
-        return new UnknownResourceItem;
+        item = new UnknownResourceItem;
     }
+
+    item->id = id;
+    allResources[id] = item;
+
+    return item;
+}
+
+ResourceItem *ResourceItem::get(QString id)
+{
+    return allResources[id];
 }

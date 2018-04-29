@@ -22,6 +22,8 @@
 
 class FolderResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     FolderResourceItem();
 

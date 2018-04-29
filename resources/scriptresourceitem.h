@@ -22,6 +22,8 @@
 
 class ScriptResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     ScriptResourceItem();
 

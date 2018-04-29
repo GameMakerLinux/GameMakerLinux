@@ -22,6 +22,8 @@
 
 class MacOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     MacOptionsResourceItem();
 

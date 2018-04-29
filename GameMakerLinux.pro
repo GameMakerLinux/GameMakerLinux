@@ -50,7 +50,12 @@ SOURCES += \
     editors/maineditor.cpp \
     widgets/codeeditor.cpp \
     editors/scripteditor.cpp \
-    utils/gmlhighlighter.cpp
+    utils/gmlhighlighter.cpp \
+    editors/roomeditor.cpp \
+    models/layersmodel.cpp \
+    graphics/graphicslayer.cpp \
+    utils/utils.cpp \
+    utils/uuid.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -78,9 +83,15 @@ HEADERS += \
     editors/maineditor.h \
     widgets/codeeditor.h \
     editors/scripteditor.h \
-    utils/gmlhighlighter.h
+    utils/gmlhighlighter.h \
+    editors/roomeditor.h \
+    models/layersmodel.h \
+    graphics/graphicslayer.h \
+    utils/utils.h \
+    utils/uuid.h
 
 FORMS += \
         mainwindow.ui \
     editors/objecteditor.ui \
-    editors/maineditor.ui
+    editors/maineditor.ui \
+    editors/roomeditor.ui

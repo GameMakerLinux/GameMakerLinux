@@ -22,6 +22,8 @@
 
 class MainOptionsResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     MainOptionsResourceItem();
 

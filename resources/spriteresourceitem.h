@@ -22,6 +22,8 @@
 
 class SpriteResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     SpriteResourceItem();
 
