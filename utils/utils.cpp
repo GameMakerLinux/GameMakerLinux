@@ -58,9 +58,26 @@ QString Utils::readFile(QString filename)
     return str;
 }
 
-static const char * eventsTypes[] = {
+enum EventType {
+    CreateEvent,
+    U0Event,
+    AlarmEvent,
+    StepEvent,
+    U1Event,
+    U2Event,
+    U3Event,
+    OtherEvent,
+    DrawEvent,
+    U4Event,
+    U5Event,
+    U6Event,
+    CleanUpEvent,
+    EVENTS_COUNT
+};
+
+static QString eventsTypeFileNames[] = {
     "Create",
-    "Step",
+    "1",
     "Alarm",
     "Step",
     "4",
@@ -68,28 +85,77 @@ static const char * eventsTypes[] = {
     "6",
     "Other",
     "Draw",
-    "9",
+    "KeyPress",
     "10",
     "11",
     "CleanUp"
 };
-constexpr int EVENTS_COUNT = 13;
+
+static QMap<int, QString> eventsTypeNames[] = {
+    { { 0, "Created" } },
+    { { 0, "1" } },
+    { { 0, "Alarm" } },
+    {
+        { 0, "Step" },
+        { 1, "Begin Step" }
+    },
+    { { 0, "4" } },
+    { { 0, "5" } },
+    { { 0, "6" } },
+    {
+        { 0, "Other" },
+        { 10, "User Event 0" },
+    },
+    {
+        { 0, "Draw" },
+        { 64, "Draw GUI" },
+        { 73, "Post Draw" }
+    },
+    {
+        { 0, "Key Press" },
+        { 13, "Key Press: Enter" }
+    },
+    { { 0, "10" } },
+    { { 0, "11" } },
+    { { 0, "Clean Up" } }
+};
 
 QString Utils::getEventName(int eventType, int eventNumber)
 {
     if (eventType < EVENTS_COUNT)
     {
-        return QString(eventsTypes[eventType]) + (eventType == 0 ? "d" : "");
+        switch (eventType)
+        {
+        case AlarmEvent:
+            return QString("%1 %2").arg(eventsTypeNames[eventType][0]).arg(eventNumber);
+        case CreateEvent:
+        case U0Event:
+        case StepEvent:
+        case U1Event:
+        case U2Event:
+        case U3Event:
+        case OtherEvent:
+        case DrawEvent:
+        case U4Event:
+        case U5Event:
+        case U6Event:
+        case CleanUpEvent:
+            if (eventsTypeNames[eventType].contains(eventNumber))
+            {
+                return QString(eventsTypeNames[eventType][eventNumber]);
+            }
+        }
     }
 
-    return QString("invalid");
+    qDebug() << "Unknown:" << eventType << eventNumber;
+    return QString("Invalid %1 %2").arg(eventType).arg(eventNumber);
 }
 
 QString Utils::getEventFileName(int eventType, int eventNumber)
 {
     if (eventType < EVENTS_COUNT)
     {
-        return QString("%1_%2").arg(eventsTypes[eventType]).arg(eventNumber);
+        return QString("%1_%2").arg(eventsTypeFileNames[eventType]).arg(eventNumber);
     }
 
     return QString("invalid_%1_%2").arg(eventType).arg(eventNumber);

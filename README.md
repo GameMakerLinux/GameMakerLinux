@@ -6,7 +6,15 @@ An attempt to have a Game Maker IDE on Linux.
 
 * Opening a project
 * Editing scripts
+* Read events scripts
 
 ## TODO
 
+* Add more event names
 * Everything else...
+
+## Things that will never be done
+
+* Drag-and-Drop
+* Compilation
+* Probably other things
