@@ -256,9 +256,9 @@ void MainWindow::openObject(ObjectResourceItem * item)
 
     tabWidget->setCurrentIndex(pos);
 
-    connect(editor, &ObjectEditor::nameChanged, [this, id](QString name) {
-        int index = idOfOpenedTabs.indexOf(id);
-        tabWidget->setTabText(index, name);
+    connect(item, &ObjectResourceItem::nameChanged, [this, item]() {
+        int index = idOfOpenedTabs.indexOf(item->id);
+        tabWidget->setTabText(index, item->name());
     });
 }
 
@@ -267,7 +267,7 @@ void MainWindow::loadProject(QString filename)
     QFileInfo fi(filename);
     GameSettings::setRootPath(fi.absolutePath());
 
-    auto json = Utils::readFile(filename);
+    auto json = Utils::readFileToJSON(filename);
     if (json.isEmpty())
     {
         return;

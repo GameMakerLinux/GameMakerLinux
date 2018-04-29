@@ -16,6 +16,7 @@
 */
 
 #include "objectresourceitem.h"
+#include <QJsonArray>
 
 ObjectResourceItem::ObjectResourceItem()
     : ResourceItem(ResourceType::Object)
@@ -26,4 +27,24 @@ ObjectResourceItem::ObjectResourceItem()
 void ObjectResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+
+    auto evList = object["eventList"].toArray();
+    for (const auto & value : evList)
+    {
+        auto event = value.toObject();
+        auto type = event["eventtype"].toInt();
+        auto number = event["enumb"].toInt();
+
+        eventsList.push_back(qMakePair(type, number));
+    }
+}
+
+int ObjectResourceItem::eventsCount() const
+{
+    return eventsList.size();
+}
+
+QPair<int, int> ObjectResourceItem::getEvent(int id) const
+{
+    return eventsList[id];
 }

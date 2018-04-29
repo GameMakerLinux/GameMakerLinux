@@ -21,6 +21,7 @@
 #include "maineditor.h"
 #include "resources/objectresourceitem.h"
 #include "ui_objecteditor.h"
+#include "models/eventsmodel.h"
 
 class ObjectEditor : public MainEditor
 {
@@ -29,15 +30,18 @@ class ObjectEditor : public MainEditor
 public:
     ObjectEditor(ObjectResourceItem* item);
 
-signals:
-    void nameChanged(QString name);
-
 protected slots:
     void save() override;
     void reset() override;
 
 private:
+    void onEventsAdded(const QModelIndex &parent, int first, int last);
+    void onEventsRemoved(const QModelIndex &parent, int first, int last);
+    void onEventsCleared();
+
+private:
     Ui::ObjectEditor * ui;
+    EventsModel eventsModel;
 };
 
 #endif // OBJECTEDITOR_H

@@ -21,7 +21,7 @@
 #include <QJsonParseError>
 #include <QDebug>
 
-QJsonObject Utils::readFile(QString filename)
+QJsonObject Utils::readFileToJSON(QString filename)
 {
     QFile f(filename);
     if (!f.open(QFile::ReadOnly))
@@ -32,14 +32,65 @@ QJsonObject Utils::readFile(QString filename)
 
     QJsonParseError error;
     auto doc = QJsonDocument::fromJson(f.readAll(), &error);
+    f.close();
+
     if (error.error != QJsonParseError::NoError)
     {
         qCritical() << "JSON error:" << error.errorString();
         return {};
     }
 
-    auto json = doc.object();
+    return doc.object();
+}
+
+QString Utils::readFile(QString filename)
+{
+    QFile f(filename);
+    if (!f.open(QFile::ReadOnly))
+    {
+        qCritical() << "Can't open file" << filename;
+        return {};
+    }
+
+    auto str = f.readAll();
     f.close();
 
-    return json;
+    return str;
+}
+
+static const char * eventsTypes[] = {
+    "Create",
+    "Step",
+    "Alarm",
+    "Step",
+    "4",
+    "5",
+    "6",
+    "Other",
+    "Draw",
+    "9",
+    "10",
+    "11",
+    "CleanUp"
+};
+constexpr int EVENTS_COUNT = 13;
+
+QString Utils::getEventName(int eventType, int eventNumber)
+{
+    if (eventType < EVENTS_COUNT)
+    {
+        return QString(eventsTypes[eventType]) + (eventType == 0 ? "d" : "");
+    }
+
+    return QString("invalid");
+}
+
+QString Utils::getEventFileName(int eventType, int eventNumber)
+{
+    if (eventType < EVENTS_COUNT)
+    {
+        return QString("%1_%2").arg(eventsTypes[eventType]).arg(eventNumber);
+    }
+
+    return QString("invalid_%1_%2").arg(eventType).arg(eventNumber);
 }

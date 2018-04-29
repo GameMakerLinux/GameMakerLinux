@@ -58,7 +58,7 @@ void RoomEditor::reset()
 {
     auto pItem = item<RoomResourceItem>();
 
-    auto json = Utils::readFile(pItem->filename);
+    auto json = Utils::readFileToJSON(pItem->filename);
     if (json.isEmpty())
     {
         return;
@@ -87,7 +87,7 @@ void RoomEditor::reset()
             if (pItem)
             {
                 auto spriteItem = qobject_cast<SpriteResourceItem*>(pItem);
-                auto json = Utils::readFile(spriteItem->filename);
+                auto json = Utils::readFileToJSON(spriteItem->filename);
                 if (!json.isEmpty())
                 {
                     auto imageName = json["frames"].toArray().first().toObject()["id"].toString();

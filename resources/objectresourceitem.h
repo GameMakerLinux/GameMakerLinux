@@ -19,6 +19,7 @@
 #define OBJECTRESOURCEITEM_H
 
 #include "resourceitem.h"
+#include <QPair>
 
 class ObjectResourceItem : public ResourceItem
 {
@@ -28,6 +29,12 @@ public:
     ObjectResourceItem();
 
     void load(QJsonObject object) override;
+
+    int eventsCount() const;
+    QPair<int, int> getEvent(int id) const;
+
+private:
+    QVector<QPair<int, int>> eventsList;
 };
 
 #endif // OBJECTRESOURCEITEM_H

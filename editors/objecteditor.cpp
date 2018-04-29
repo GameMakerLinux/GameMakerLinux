@@ -16,6 +16,9 @@
 */
 
 #include "objecteditor.h"
+#include "gamesettings.h"
+#include "utils/utils.h"
+#include "widgets/codeeditor.h"
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     : MainEditor(item)
@@ -26,6 +29,16 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     setWidget(tabWidget);
 
     tabWidget->setCurrentIndex(0);
+
+    ui->eventsListView->setModel(&eventsModel);
+
+    connect(&eventsModel, &EventsModel::rowsInserted, this, &ObjectEditor::onEventsAdded);
+    connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);
+    connect(&eventsModel, &EventsModel::modelReset, this, &ObjectEditor::onEventsCleared);
+
+    connect(ui->eventsListView, &QListView::clicked, [this](const QModelIndex & index) {
+        ui->stackedCodeEditorWidget->setCurrentIndex(index.row());
+    });
 
     connect(ui->nameLineEdit, &QLineEdit::textEdited, [this](QString) {
         this->setDirty();
@@ -39,7 +52,6 @@ void ObjectEditor::save()
 {
     auto name = ui->nameLineEdit->text();
     item<ObjectResourceItem>()->setName(name);
-    emit nameChanged(name);
 
     setDirty(false);
 }
@@ -51,5 +63,49 @@ void ObjectEditor::reset()
     // GENERAL SETTINGS
     ui->nameLineEdit->setText(pItem->name());
 
+    // EVENTS
+    eventsModel.clear();
+
+    for (int i = 0; i < pItem->eventsCount(); i++)
+    {
+        auto event = pItem->getEvent(i);
+        QString eventName = Utils::getEventName(event.first, event.second);
+        QString fileName = Utils::getEventFileName(event.first, event.second);
+        QString fullPath = QString("%1/objects/%2/%3.gml").arg(GameSettings::rootPath(), pItem->name(), fileName);
+        eventsModel.addEvent(eventName, fullPath);
+    }
+
     setDirty(false);
+}
+
+void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last)
+{
+    Q_UNUSED(parent)
+    for (int i = first; i <= last; i++)
+    {
+        auto editor = new CodeEditor;
+
+        auto filename = eventsModel.getFilename(i);
+        auto code = Utils::readFile(filename);
+        editor->setCode(code);
+
+        ui->stackedCodeEditorWidget->insertWidget(i, editor);
+    }
+}
+
+void ObjectEditor::onEventsRemoved(const QModelIndex & parent, int first, int last)
+{
+    Q_UNUSED(parent)
+    for (int i = first; i <= last; i++)
+    {
+        ui->stackedCodeEditorWidget->removeWidget(ui->stackedCodeEditorWidget->widget(first));
+    }
+}
+
+void ObjectEditor::onEventsCleared()
+{
+    while (ui->stackedCodeEditorWidget->count() > 0)
+    {
+        ui->stackedCodeEditorWidget->removeWidget(ui->stackedCodeEditorWidget->widget(0));
+    }
 }

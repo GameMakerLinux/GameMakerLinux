@@ -28,7 +28,10 @@ class Utils
 public:
     Utils() = delete;
 
-    static QJsonObject readFile(QString filename);
+    static QJsonObject readFileToJSON(QString filename);
+    static QString readFile(QString filename);
+    static QString getEventName(int eventType, int eventNumber);
+    static QString getEventFileName(int eventType, int eventNumber);
 };
 
 #endif // UTILS_H
