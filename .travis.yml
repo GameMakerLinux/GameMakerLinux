@@ -3,8 +3,8 @@ dist: trusty
 
 language: cpp
 compiler:
-  - clang
   - gcc
+#  - clang
 
 env:
   - QTVER=5.10.1
@@ -15,8 +15,16 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install gcc-7 -y
   - sudo apt-get install qt510-meta-minimal -y
+  - wget https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.4/QScintilla_gpl-2.10.4.tar.gz
+  - tar -xvzf QScintilla_gpl-2.10.4.tar.gz
+  - cd QScintilla_gpl-2.10.4/Qt4Qt5
+  - if [[ "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
+  - qmake
+  - make
+  - sudo make install
 
 script:
   - source /opt/qt510/bin/qt510-env.sh
+  - qmake -v
   - qmake
   - make

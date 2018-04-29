@@ -37,7 +37,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
 
     for (auto & item : resources)
     {
-        if (item->type == ResourceType::MainOptions)
+        if (item->type() == ResourceType::MainOptions)
         {
             item->load(QJsonObject());
             continue;
@@ -53,7 +53,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
             auto doc = QJsonDocument::fromJson(f.readAll());
             auto json = doc.object();
 
-            if (item->type == ResourceType::Folder)
+            if (item->type() == ResourceType::Folder)
             {
                 auto childrenJson = json["children"].toArray();
                 for (const auto & value : childrenJson)

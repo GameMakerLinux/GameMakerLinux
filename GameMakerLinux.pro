@@ -7,11 +7,10 @@
 QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-QMAKE_CXXFLAGS += -std=c++17
 TARGET = GameMakerLinux
 TEMPLATE = app
 
-CONFIG += qscintilla2
+CONFIG += qscintilla2 c++1z
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings

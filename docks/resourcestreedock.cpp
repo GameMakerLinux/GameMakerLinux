@@ -41,7 +41,7 @@ void ResourcesTreeDock::onItemDoubleClicked(const QModelIndex & index)
 {
     auto resourceItem = static_cast<ResourceItem*>(index.internalPointer());
 
-    switch (resourceItem->type)
+    switch (resourceItem->type())
     {
     case ResourceType::AmazonFireOptions:
         emit openAmazonFireOptions(static_cast<AmazonFireOptionsResourceItem*>(resourceItem));

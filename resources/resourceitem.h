@@ -53,13 +53,15 @@ public:
 
     ResourceItem* child(int index);
     virtual void load(QJsonObject object) = 0;
+    virtual void save();
 
     QString name() const { return m_name; }
     void setName(QString name);
 
+    ResourceType type() const { return m_type; }
+
     QString id;
     QString filename;
-    ResourceType type;
 
     QVector<ResourceItem*> children;
     ResourceItem* parentItem = nullptr;
@@ -75,6 +77,8 @@ protected:
 
 private:
     QString m_name;
+    ResourceType m_type;
+
     static inline QMap<QString, ResourceItem*> allResources;
 };
 
