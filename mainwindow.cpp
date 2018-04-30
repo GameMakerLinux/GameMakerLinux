@@ -260,6 +260,8 @@ void MainWindow::openObject(ObjectResourceItem * item)
         int index = idOfOpenedTabs.indexOf(item->id);
         tabWidget->setTabText(index, item->name());
     });
+
+    connectDirtiness(editor, item);
 }
 
 void MainWindow::loadProject(QString filename)
@@ -295,6 +297,7 @@ void MainWindow::loadProject(QString filename)
         auto id = obj["Key"].toString();
         auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
         filenameYY.replace("options_main", "inherited/options_main.inherited");
+
         auto type = ResourceStringToType(data["resourceType"].toString());
         auto item = ResourceItem::create(type, id);
         item->filename = GameSettings::rootPath() + "/" + filenameYY;
@@ -332,4 +335,12 @@ void MainWindow::closeTab(int pos)
 
     idOfOpenedTabs.remove(pos);
     tabWidget->removeTab(pos);
+}
+
+void MainWindow::connectDirtiness(MainEditor * editor, ResourceItem* item)
+{
+    connect(editor, &MainEditor::dirtyChanged, [this, item](bool b) {
+        int index = idOfOpenedTabs.indexOf(item->id);
+        tabWidget->setTabText(index, item->name() + (b ? "*" : ""));
+    });
 }

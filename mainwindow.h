@@ -28,6 +28,7 @@ class MainWindow;
 
 class ResourcesModel;
 class ResourcesTreeDock;
+class MainEditor;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -55,6 +56,7 @@ private:
     void loadProject(QString filename);
     bool checkTab(QString id);
     void closeTab(int pos);
+    void connectDirtiness(MainEditor* editor, ResourceItem * item);
 
     Ui::MainWindow * ui;
     ResourcesModel * resourcesModel;

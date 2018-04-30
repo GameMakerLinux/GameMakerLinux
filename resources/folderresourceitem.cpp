@@ -24,7 +24,5 @@ FolderResourceItem::FolderResourceItem()
 
 void FolderResourceItem::load(QJsonObject object)
 {
-    auto localisedFolderName = object["localisedFolderName"].toString();
-    auto n = (localisedFolderName.isEmpty() ? object["folderName"].toString() : localisedFolderName);
-    setName(n);
+    setName(object["folderName"].toString());
 }

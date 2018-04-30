@@ -62,6 +62,9 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
     case ResourceType::Folder:
         item = new FolderResourceItem;
         break;
+    case ResourceType::Font:
+        item = new FontResourceItem;
+        break;
     case ResourceType::IncludedFile:
         item = new IncludedFileResourceItem;
         break;
@@ -85,6 +88,9 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
         break;
     case ResourceType::Script:
         item = new ScriptResourceItem;
+        break;
+    case ResourceType::Sound:
+        item = new SoundResourceItem;
         break;
     case ResourceType::Sprite:
         item = new SpriteResourceItem;

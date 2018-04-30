@@ -38,7 +38,7 @@ QVariant EventsModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case Qt::DisplayRole:
-        return item.name;
+        return item.name + (item.modified ? "*" : "");
     }
 
     return QVariant();

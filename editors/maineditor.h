@@ -35,6 +35,9 @@ public:
 
     bool isDirty() const { return dirty; }
 
+signals:
+    void dirtyChanged(bool);
+
 protected:
     void setWidget(QWidget * widget);
 
@@ -47,7 +50,7 @@ protected:
 protected slots:
     virtual void save() = 0;
     virtual void reset() = 0;
-    void setDirty(bool b = true) { dirty = b; }
+    virtual void setDirty(bool b = true);
 
 private:
     Ui::MainEditor * ui;

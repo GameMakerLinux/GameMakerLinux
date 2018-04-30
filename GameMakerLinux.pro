@@ -55,7 +55,9 @@ SOURCES += \
     graphics/graphicslayer.cpp \
     utils/utils.cpp \
     utils/uuid.cpp \
-    models/eventsmodel.cpp
+    models/eventsmodel.cpp \
+    resources/soundresourceitem.cpp \
+    resources/fontresourceitem.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,7 +91,9 @@ HEADERS += \
     graphics/graphicslayer.h \
     utils/utils.h \
     utils/uuid.h \
-    models/eventsmodel.h
+    models/eventsmodel.h \
+    resources/soundresourceitem.h \
+    resources/fontresourceitem.h
 
 FORMS += \
         mainwindow.ui \

@@ -7,6 +7,7 @@ struct EventItem
 {
     QString name;
     QString filename;
+    bool modified = false;
 };
 
 class EventsModel : public QAbstractListModel

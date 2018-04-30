@@ -15,34 +15,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OBJECTEDITOR_H
-#define OBJECTEDITOR_H
+#include "fontresourceitem.h"
 
-#include "maineditor.h"
-#include "resources/objectresourceitem.h"
-#include "ui_objecteditor.h"
-#include "models/eventsmodel.h"
-
-class ObjectEditor : public MainEditor
+FontResourceItem::FontResourceItem()
+    : ResourceItem(ResourceType::Font)
 {
-    Q_OBJECT
+}
 
-public:
-    ObjectEditor(ObjectResourceItem* item);
-
-protected slots:
-    void save() override;
-    void reset() override;
-    void setDirty(bool dirty = true) override;
-
-private:
-    void onEventsAdded(const QModelIndex &parent, int first, int last);
-    void onEventsRemoved(const QModelIndex &parent, int first, int last);
-    void onEventsCleared();
-
-private:
-    Ui::ObjectEditor * ui;
-    EventsModel eventsModel;
-};
-
-#endif // OBJECTEDITOR_H
+void FontResourceItem::load(QJsonObject object)
+{
+    setName(object["name"].toString());
+}

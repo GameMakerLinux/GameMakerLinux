@@ -75,7 +75,35 @@ void ObjectEditor::reset()
         eventsModel.addEvent(eventName, fullPath);
     }
 
+    // HIERARCHY
+    if (pItem->parentItem != nullptr)
+        ui->parentLineEdit->setText(pItem->parentItem->name());
+
+    for (auto & child : pItem->children)
+    {
+        ui->childrenTextEdit->appendPlainText(child->name() + "\n");
+    }
+
     setDirty(false);
+}
+
+void ObjectEditor::setDirty(bool dirty)
+{
+    if (isDirty() == dirty) return;
+
+    if (dirty == false)
+    {
+        for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
+        {
+            auto editor = qobject_cast<CodeEditor*>(ui->stackedCodeEditorWidget->widget(i));
+            if (editor)
+            {
+                editor->setDirty(dirty);
+            }
+        }
+    }
+
+    MainEditor::setDirty(dirty);
 }
 
 void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last)
@@ -84,6 +112,7 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
     for (int i = first; i <= last; i++)
     {
         auto editor = new CodeEditor;
+        connect(editor, &CodeEditor::dirtyChanged, this, &ObjectEditor::setDirty);
 
         auto filename = eventsModel.getFilename(i);
         auto code = Utils::readFile(filename);

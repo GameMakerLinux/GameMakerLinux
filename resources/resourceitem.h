@@ -96,5 +96,7 @@ class iOSOptionsResourceItem;
 class LinuxOptionsResourceItem;
 class MacOptionsResourceItem;
 class WindowsOptionsResourceItem;
+class SoundResourceItem;
+class FontResourceItem;
 
 #endif // RESOURCEITEM_H

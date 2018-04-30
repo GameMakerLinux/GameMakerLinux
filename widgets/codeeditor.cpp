@@ -45,5 +45,8 @@ QString CodeEditor::getCode() const
 
 void CodeEditor::setDirty(bool dirty)
 {
-    textEdit->setModified(dirty);
+    if (textEdit->isModified() != dirty)
+    {
+        textEdit->setModified(dirty);
+    }
 }

@@ -32,5 +32,7 @@
 #include "iosoptionsresourceitem.h"
 #include "macoptionsresourceitem.h"
 #include "includedfileresourceitem.h"
+#include "soundresourceitem.h"
+#include "fontresourceitem.h"
 
 #endif // ALLRESOURCEITEMS_H

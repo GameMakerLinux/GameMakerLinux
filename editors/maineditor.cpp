@@ -42,3 +42,12 @@ void MainEditor::setWidget(QWidget * widget)
 {
     targetLayout->addWidget(widget);
 }
+
+void MainEditor::setDirty(bool b)
+{
+    if (dirty != b)
+    {
+        dirty = b;
+        dirtyChanged(b);
+    }
+}
