@@ -63,7 +63,8 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
                     allChildren.push_back(child);
                 }
 
-                if (json["filterType"].toString() == "root")
+                // replace by "item->type() == root"?
+                if (json["isDefaultView"].toBool())
                 {
                     rootItem.reset(resources[item->id]);
                 }
@@ -164,37 +165,4 @@ QVariant ResourcesModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
-}
-
-static QMap<QString, ResourceType> resourcesTypesStrings = {
-    { "GMFolder",           ResourceType::Folder            },
-    { "GMObject",           ResourceType::Object            },
-    { "GMRoom",             ResourceType::Room              },
-    { "GMSprite",           ResourceType::Sprite            },
-    { "GMScript",           ResourceType::Script            },
-    { "GMFont",             ResourceType::Font              },
-    { "GMSound",            ResourceType::Sound             },
-    { "GMMainOptions",      ResourceType::MainOptions,      },
-    { "GMiOSOptions",       ResourceType::iOSOptions,       },
-    { "GMIncludedFile",     ResourceType::IncludedFile,     },
-    { "GMAmazonFireOptions",ResourceType::AmazonFireOptions,},
-    { "GMLinuxOptions",     ResourceType::LinuxOptions,     },
-    { "GMWindowsOptions",   ResourceType::WindowsOptions,   },
-    { "GMAndroidOptions",   ResourceType::AndroidOptions,   },
-    { "GMMacOptions",       ResourceType::MacOptions,       }
-};
-
-QString ResourceTypeToString(ResourceType type)
-{
-    return resourcesTypesStrings.key(type, "Unknown");
-}
-
-ResourceType ResourceStringToType(QString type)
-{
-    if (resourcesTypesStrings.contains(type))
-    {
-        return resourcesTypesStrings[type];
-    }
-    qDebug() << "unknown type:" << type;
-    return ResourceType::Unknown;
 }

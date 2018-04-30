@@ -23,15 +23,24 @@
 #include <QJsonValue>
 #include <QJsonArray>
 
+#include "resources/resourceitem.h"
+
 class Utils
 {
 public:
     Utils() = delete;
 
+    // Files
     static QJsonObject readFileToJSON(QString filename);
     static QString readFile(QString filename);
+
+    // Events
     static QString getEventName(int eventType, int eventNumber);
     static QString getEventFileName(int eventType, int eventNumber);
+
+    // Resources
+    static QString resourceTypeToString(ResourceType type);
+    static ResourceType resourceStringToType(QString type);
 };
 
 #endif // UTILS_H

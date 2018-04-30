@@ -28,6 +28,24 @@ public:
     FolderResourceItem();
 
     void load(QJsonObject object) override;
+    void save() override;
+
+private:
+    /*
+     * id: in ResourceItem
+     * modelName: "type" in ResourceItem (always "GMFolder")
+     * mvc: always 1.1?
+     * name: equals id
+     * children: in ResourceItem
+     * filterType: here
+     * folderName: here
+     * isDefaultView: true for root item
+     * localisedFolderName: for specific folders
+    */
+    ResourceType m_filterType;
+    QString m_folderName;
+    bool m_isDefaultView = false;
+    QString m_localisedFolderName;
 };
 
 #endif // FOLDERRESOURCEITEM_H

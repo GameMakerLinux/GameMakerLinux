@@ -23,8 +23,6 @@
 
 #include "resources/resourceitem.h"
 
-QString ResourceTypeToString(ResourceType type);
-ResourceType ResourceStringToType(QString type);
 
 class ResourcesModel : public QAbstractItemModel
 {

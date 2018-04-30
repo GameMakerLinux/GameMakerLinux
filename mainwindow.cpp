@@ -283,7 +283,7 @@ void MainWindow::loadProject(QString filename)
         auto id = obj["Key"].toString();
         auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
 
-        auto type = ResourceStringToType(data["resourceType"].toString());
+        auto type = Utils::resourceStringToType(data["resourceType"].toString());
         auto item = ResourceItem::create(type, id);
         item->filename = GameSettings::rootPath() + "/" + filenameYY;
 
@@ -298,7 +298,7 @@ void MainWindow::loadProject(QString filename)
         auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
         filenameYY.replace("options_main", "inherited/options_main.inherited");
 
-        auto type = ResourceStringToType(data["resourceType"].toString());
+        auto type = Utils::resourceStringToType(data["resourceType"].toString());
         auto item = ResourceItem::create(type, id);
         item->filename = GameSettings::rootPath() + "/" + filenameYY;
 

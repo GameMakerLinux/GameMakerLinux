@@ -16,6 +16,9 @@
 */
 
 #include "folderresourceitem.h"
+#include "utils/utils.h"
+#include <QJsonDocument>
+#include <QDebug>
 
 FolderResourceItem::FolderResourceItem()
     : ResourceItem(ResourceType::Folder)
@@ -24,5 +27,35 @@ FolderResourceItem::FolderResourceItem()
 
 void FolderResourceItem::load(QJsonObject object)
 {
-    setName(object["folderName"].toString());
+    m_filterType = Utils::resourceStringToType(object["filterType"].toString());
+    m_folderName = object["folderName"].toString();
+    m_isDefaultView = object["isDefaultView"].toBool();
+    m_localisedFolderName = object["localisedFolderName"].toString();
+
+    setName(m_folderName);
+}
+
+
+void FolderResourceItem::save()
+{
+    qDebug() << filename;
+
+    QJsonObject object;
+    object["id"] = id;
+    object["modelName"] = Utils::resourceTypeToString(type());
+    object["mvc"] = "1.1";
+    object["name"] = id;
+    object["filterType"] = Utils::resourceTypeToString(m_filterType);
+    object["folderName"] = m_folderName;
+    object["isDefaultView"] = m_isDefaultView;
+    object["localisedFolderName"] = m_localisedFolderName;
+
+    QJsonArray childrenJson;
+    for (auto & child : children)
+    {
+        childrenJson.append(child->id);
+    }
+    object["children"] = childrenJson;
+
+    qDebug() << QJsonDocument(object).toJson();
 }

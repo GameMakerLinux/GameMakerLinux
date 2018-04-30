@@ -41,6 +41,15 @@ enum class ResourceType
     WindowsOptions,
     AndroidOptions,
     MacOptions,
+    Config,
+    TileSet,
+    Path,
+    Notes,
+    Extension,
+    Timeline,
+    Options,
+    Shader,
+    Root,
     Unknown
 };
 

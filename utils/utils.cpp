@@ -21,6 +21,8 @@
 #include <QJsonParseError>
 #include <QDebug>
 
+// FILES
+
 QJsonObject Utils::readFileToJSON(QString filename)
 {
     QFile f(filename);
@@ -57,6 +59,8 @@ QString Utils::readFile(QString filename)
 
     return str;
 }
+
+// EVENTS
 
 enum EventType {
     CreateEvent,
@@ -249,4 +253,48 @@ QString Utils::getEventFileName(int eventType, int eventNumber)
     }
 
     return QString("invalid_%1_%2").arg(eventType).arg(eventNumber);
+}
+
+// RESOURCES
+
+static QMap<QString, ResourceType> resourcesTypesStrings = {
+    { "GMFolder",           ResourceType::Folder            },
+    { "GMObject",           ResourceType::Object            },
+    { "GMRoom",             ResourceType::Room              },
+    { "GMSprite",           ResourceType::Sprite            },
+    { "GMScript",           ResourceType::Script            },
+    { "GMFont",             ResourceType::Font              },
+    { "GMSound",            ResourceType::Sound             },
+    { "GMMainOptions",      ResourceType::MainOptions,      },
+    { "GMiOSOptions",       ResourceType::iOSOptions,       },
+    { "GMIncludedFile",     ResourceType::IncludedFile,     },
+    { "GMAmazonFireOptions",ResourceType::AmazonFireOptions,},
+    { "GMLinuxOptions",     ResourceType::LinuxOptions,     },
+    { "GMWindowsOptions",   ResourceType::WindowsOptions,   },
+    { "GMAndroidOptions",   ResourceType::AndroidOptions,   },
+    { "GMMacOptions",       ResourceType::MacOptions,       },
+    { "GMConfig",           ResourceType::Config,           },
+    { "GMTileSet",          ResourceType::TileSet,          },
+    { "GMPath",             ResourceType::Path,             },
+    { "GMNotes",            ResourceType::Notes,            },
+    { "GMExtension",        ResourceType::Extension,        },
+    { "GMTimeline",         ResourceType::Timeline,         },
+    { "GMOptions",          ResourceType::Options,          },
+    { "GMShader",           ResourceType::Shader,           },
+    { "root",               ResourceType::Root,             }
+};
+
+QString Utils::resourceTypeToString(ResourceType type)
+{
+    return resourcesTypesStrings.key(type, "Unknown");
+}
+
+ResourceType Utils::resourceStringToType(QString type)
+{
+    if (resourcesTypesStrings.contains(type))
+    {
+        return resourcesTypesStrings[type];
+    }
+    qDebug() << "unknown type:" << type;
+    return ResourceType::Unknown;
 }

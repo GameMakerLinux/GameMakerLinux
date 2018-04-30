@@ -20,6 +20,7 @@
 #include <QTreeView>
 #include "models/resourcesmodel.h"
 #include "resources/allresourceitems.h"
+#include "utils/utils.h"
 #include <QDebug>
 
 ResourcesTreeDock::ResourcesTreeDock()
@@ -83,6 +84,6 @@ void ResourcesTreeDock::onItemDoubleClicked(const QModelIndex & index)
         emit openWindowsOptions(static_cast<WindowsOptionsResourceItem*>(resourceItem));
         break;
     default:
-        qCritical() << "Unknown element";
+        qCritical() << "Unimplemented element:" << Utils::resourceTypeToString(resourceItem->type());
     }
 }
