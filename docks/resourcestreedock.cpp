@@ -28,9 +28,8 @@ ResourcesTreeDock::ResourcesTreeDock()
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
 
     resourcesTree = new QTreeView;
-    resourcesTree->setDragEnabled(true);
-    resourcesTree->setAcceptDrops(true);
     resourcesTree->setDropIndicatorShown(true);
+    resourcesTree->setDragDropMode(QAbstractItemView::InternalMove);
     setWidget(resourcesTree);
 
     connect(resourcesTree, &QTreeView::doubleClicked, this, &ResourcesTreeDock::onItemDoubleClicked);

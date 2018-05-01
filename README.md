@@ -7,6 +7,7 @@ An attempt to have a Game Maker IDE on Linux.
 * Opening a project
 * Editing scripts
 * Read events scripts
+* Drag-and-Drop of resources in the tree view
 
 ## TODO
 
@@ -15,6 +16,6 @@ An attempt to have a Game Maker IDE on Linux.
 
 ## Things that will never be done
 
-* Drag-and-Drop
-* Compilation
+* Drag-and-Drop scripts
+* Compilation (or maybe the same way GM:S do it for linux)
 * Probably other things
