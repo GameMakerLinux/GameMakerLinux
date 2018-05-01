@@ -18,6 +18,8 @@
 #include "objectresourceitem.h"
 #include <QJsonArray>
 #include "utils/uuid.h"
+#include "utils/utils.h"
+#include "dependencies/objectevent.h"
 
 ObjectResourceItem::ObjectResourceItem()
     : ResourceItem(ResourceType::Object)
@@ -32,11 +34,10 @@ void ObjectResourceItem::load(QJsonObject object)
     auto evList = object["eventList"].toArray();
     for (const auto & value : evList)
     {
-        auto event = value.toObject();
-        auto type = event["eventtype"].toInt();
-        auto number = event["enumb"].toInt();
+        auto json = value.toObject();
+        auto event = new ObjectEvent(json);
 
-        eventsList.push_back(qMakePair(type, number));
+        eventsList.push_back(event);
     }
 
     m_parentObjectId = object["parentObjectId"].toString();
@@ -47,7 +48,7 @@ int ObjectResourceItem::eventsCount() const
     return eventsList.size();
 }
 
-QPair<int, int> ObjectResourceItem::getEvent(int id) const
+ObjectEvent * ObjectResourceItem::getEvent(int id) const
 {
     return eventsList[id];
 }

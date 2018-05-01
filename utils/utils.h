@@ -33,10 +33,7 @@ public:
     // Files
     static QJsonObject readFileToJSON(QString filename);
     static QString readFile(QString filename);
-
-    // Events
-    static QString getEventName(int eventType, int eventNumber);
-    static QString getEventFileName(int eventType, int eventNumber);
+    static bool writeFile(QString filename, QByteArray data);
 
     // Resources
     static QString resourceTypeToString(ResourceType type);

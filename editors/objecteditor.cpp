@@ -53,6 +53,16 @@ void ObjectEditor::save()
     auto name = ui->nameLineEdit->text();
     item<ObjectResourceItem>()->setName(name);
 
+    for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
+    {
+        auto editor = qobject_cast<CodeEditor*>(ui->stackedCodeEditorWidget->widget(i));
+        if (editor)
+        {
+            auto f = eventsModel.getFilename(i);
+            Utils::writeFile(f, editor->getCode().toLocal8Bit());
+        }
+    }
+
     setDirty(false);
 }
 
@@ -69,10 +79,7 @@ void ObjectEditor::reset()
     for (int i = 0; i < pItem->eventsCount(); i++)
     {
         auto event = pItem->getEvent(i);
-        QString eventName = Utils::getEventName(event.first, event.second);
-        QString fileName = Utils::getEventFileName(event.first, event.second);
-        QString fullPath = QString("%1/objects/%2/%3.gml").arg(GameSettings::rootPath(), pItem->name(), fileName);
-        eventsModel.addEvent(eventName, fullPath);
+        eventsModel.addEvent(event);
     }
 
     // HIERARCHY
@@ -103,6 +110,18 @@ void ObjectEditor::setDirty(bool dirty)
             if (editor)
             {
                 editor->setDirty(dirty);
+                eventsModel.setModified(i, false);
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
+        {
+            auto widget = ui->stackedCodeEditorWidget->widget(i);
+            if (widget == sender())
+            {
+                eventsModel.setModified(i, true);
             }
         }
     }

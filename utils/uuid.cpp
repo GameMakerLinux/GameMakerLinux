@@ -17,8 +17,19 @@
 
 #include "uuid.h"
 #include <QUuid>
+static QString uuid_null("00000000-0000-0000-0000-000000000000");
+
+QString Uuid::null()
+{
+    return QUuid().toString();
+}
 
 bool Uuid::isNull(QString uuid)
 {
-    return QUuid(uuid).isNull();
+    return uuid_null == uuid;
+}
+
+QString Uuid::generate()
+{
+    return QUuid::createUuid().toString();
 }

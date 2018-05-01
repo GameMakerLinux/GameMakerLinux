@@ -25,7 +25,9 @@ class Uuid
 public:
     Uuid() = delete;
 
+    static QString null();
     static bool isNull(QString uuid);
+    static QString generate();
 };
 
 #endif // UUID_H

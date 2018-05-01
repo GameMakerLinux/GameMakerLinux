@@ -50,6 +50,7 @@ enum class ResourceType
     Options,
     Shader,
     Root,
+    Event,
     Unknown
 };
 

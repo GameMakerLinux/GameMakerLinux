@@ -19,8 +19,10 @@
 #define OBJECTRESOURCEITEM_H
 
 #include "resourceitem.h"
-#include <QPair>
+#include "utils/uuid.h"
+#include "utils/utils.h"
 
+class ObjectEvent;
 class ObjectResourceItem : public ResourceItem
 {
     Q_OBJECT
@@ -31,13 +33,33 @@ public:
     void load(QJsonObject object) override;
 
     int eventsCount() const;
-    QPair<int, int> getEvent(int id) const;
+    ObjectEvent * getEvent(int id) const;
 
     ObjectResourceItem * parentObject() const;
 
 private:
-    QVector<QPair<int, int>> eventsList;
+    // mvc = "1.0"
+    QVector<ObjectEvent*> eventsList; // replace by an object
+    QString m_maskSpriteId;
+    // TODO: overriddenProperties
     QString m_parentObjectId;
+    bool m_persistent;
+    double m_physicsAngularDamping;
+    double m_physicsDensity;
+    double m_physicsFriction;
+    int m_physicsGroup;
+    bool m_physicsKinematic;
+    double m_physicsLinearDamping;
+    bool m_physicsObject;
+    double m_physicsRestitution;
+    bool m_physicsSensor;
+    int m_physicsShape;
+    // TODO: physicsShapePoints
+    bool m_physicsStartAwake;
+    // TODO: properties
+    bool m_solid;
+    QString m_spriteId;
+    bool m_visible;
 };
 
 #endif // OBJECTRESOURCEITEM_H

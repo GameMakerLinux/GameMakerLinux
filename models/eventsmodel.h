@@ -3,10 +3,11 @@
 
 #include <QAbstractListModel>
 
+class ObjectEvent;
+
 struct EventItem
 {
-    QString name;
-    QString filename;
+    ObjectEvent * event = nullptr;
     bool modified = false;
 };
 
@@ -17,13 +18,14 @@ class EventsModel : public QAbstractListModel
 public:
     explicit EventsModel(QObject *parent = nullptr);
 
-    void addEvent(QString name, QString filename);
+    void addEvent(ObjectEvent * event);
     void clear();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     QString getFilename(int row) const;
+    void setModified(int row, bool modified);
 
 private:
     QVector<EventItem> items;

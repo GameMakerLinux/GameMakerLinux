@@ -57,7 +57,8 @@ SOURCES += \
     utils/uuid.cpp \
     models/eventsmodel.cpp \
     resources/soundresourceitem.cpp \
-    resources/fontresourceitem.cpp
+    resources/fontresourceitem.cpp \
+    resources/dependencies/objectevent.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -93,7 +94,8 @@ HEADERS += \
     utils/uuid.h \
     models/eventsmodel.h \
     resources/soundresourceitem.h \
-    resources/fontresourceitem.h
+    resources/fontresourceitem.h \
+    resources/dependencies/objectevent.h
 
 FORMS += \
         mainwindow.ui \
