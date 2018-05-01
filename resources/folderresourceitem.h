@@ -30,6 +30,8 @@ public:
     void load(QJsonObject object) override;
     void save() override;
 
+    ResourceType filterType() const;
+
 private:
     /*
      * id: in ResourceItem

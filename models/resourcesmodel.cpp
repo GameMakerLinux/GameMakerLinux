@@ -22,6 +22,11 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonValue>
+#include "utils/utils.h"
+#include "resources/folderresourceitem.h"
+#include <QMimeData>
+
+static int QT_FIX_DND = -1;
 
 ResourcesModel::ResourcesModel(QObject *parent)
     : QAbstractItemModel(parent)
@@ -120,6 +125,10 @@ QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent
 QModelIndex ResourcesModel::parent(const QModelIndex &index) const
 {
     auto ptr = static_cast<ResourceItem*>(index.internalPointer());
+    if (ptr == nullptr)
+    {
+        qDebug() << "lol";
+    }
     auto parentPtr = ptr->parentItem;
     if (parentPtr == rootItem.data())
         return QModelIndex();
@@ -165,4 +174,133 @@ QVariant ResourcesModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+Qt::DropActions ResourcesModel::supportedDropActions() const
+{
+    return Qt::MoveAction;
+}
+
+Qt::DropActions ResourcesModel::supportedDragActions() const
+{
+    return Qt::MoveAction;
+}
+
+bool ResourcesModel::removeRows(int row, int count, const QModelIndex & parent)
+{
+    /*
+     * Ugly trick to fix Qt behaviour.
+     * After a drop, Qt ask to delete the row the element was before the drag
+     * but it's not valid anymore (off by one) if the drag was upwards in the same parent
+    */
+    if (QT_FIX_DND != -1 && QT_FIX_DND < row)
+    {
+        row++;
+        QT_FIX_DND = -1;
+    }
+
+    auto parentItem = static_cast<ResourceItem*>(parent.internalPointer());
+
+    beginRemoveRows(parent, row, row + count - 1);
+
+    parentItem->children.remove(row, count);
+
+    endRemoveRows();
+
+    return true;
+}
+
+Qt::ItemFlags ResourcesModel::flags(const QModelIndex & index) const
+{
+    auto pItem = static_cast<ResourceItem*>(index.internalPointer());
+
+    auto defaultFlags = QAbstractItemModel::flags(index);
+
+    // skip the "root" element
+    if (pItem && pItem->parentItem != nullptr)
+    {
+        // don't allow drag for categories (sound, script, room, etc.)
+        // or for OS configuration
+        if (pItem->parentItem->type() == ResourceType::Folder)
+        {
+            auto pFolderItem = qobject_cast<FolderResourceItem*>(pItem->parentItem);
+            if (pFolderItem->filterType() == ResourceType::Root
+                || pFolderItem->filterType() == ResourceType::Config)
+            {
+                return Qt::ItemIsDropEnabled | defaultFlags;
+            }
+            else
+            {
+                return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+            }
+        }
+    }
+
+    return defaultFlags;
+}
+
+bool ResourcesModel::canDropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) const
+{
+    Q_UNUSED(action)
+    Q_UNUSED(row)
+    Q_UNUSED(column)
+    Q_UNUSED(data)
+
+    if (!parent.isValid())
+        return false;
+
+    auto parentItem = static_cast<ResourceItem*>(parent.internalPointer());
+    if (parentItem == nullptr)
+        return false;
+
+    if (parentItem->type() != ResourceType::Folder)
+        return false;
+    return true;
+}
+
+bool ResourcesModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
+{
+    if (!canDropMimeData(data, action, row, column, parent))
+        return false;
+
+    if (action == Qt::IgnoreAction)
+        return false;
+
+    auto parentItem = static_cast<FolderResourceItem*>(parent.internalPointer());
+    auto type = Utils::resourceTypeToString(parentItem->filterType());
+    QString itemId = data->data(QString("application/gms2.%1").arg(type));
+    auto pItem = ResourceItem::get(itemId);
+
+    beginInsertRows(parent, row, row);
+    parentItem->children.insert(row, pItem);
+    endInsertRows();
+
+    QT_FIX_DND = row;
+
+    return true;
+}
+
+QStringList ResourcesModel::mimeTypes() const
+{
+    QStringList types;
+    int count = static_cast<int>(ResourceType::Unknown);
+    for (int i = 0; i < count; i++)
+    {
+        types << "application/gms2." + Utils::resourceTypeToString(static_cast<ResourceType>(i));
+    }
+    return types;
+}
+
+QMimeData *ResourcesModel::mimeData(const QModelIndexList & indexes) const
+{
+    if (indexes.size() != 1) return nullptr;
+
+    QMimeData * pMimeData = new QMimeData();
+    auto index = indexes.first();
+    auto pItem = static_cast<ResourceItem*>(index.internalPointer());
+    auto type = Utils::resourceTypeToString(pItem->type());
+
+    QString mimeType(QString("application/gms2.%1").arg(type));
+    pMimeData->setData(mimeType, pItem->id.toLatin1());
+    return pMimeData;
 }

@@ -59,3 +59,8 @@ void FolderResourceItem::save()
 
     qDebug() << QJsonDocument(object).toJson();
 }
+
+ResourceType FolderResourceItem::filterType() const
+{
+    return m_filterType;
+}
