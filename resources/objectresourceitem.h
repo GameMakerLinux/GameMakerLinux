@@ -33,8 +33,11 @@ public:
     int eventsCount() const;
     QPair<int, int> getEvent(int id) const;
 
+    ObjectResourceItem * parentObject() const;
+
 private:
     QVector<QPair<int, int>> eventsList;
+    QString m_parentObjectId;
 };
 
 #endif // OBJECTRESOURCEITEM_H

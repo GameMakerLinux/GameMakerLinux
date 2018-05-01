@@ -77,6 +77,13 @@ public:
 
     static ResourceItem* create(ResourceType type, QString id);
     static ResourceItem* get(QString id);
+    template <typename T>
+    static T* get(QString id)
+    {
+        return qobject_cast<T*>(ResourceItem::get(id));
+    }
+
+    static QVector<QString> findAll(ResourceType type);
 
 signals:
     void nameChanged();

@@ -76,12 +76,16 @@ void ObjectEditor::reset()
     }
 
     // HIERARCHY
-    if (pItem->parentItem != nullptr)
-        ui->parentLineEdit->setText(pItem->parentItem->name());
+    if (pItem->parentObject() != nullptr)
+        ui->parentLineEdit->setText(pItem->parentObject()->name());
 
-    for (auto & child : pItem->children)
+    auto objectItems = ResourceItem::findAll(ResourceType::Object);
+    for (auto & childId : objectItems)
     {
-        ui->childrenTextEdit->appendPlainText(child->name() + "\n");
+        auto pChildItem = ResourceItem::get<ObjectResourceItem>(childId);
+        auto pParent = pChildItem->parentObject();
+        if (pParent && pParent->id == pItem->id)
+            ui->childrenTextEdit->appendPlainText(pChildItem->name());
     }
 
     setDirty(false);

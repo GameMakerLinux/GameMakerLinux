@@ -17,6 +17,7 @@
 
 #include "objectresourceitem.h"
 #include <QJsonArray>
+#include "utils/uuid.h"
 
 ObjectResourceItem::ObjectResourceItem()
     : ResourceItem(ResourceType::Object)
@@ -37,6 +38,8 @@ void ObjectResourceItem::load(QJsonObject object)
 
         eventsList.push_back(qMakePair(type, number));
     }
+
+    m_parentObjectId = object["parentObjectId"].toString();
 }
 
 int ObjectResourceItem::eventsCount() const
@@ -47,4 +50,11 @@ int ObjectResourceItem::eventsCount() const
 QPair<int, int> ObjectResourceItem::getEvent(int id) const
 {
     return eventsList[id];
+}
+
+ObjectResourceItem *ObjectResourceItem::parentObject() const
+{
+    if (!Uuid::isNull(m_parentObjectId))
+        return qobject_cast<ObjectResourceItem*>(ResourceItem::get(m_parentObjectId));
+    return nullptr;
 }

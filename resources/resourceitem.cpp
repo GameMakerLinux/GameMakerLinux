@@ -17,6 +17,7 @@
 
 #include "resourceitem.h"
 #include "allresourceitems.h"
+#include "utils/uuid.h"
 
 ResourceItem::ResourceItem(ResourceType type)
     : m_type { type }
@@ -110,5 +111,24 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
 
 ResourceItem *ResourceItem::get(QString id)
 {
-    return allResources[id];
+    Q_ASSERT(!Uuid::isNull(id));
+    if (allResources.contains(id))
+        return allResources[id];
+    return nullptr;
+}
+
+QVector<QString> ResourceItem::findAll(ResourceType type)
+{
+    QVector<QString> items;
+    QMapIterator it(allResources);
+    while (it.hasNext())
+    {
+        it.next();
+
+        if (it.value()->type() == type)
+        {
+            items.append(it.key());
+        }
+    }
+    return items;
 }
