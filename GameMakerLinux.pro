@@ -61,7 +61,9 @@ SOURCES += \
     resources/dependencies/objectevent.cpp \
     widgets/selectitem.cpp \
     resources/dependencies/spriteframe.cpp \
-    resources/dependencies/spriteimage.cpp
+    resources/dependencies/spriteimage.cpp \
+    resources/dependencies/instancelayer.cpp \
+    resources/dependencies/roomlayer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -101,7 +103,9 @@ HEADERS += \
     resources/dependencies/objectevent.h \
     widgets/selectitem.h \
     resources/dependencies/spriteframe.h \
-    resources/dependencies/spriteimage.h
+    resources/dependencies/spriteimage.h \
+    resources/dependencies/instancelayer.h \
+    resources/dependencies/roomlayer.h
 
 FORMS += \
         mainwindow.ui \

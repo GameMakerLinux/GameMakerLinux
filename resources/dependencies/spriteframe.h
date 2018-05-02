@@ -1,12 +1,20 @@
 #ifndef SPRITEFRAME_H
 #define SPRITEFRAME_H
 
-#include <QJsonObject>
+#include "resources/resourceitem.h"
+#include "spriteimage.h"
 
-class SpriteFrame
+class SpriteFrame : public ResourceItem
 {
 public:
-    SpriteFrame(QJsonObject object);
+    SpriteFrame();
+
+    void load(QJsonObject object) override;
+
+    SpriteImage * compositeImage() const;
+
+private:
+    SpriteImage * m_compositeImage = nullptr;
 };
 
 #endif // SPRITEFRAME_H

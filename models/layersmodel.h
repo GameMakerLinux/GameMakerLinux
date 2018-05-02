@@ -20,10 +20,10 @@
 
 #include <QAbstractListModel>
 
+class RoomLayer;
 struct LayerItem
 {
-    QString id;
-    QString name;
+    RoomLayer * layer;
     Qt::CheckState visible = Qt::Checked;
     bool locked = false; // unused
 };
@@ -41,7 +41,7 @@ public:
 
     bool setData(const QModelIndex & index, const QVariant & value, int role) override;
 
-    void addLayer(QString id, QString name);
+    void addLayer(RoomLayer * layer);
 
 signals:
     void visibilityChanged(QString id, bool visible);

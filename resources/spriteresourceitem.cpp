@@ -16,15 +16,25 @@
 */
 
 #include "spriteresourceitem.h"
+#include "dependencies/spriteframe.h"
+#include <QJsonArray>
+#include <QJsonValue>
 
 SpriteResourceItem::SpriteResourceItem()
     : ResourceItem(ResourceType::Sprite)
 {
-
 }
 
 
 void SpriteResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+
+    auto frames = object["frames"].toArray();
+    for (const auto & frameJson : frames)
+    {
+        auto frame = new SpriteFrame;
+        frame->load(frameJson.toObject());
+        m_frames.push_back(frame);
+    }
 }

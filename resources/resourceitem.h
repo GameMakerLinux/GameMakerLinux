@@ -51,6 +51,11 @@ enum class ResourceType
     Shader,
     Root,
     Event,
+    SpriteImage,
+    SpriteFrame,
+    ImageLayer,
+    InstanceLayer,
+    BackgroundLayer,
     Unknown
 };
 
@@ -115,5 +120,6 @@ class MacOptionsResourceItem;
 class WindowsOptionsResourceItem;
 class SoundResourceItem;
 class FontResourceItem;
+class RoomLayer;
 
 #endif // RESOURCEITEM_H

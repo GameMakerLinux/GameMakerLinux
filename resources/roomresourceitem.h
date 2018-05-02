@@ -28,6 +28,11 @@ public:
     RoomResourceItem();
 
     void load(QJsonObject object) override;
+
+    QVector<RoomLayer *> layers() const;
+
+private:
+    QVector<RoomLayer *> m_layers;
 };
 
 #endif // ROOMRESOURCEITEM_H

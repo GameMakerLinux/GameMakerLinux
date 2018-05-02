@@ -20,6 +20,7 @@
 
 #include "resourceitem.h"
 
+class SpriteFrame;
 class SpriteResourceItem : public ResourceItem
 {
     Q_OBJECT
@@ -28,6 +29,9 @@ public:
     SpriteResourceItem();
 
     void load(QJsonObject object) override;
+
+private:
+    QVector<SpriteFrame*> m_frames;
 };
 
 #endif // SPRITERESOURCEITEM_H

@@ -16,6 +16,7 @@
 */
 
 #include "layersmodel.h"
+#include "resources/dependencies/instancelayer.h"
 
 LayersModel::LayersModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -39,7 +40,7 @@ QVariant LayersModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case Qt::DisplayRole:
-        return item.name;
+        return item.layer->name();
     case Qt::CheckStateRole:
         return item.visible;
     }
@@ -56,7 +57,7 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
         case Qt::CheckStateRole:
             items[index.row()].visible = value.value<Qt::CheckState>();
 
-            visibilityChanged(items[index.row()].id, value.value<Qt::CheckState>() == Qt::Checked);
+            visibilityChanged(items[index.row()].layer->id, value.value<Qt::CheckState>() == Qt::Checked);
             return true;
         }
     }
@@ -64,9 +65,9 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
     return false;
 }
 
-void LayersModel::addLayer(QString id, QString name)
+void LayersModel::addLayer(RoomLayer * layer)
 {
-    items.append({ id, name });
+    items.append({ layer });
 }
 
 Qt::ItemFlags LayersModel::flags(const QModelIndex & index) const

@@ -22,6 +22,7 @@
 #include "utils/uuid.h"
 #include "resources/spriteresourceitem.h"
 #include "gamesettings.h"
+#include "resources/dependencies/roomlayer.h"
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
     : MainEditor(item)
@@ -58,45 +59,16 @@ void RoomEditor::reset()
 {
     auto pItem = item<RoomResourceItem>();
 
-    auto json = Utils::readFileToJSON(pItem->filename);
-    if (json.isEmpty())
+    for (auto & layer : pItem->layers())
     {
-        return;
-    }
-
-    auto layers = json["layers"].toArray();
-    for (const auto & value : layers)
-    {
-        auto layer = value.toObject();
-        auto id = layer["id"].toString();
-        auto name = layer["name"].toString();
-
-        model.addLayer(id, name);
+        model.addLayer(layer);
 
         GraphicsLayer * gLayer = new GraphicsLayer;
-        graphicsLayers[id] = gLayer;
+        graphicsLayers[layer->id] = gLayer;
         scene.addItem(gLayer);
 
-        auto depth = layer["depth"].toInt();
+        auto depth = layer->depth();
         gLayer->setZValue(-depth);
-
-        auto spriteId = layer["spriteId"].toString();
-        if (!Uuid::isNull(spriteId))
-        {
-            auto pItem = ResourceItem::get(spriteId);
-            if (pItem)
-            {
-                auto spriteItem = qobject_cast<SpriteResourceItem*>(pItem);
-                auto json = Utils::readFileToJSON(spriteItem->filename);
-                if (!json.isEmpty())
-                {
-                    auto imageName = json["frames"].toArray().first().toObject()["id"].toString();
-                    auto fullPath = QString("%1/sprites/%2/%3.png").arg(GameSettings::rootPath(), spriteItem->name(), imageName);
-                    auto pix = scene.addPixmap(QPixmap(fullPath));
-                    pix->setParentItem(gLayer);
-                }
-            }
-        }
     }
 }
 

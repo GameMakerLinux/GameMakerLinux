@@ -23,7 +23,7 @@ An attempt to have a Game Maker IDE on Linux.
 ## Things that will never be done
 
 * Drag-and-Drop scripts
-* Compilation (or maybe the same way GM:S do it for linux)
+* Compilation (or maybe the same way GM:S does it for linux)
 * Fonts
 * Probably other things
 

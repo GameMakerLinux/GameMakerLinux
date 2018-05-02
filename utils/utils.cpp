@@ -102,7 +102,12 @@ static QMap<QString, ResourceType> resourcesTypesStrings = {
     { "GMOptions",          ResourceType::Options,          },
     { "GMShader",           ResourceType::Shader,           },
     { "root",               ResourceType::Root,             },
-    { "GMEvent",            ResourceType::Event,            }
+    { "GMEvent",            ResourceType::Event,            },
+    { "GMSpriteImage",      ResourceType::SpriteImage,      },
+    { "GMSpriteFrame",      ResourceType::SpriteFrame,      },
+    { "GMImageLayer",       ResourceType::ImageLayer,       },
+    { "GMRInstanceLayer",   ResourceType::InstanceLayer,    },
+    { "GMRBackgroundLayer", ResourceType::BackgroundLayer,  }
 };
 
 QString Utils::resourceTypeToString(ResourceType type)
@@ -116,6 +121,6 @@ ResourceType Utils::resourceStringToType(QString type)
     {
         return resourcesTypesStrings[type];
     }
-    qDebug() << "unknown type:" << type;
+    qDebug() << "Unknown resource type:" << type;
     return ResourceType::Unknown;
 }

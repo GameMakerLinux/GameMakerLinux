@@ -27,7 +27,6 @@ ObjectResourceItem::ObjectResourceItem()
 {
 }
 
-
 void ObjectResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
