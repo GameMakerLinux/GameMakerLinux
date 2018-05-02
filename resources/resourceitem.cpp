@@ -18,6 +18,7 @@
 #include "resourceitem.h"
 #include "allresourceitems.h"
 #include "utils/uuid.h"
+#include <QMessageBox>
 
 ResourceItem::ResourceItem(ResourceType type)
     : m_type { type }
@@ -40,6 +41,7 @@ ResourceItem *ResourceItem::child(int index)
 
 void ResourceItem::save()
 {
+    QMessageBox::warning(nullptr, "Unimplemented", QString("It's not possible to save this kind (%1) of resources.").arg(Utils::resourceTypeToString(type())));
 }
 
 void ResourceItem::setName(QString name)

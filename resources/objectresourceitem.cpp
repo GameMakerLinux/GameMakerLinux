@@ -20,6 +20,7 @@
 #include "utils/uuid.h"
 #include "utils/utils.h"
 #include "dependencies/objectevent.h"
+#include "spriteresourceitem.h"
 
 ObjectResourceItem::ObjectResourceItem()
     : ResourceItem(ResourceType::Object)
