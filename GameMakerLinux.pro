@@ -58,7 +58,10 @@ SOURCES += \
     models/eventsmodel.cpp \
     resources/soundresourceitem.cpp \
     resources/fontresourceitem.cpp \
-    resources/dependencies/objectevent.cpp
+    resources/dependencies/objectevent.cpp \
+    widgets/selectitem.cpp \
+    resources/dependencies/spriteframe.cpp \
+    resources/dependencies/spriteimage.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -95,7 +98,10 @@ HEADERS += \
     models/eventsmodel.h \
     resources/soundresourceitem.h \
     resources/fontresourceitem.h \
-    resources/dependencies/objectevent.h
+    resources/dependencies/objectevent.h \
+    widgets/selectitem.h \
+    resources/dependencies/spriteframe.h \
+    resources/dependencies/spriteimage.h
 
 FORMS += \
         mainwindow.ui \

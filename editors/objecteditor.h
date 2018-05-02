@@ -35,10 +35,11 @@ protected slots:
     void reset() override;
     void setDirty(bool dirty = true) override;
 
-private:
+private slots:
     void onEventsAdded(const QModelIndex &parent, int first, int last);
     void onEventsRemoved(const QModelIndex &parent, int first, int last);
     void onEventsCleared();
+    void chooseParent();
 
 private:
     Ui::ObjectEditor * ui;

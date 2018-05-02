@@ -26,3 +26,21 @@ An attempt to have a Game Maker IDE on Linux.
 * Compilation (or maybe the same way GM:S do it for linux)
 * Fonts
 * Probably other things
+
+## Compilation
+
+### Prerequisites
+
+* You need to build and install [QScintilla](https://riverbankcomputing.com/software/qscintilla/intro)
+* You need a C++17 compiler (At least GCC 7)
+
+It does compile with GCC 5 if you change the two `inline` variables and a variable using *Template argument deduction for class templates*.
+
+### Build
+
+* Open in QtCreator
+* Press "Build"
+
+or
+
+* `$ qmake && make`

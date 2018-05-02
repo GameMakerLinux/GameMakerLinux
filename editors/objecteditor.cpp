@@ -19,6 +19,7 @@
 #include "gamesettings.h"
 #include "utils/utils.h"
 #include "widgets/codeeditor.h"
+#include "widgets/selectitem.h"
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     : MainEditor(item)
@@ -29,6 +30,9 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     setWidget(tabWidget);
 
     tabWidget->setCurrentIndex(0);
+
+    auto setParentAction = ui->parentLineEdit->addAction(QIcon::fromTheme("edit-undo"), QLineEdit::TrailingPosition);
+    connect(setParentAction, &QAction::triggered, this, &ObjectEditor::chooseParent);
 
     ui->eventsListView->setModel(&eventsModel);
 
@@ -53,6 +57,7 @@ void ObjectEditor::save()
     auto name = ui->nameLineEdit->text();
     item<ObjectResourceItem>()->setName(name);
 
+    // EVENTS
     for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
     {
         auto editor = qobject_cast<CodeEditor*>(ui->stackedCodeEditorWidget->widget(i));
@@ -72,6 +77,8 @@ void ObjectEditor::reset()
 
     // GENERAL SETTINGS
     ui->nameLineEdit->setText(pItem->name());
+
+    //pItem->sp
 
     // EVENTS
     eventsModel.clear();
@@ -160,4 +167,10 @@ void ObjectEditor::onEventsCleared()
     {
         ui->stackedCodeEditorWidget->removeWidget(ui->stackedCodeEditorWidget->widget(0));
     }
+}
+
+void ObjectEditor::chooseParent()
+{
+    SelectItem selectParent;
+    selectParent.exec();
 }

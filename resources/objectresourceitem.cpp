@@ -59,3 +59,17 @@ ObjectResourceItem *ObjectResourceItem::parentObject() const
         return qobject_cast<ObjectResourceItem*>(ResourceItem::get(m_parentObjectId));
     return nullptr;
 }
+
+SpriteResourceItem *ObjectResourceItem::sprite() const
+{
+    if (!Uuid::isNull(m_parentObjectId))
+        return qobject_cast<SpriteResourceItem*>(ResourceItem::get(m_spriteId));
+    return nullptr;
+}
+
+SpriteResourceItem *ObjectResourceItem::maskSprite() const
+{
+    if (!Uuid::isNull(m_parentObjectId))
+        return qobject_cast<SpriteResourceItem*>(ResourceItem::get(m_maskSpriteId));
+    return nullptr;
+}

@@ -36,6 +36,8 @@ public:
     ObjectEvent * getEvent(int id) const;
 
     ObjectResourceItem * parentObject() const;
+    SpriteResourceItem * sprite() const;
+    SpriteResourceItem * maskSprite() const;
 
 private:
     // mvc = "1.0"
