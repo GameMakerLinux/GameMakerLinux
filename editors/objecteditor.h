@@ -40,6 +40,7 @@ private slots:
     void onEventsRemoved(const QModelIndex &parent, int first, int last);
     void onEventsCleared();
     void chooseParent();
+    void chooseMask();
 
 private:
     Ui::ObjectEditor * ui;

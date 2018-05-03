@@ -125,6 +125,12 @@ ResourceItem *ResourceItem::get(QString id)
     return nullptr;
 }
 
+void ResourceItem::clear()
+{
+    qDeleteAll(allResources);
+    allResources.clear();
+}
+
 QVector<QString> ResourceItem::findAll(ResourceType type)
 {
     QVector<QString> items;

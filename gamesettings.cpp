@@ -37,6 +37,8 @@ QString GameSettings::lastOpenedProject()
 void GameSettings::setLastOpenedProject(QString filename)
 {
     last_opened_project = filename;
+
+    save();
 }
 
 void GameSettings::save()

@@ -20,6 +20,7 @@
 #include "utils/utils.h"
 #include "widgets/codeeditor.h"
 #include "widgets/selectitem.h"
+#include "resources/spriteresourceitem.h"
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     : MainEditor(item)
@@ -33,6 +34,9 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
 
     auto setParentAction = ui->parentLineEdit->addAction(QIcon::fromTheme("edit-undo"), QLineEdit::TrailingPosition);
     connect(setParentAction, &QAction::triggered, this, &ObjectEditor::chooseParent);
+
+    auto setMaskAction = ui->maskLineEdit->addAction(QIcon::fromTheme("edit-undo"), QLineEdit::TrailingPosition);
+    connect(setMaskAction, &QAction::triggered, this, &ObjectEditor::chooseMask);
 
     ui->eventsListView->setModel(&eventsModel);
 
@@ -48,7 +52,6 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
         this->setDirty();
     });
 
-    // reset == load from item
     reset();
 }
 
@@ -78,7 +81,15 @@ void ObjectEditor::reset()
     // GENERAL SETTINGS
     ui->nameLineEdit->setText(pItem->name());
 
-    //pItem->sp
+    if (auto sprite = pItem->sprite())
+    {
+        auto pix = sprite->thumbnail().scaled(ui->spriteViewer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->spriteViewer->setIcon(pix);
+    }
+    else
+    {
+        ui->spriteViewer->setIcon({});
+    }
 
     // EVENTS
     eventsModel.clear();
@@ -92,6 +103,8 @@ void ObjectEditor::reset()
     // HIERARCHY
     if (pItem->parentObject() != nullptr)
         ui->parentLineEdit->setText(pItem->parentObject()->name());
+    else
+        ui->parentLineEdit->setText({});
 
     auto objectItems = ResourceItem::findAll(ResourceType::Object);
     for (auto & childId : objectItems)
@@ -173,4 +186,10 @@ void ObjectEditor::chooseParent()
 {
     SelectItem selectParent;
     selectParent.exec();
+}
+
+void ObjectEditor::chooseMask()
+{
+    SelectItem selectMask;
+    selectMask.exec();
 }

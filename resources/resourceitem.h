@@ -88,6 +88,7 @@ public:
     {
         return qobject_cast<T*>(ResourceItem::get(id));
     }
+    static void clear();
 
     static QVector<QString> findAll(ResourceType type);
 

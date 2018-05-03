@@ -270,6 +270,12 @@ void MainWindow::openObject(ObjectResourceItem * item)
 
 void MainWindow::loadProject(QString filename)
 {
+    // clear everything before
+    {
+        resourcesModel->clear();
+        tabWidget->clear();
+    }
+
     QFileInfo fi(filename);
     GameSettings::setRootPath(fi.absolutePath());
 
@@ -279,6 +285,7 @@ void MainWindow::loadProject(QString filename)
         return;
     }
 
+    QMap<QString, ResourceItem*> resources;
     auto resourcesJson = json["resources"].toArray();
     for (const auto & value : resourcesJson)
     {

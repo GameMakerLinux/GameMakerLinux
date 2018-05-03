@@ -33,6 +33,11 @@ ResourcesModel::ResourcesModel(QObject *parent)
 {
 }
 
+void ResourcesModel::clear()
+{
+    rootItem.reset();
+}
+
 void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
 {
     beginResetModel();

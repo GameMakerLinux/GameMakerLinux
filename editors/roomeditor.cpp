@@ -73,9 +73,12 @@ void RoomEditor::reset()
 
         if (auto bgLayer = qobject_cast<BackgroundLayer*>(layer))
         {
-            QPixmap pix = bgLayer->sprite()->thumbnail();
-            auto pixItem = scene.addPixmap(pix);
-            pixItem->setParentItem(gLayer);
+            if (auto sprite = bgLayer->sprite())
+            {
+                QPixmap pix = sprite->thumbnail();
+                auto pixItem = scene.addPixmap(pix);
+                pixItem->setParentItem(gLayer);
+            }
         }
     }
 }

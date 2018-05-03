@@ -63,7 +63,6 @@ private:
     ResourcesTreeDock * resourcesTreeDock;
     QTabWidget * tabWidget;
     QVector<QString> idOfOpenedTabs;
-    QMap<QString, ResourceItem*> resources;
 };
 
 #endif // MAINWINDOW_H

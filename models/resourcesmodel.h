@@ -31,6 +31,7 @@ class ResourcesModel : public QAbstractItemModel
 public:
     explicit ResourcesModel(QObject *parent = nullptr);
 
+    void clear();
     void fill(QMap<QString, ResourceItem *> resources);
 
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
