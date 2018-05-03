@@ -17,6 +17,7 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include "gamesettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,8 +25,14 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+    GameSettings::load();
+
     MainWindow w;
     w.showMaximized();
 
-    return a.exec();
+    auto ret = a.exec();
+
+    GameSettings::save();
+
+    return ret;
 }

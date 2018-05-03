@@ -16,6 +16,8 @@
 */
 
 #include "gamesettings.h"
+#include <QSettings>
+#include <QCoreApplication>
 
 QString GameSettings::rootPath()
 {
@@ -27,4 +29,29 @@ void GameSettings::setRootPath(QString root)
     root_path = root;
 }
 
+QString GameSettings::lastOpenedProject()
+{
+    return last_opened_project;
+}
+
+void GameSettings::setLastOpenedProject(QString filename)
+{
+    last_opened_project = filename;
+}
+
+void GameSettings::save()
+{
+    QSettings settings(qApp->applicationDirPath() + "/configuration.ini", QSettings::IniFormat);
+
+    settings.setValue("last_opened_project", last_opened_project);
+}
+
+void GameSettings::load()
+{
+    QSettings settings(qApp->applicationDirPath() + "/configuration.ini", QSettings::IniFormat);
+
+    last_opened_project = settings.value("last_opened_project").toString();
+}
+
 QString GameSettings::root_path;
+QString GameSettings::last_opened_project;

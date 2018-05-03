@@ -28,8 +28,15 @@ public:
     static QString rootPath();
     static void setRootPath(QString root);
 
+    static QString lastOpenedProject();
+    static void setLastOpenedProject(QString filename);
+
+    static void save();
+    static void load();
+
 private:
     static QString root_path;
+    static QString last_opened_project;
 };
 
 #endif // GAMESETTINGS_H

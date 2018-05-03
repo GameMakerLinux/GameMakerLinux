@@ -66,8 +66,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
-    // // // // // // //
-    loadProject("C:\\Users\\creativear\\Documents\\GMS\\shoot the notes\\shoot the notes.yyp");
+    auto lop = GameSettings::lastOpenedProject();
+    if (!lop.isEmpty())
+    {
+        loadProject(lop);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -77,7 +80,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::openProject()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open project", "C:\\Users\\creativear\\Documents\\GMS\\shoot the notes", "GameMaker Studio project (*.yyp)");
+    QString projectPath = QFileInfo(GameSettings::lastOpenedProject()).absolutePath();
+    QString filename = QFileDialog::getOpenFileName(this, "Open project", projectPath, "GameMaker Studio project (*.yyp)");
     if (!filename.isEmpty())
     {
         loadProject(filename);
@@ -305,8 +309,9 @@ void MainWindow::loadProject(QString filename)
         resources[id] = item;
     }
 
-
     resourcesModel->fill(resources);
+
+    GameSettings::setLastOpenedProject(filename);
 }
 
 bool MainWindow::checkTab(QString id)
