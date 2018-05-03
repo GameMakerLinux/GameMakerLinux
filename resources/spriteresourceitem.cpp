@@ -19,6 +19,8 @@
 #include "dependencies/spriteframe.h"
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QPixmap>
+#include "gamesettings.h"
 
 SpriteResourceItem::SpriteResourceItem()
     : ResourceItem(ResourceType::Sprite)
@@ -37,4 +39,15 @@ void SpriteResourceItem::load(QJsonObject object)
         frame->load(frameJson.toObject());
         m_frames.push_back(frame);
     }
+}
+
+QPixmap SpriteResourceItem::thumbnail()
+{
+    if (m_frames.size() > 0)
+    {
+        auto frameId = m_frames[0]->compositeImage()->frameId();
+        QString path = QString("%1/sprites/%2/%3.png").arg(GameSettings::rootPath(), name(), frameId);
+        return QPixmap(path);
+    }
+    return QPixmap();
 }

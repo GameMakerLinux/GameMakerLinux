@@ -34,5 +34,7 @@
 #include "includedfileresourceitem.h"
 #include "soundresourceitem.h"
 #include "fontresourceitem.h"
+#include "dependencies/instancelayer.h"
+#include "dependencies/backgroundlayer.h"
 
 #endif // ALLRESOURCEITEMS_H

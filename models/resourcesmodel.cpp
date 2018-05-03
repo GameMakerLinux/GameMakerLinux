@@ -118,6 +118,7 @@ QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent
         ptr = rootItem.data();
     else
         ptr = static_cast<ResourceItem*>(parent.internalPointer());
+    if (ptr == nullptr) return QModelIndex();
     auto childPtr = ptr->child(row);
     return createIndex(row, column, childPtr);
 }
@@ -125,10 +126,6 @@ QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent
 QModelIndex ResourcesModel::parent(const QModelIndex &index) const
 {
     auto ptr = static_cast<ResourceItem*>(index.internalPointer());
-    if (ptr == nullptr)
-    {
-        qDebug() << "lol";
-    }
     auto parentPtr = ptr->parentItem;
     if (parentPtr == rootItem.data())
         return QModelIndex();

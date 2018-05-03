@@ -10,6 +10,9 @@ public:
 
     void load(QJsonObject object) override;
 
+    QString frameId() const;
+    QString layerId() const;
+
 private:
     QString m_frameId;
     QString m_layerId;

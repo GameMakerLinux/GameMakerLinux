@@ -18,6 +18,7 @@
 #include "roomresourceitem.h"
 #include "dependencies/roomlayer.h"
 #include "utils/utils.h"
+#include "utils/uuid.h"
 #include <QJsonArray>
 
 RoomResourceItem::RoomResourceItem()
@@ -40,24 +41,6 @@ void RoomResourceItem::load(QJsonObject object)
         layer->load(layerJson);
 
         m_layers.append(static_cast<RoomLayer*>(layer));
-/*
-        auto spriteId = layer["spriteId"].toString();
-        if (!Uuid::isNull(spriteId))
-        {
-            auto pItem = ResourceItem::get(spriteId);
-            if (pItem)
-            {
-                auto spriteItem = qobject_cast<SpriteResourceItem*>(pItem);
-                auto json = Utils::readFileToJSON(spriteItem->filename);
-                if (!json.isEmpty())
-                {
-                    auto imageName = json["frames"].toArray().first().toObject()["id"].toString();
-                    auto fullPath = QString("%1/sprites/%2/%3.png").arg(GameSettings::rootPath(), spriteItem->name(), imageName);
-                    auto pix = scene.addPixmap(QPixmap(fullPath));
-                    pix->setParentItem(gLayer);
-                }
-            }
-        }*/
     }
 }
 

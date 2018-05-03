@@ -63,7 +63,8 @@ SOURCES += \
     resources/dependencies/spriteframe.cpp \
     resources/dependencies/spriteimage.cpp \
     resources/dependencies/instancelayer.cpp \
-    resources/dependencies/roomlayer.cpp
+    resources/dependencies/roomlayer.cpp \
+    resources/dependencies/backgroundlayer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -105,7 +106,8 @@ HEADERS += \
     resources/dependencies/spriteframe.h \
     resources/dependencies/spriteimage.h \
     resources/dependencies/instancelayer.h \
-    resources/dependencies/roomlayer.h
+    resources/dependencies/roomlayer.h \
+    resources/dependencies/backgroundlayer.h
 
 FORMS += \
         mainwindow.ui \

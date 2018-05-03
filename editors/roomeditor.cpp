@@ -23,6 +23,7 @@
 #include "resources/spriteresourceitem.h"
 #include "gamesettings.h"
 #include "resources/dependencies/roomlayer.h"
+#include "resources/dependencies/backgroundlayer.h"
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
     : MainEditor(item)
@@ -69,6 +70,13 @@ void RoomEditor::reset()
 
         auto depth = layer->depth();
         gLayer->setZValue(-depth);
+
+        if (auto bgLayer = qobject_cast<BackgroundLayer*>(layer))
+        {
+            QPixmap pix = bgLayer->sprite()->thumbnail();
+            auto pixItem = scene.addPixmap(pix);
+            pixItem->setParentItem(gLayer);
+        }
     }
 }
 

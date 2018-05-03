@@ -29,7 +29,7 @@ public:
     static void setRootPath(QString root);
 
 private:
-    static inline QString root_path;
+    static QString root_path;
 };
 
 #endif // GAMESETTINGS_H

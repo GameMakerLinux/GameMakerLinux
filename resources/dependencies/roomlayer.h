@@ -8,6 +8,8 @@ class RoomLayer : public ResourceItem
 public:
     RoomLayer(ResourceType type);
 
+    void load(QJsonObject object);
+
     int depth() const;
 
 protected:

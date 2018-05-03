@@ -26,3 +26,5 @@ void GameSettings::setRootPath(QString root)
 {
     root_path = root;
 }
+
+QString GameSettings::root_path;

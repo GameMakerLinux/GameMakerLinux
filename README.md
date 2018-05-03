@@ -32,9 +32,7 @@ An attempt to have a Game Maker IDE on Linux.
 ### Prerequisites
 
 * You need to build and install [QScintilla](https://riverbankcomputing.com/software/qscintilla/intro)
-* You need a C++17 compiler (At least GCC 7)
-
-It does compile with GCC 5 if you change the two `inline` variables and a variable using *Template argument deduction for class templates*.
+* You need a C++17 compiler (At least GCC 5)
 
 ### Build
 

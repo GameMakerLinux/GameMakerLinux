@@ -5,8 +5,12 @@
 
 class InstanceLayer : public RoomLayer
 {
+    Q_OBJECT
+
 public:
     InstanceLayer();
+
+    void load(QJsonObject object);
 };
 
 #endif // INSTANCELAYER_H

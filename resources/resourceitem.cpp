@@ -101,6 +101,12 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
     case ResourceType::WindowsOptions:
         item = new WindowsOptionsResourceItem;
         break;
+    case ResourceType::InstanceLayer:
+        item = new InstanceLayer;
+        break;
+    case ResourceType::BackgroundLayer:
+        item = new BackgroundLayer;
+        break;
     default:
         item = new UnknownResourceItem;
     }
@@ -122,7 +128,7 @@ ResourceItem *ResourceItem::get(QString id)
 QVector<QString> ResourceItem::findAll(ResourceType type)
 {
     QVector<QString> items;
-    QMapIterator it(allResources);
+    QMapIterator<QString, ResourceItem*> it(allResources);
     while (it.hasNext())
     {
         it.next();
@@ -134,3 +140,5 @@ QVector<QString> ResourceItem::findAll(ResourceType type)
     }
     return items;
 }
+
+QMap<QString, ResourceItem*> ResourceItem::allResources;

@@ -211,6 +211,9 @@ QString ObjectEvent::getName(EventType eventType, int eventNumber)
             {
                 return QString(eventsTypeNames[eventType][eventNumber]);
             }
+            break;
+        case EVENTS_COUNT:
+            break;
         }
     }
 

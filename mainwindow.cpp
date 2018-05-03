@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
     // // // // // // //
-    loadProject("/home/minirop/GameMaker Projects/shoot the notes/shoot the notes.yyp");
+    loadProject("C:\\Users\\creativear\\Documents\\GMS\\shoot the notes\\shoot the notes.yyp");
 }
 
 MainWindow::~MainWindow()
@@ -77,7 +77,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openProject()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open project", "/home/minirop/GameMaker Projects/shoot the notes", "GameMaker Studio project (*.yyp)");
+    QString filename = QFileDialog::getOpenFileName(this, "Open project", "C:\\Users\\creativear\\Documents\\GMS\\shoot the notes", "GameMaker Studio project (*.yyp)");
     if (!filename.isEmpty())
     {
         loadProject(filename);
