@@ -50,6 +50,11 @@ void ResourceItem::setName(QString name)
     emit nameChanged();
 }
 
+QPixmap ResourceItem::thumbnail() const
+{
+    return QPixmap();
+}
+
 ResourceItem *ResourceItem::create(ResourceType type, QString id)
 {
     ResourceItem * item = nullptr;
@@ -129,6 +134,21 @@ void ResourceItem::clear()
 {
     qDeleteAll(allResources);
     allResources.clear();
+}
+
+ResourceItem * ResourceItem::findFolder(ResourceType filterType)
+{
+    auto folders = ResourceItem::findAll(ResourceType::Folder);
+    for (auto & folderId : folders)
+    {
+        auto folderItem = ResourceItem::get<FolderResourceItem>(folderId);
+        if (folderItem->filterType() == filterType && folderItem->isLocalised())
+        {
+            return folderItem;
+        }
+    }
+
+    return nullptr;
 }
 
 QVector<QString> ResourceItem::findAll(ResourceType type)

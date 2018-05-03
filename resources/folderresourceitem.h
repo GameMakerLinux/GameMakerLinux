@@ -31,6 +31,7 @@ public:
     void save() override;
 
     ResourceType filterType() const;
+    bool isLocalised() const;
 
 private:
     ResourceType m_filterType;

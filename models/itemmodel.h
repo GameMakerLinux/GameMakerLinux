@@ -15,26 +15,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "roomlayer.h"
+#ifndef ITEMMODEL_H
+#define ITEMMODEL_H
 
-RoomLayer::RoomLayer(ResourceType type)
-    : ResourceItem(type)
-{
-}
+#include <QAbstractItemModel>
 
-int RoomLayer::depth() const
+class ResourceItem;
+class ItemModel : public QAbstractItemModel
 {
-    return m_depth;
-}
+    Q_OBJECT
 
-void RoomLayer::setDepth(int d)
-{
-    m_depth = d;
-}
+public:
+    explicit ItemModel(ResourceItem * item, QObject *parent = nullptr);
 
-void RoomLayer::load(QJsonObject object)
-{
-    id = object["id"].toString();
-    setName(object["name"].toString());
-    setDepth(object["depth"].toInt());
-}
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &index) const override;
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+private:
+    ResourceItem * rootItem;
+};
+
+#endif // ITEMMODEL_H

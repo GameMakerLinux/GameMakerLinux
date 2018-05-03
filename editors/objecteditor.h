@@ -41,6 +41,7 @@ private slots:
     void onEventsCleared();
     void chooseParent();
     void chooseMask();
+    void chooseSprite();
 
 private:
     Ui::ObjectEditor * ui;

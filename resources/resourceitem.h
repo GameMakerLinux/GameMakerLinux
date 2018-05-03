@@ -72,6 +72,7 @@ public:
 
     QString name() const { return m_name; }
     void setName(QString name);
+    virtual QPixmap thumbnail() const;
 
     ResourceType type() const { return m_type; }
 
@@ -90,6 +91,7 @@ public:
     }
     static void clear();
 
+    static ResourceItem * findFolder(ResourceType filterType);
     static QVector<QString> findAll(ResourceType type);
 
 signals:

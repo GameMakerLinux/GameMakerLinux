@@ -64,3 +64,8 @@ ResourceType FolderResourceItem::filterType() const
 {
     return m_filterType;
 }
+
+bool FolderResourceItem::isLocalised() const
+{
+    return !m_localisedFolderName.isEmpty();
+}

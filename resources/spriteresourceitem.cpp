@@ -41,13 +41,13 @@ void SpriteResourceItem::load(QJsonObject object)
     }
 }
 
-QPixmap SpriteResourceItem::thumbnail()
+QPixmap SpriteResourceItem::thumbnail() const
 {
     if (m_frames.size() > 0)
     {
         auto frameId = m_frames[0]->compositeImage()->frameId();
         QString path = QString("%1/sprites/%2/%3.png").arg(GameSettings::rootPath(), name(), frameId);
-        return QPixmap(path);
+        return QPixmap(path).scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
     return QPixmap();
 }

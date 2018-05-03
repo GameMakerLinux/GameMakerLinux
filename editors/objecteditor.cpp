@@ -44,6 +44,8 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);
     connect(&eventsModel, &EventsModel::modelReset, this, &ObjectEditor::onEventsCleared);
 
+    connect(ui->spriteViewer, &QPushButton::clicked, this, &ObjectEditor::chooseSprite);
+
     connect(ui->eventsListView, &QListView::clicked, [this](const QModelIndex & index) {
         ui->stackedCodeEditorWidget->setCurrentIndex(index.row());
     });
@@ -83,7 +85,7 @@ void ObjectEditor::reset()
 
     if (auto sprite = pItem->sprite())
     {
-        auto pix = sprite->thumbnail().scaled(ui->spriteViewer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        auto pix = sprite->thumbnail();
         ui->spriteViewer->setIcon(pix);
     }
     else
@@ -184,12 +186,51 @@ void ObjectEditor::onEventsCleared()
 
 void ObjectEditor::chooseParent()
 {
-    SelectItem selectParent;
-    selectParent.exec();
+    ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Object);
+    SelectItem selectParent(pItem);
+    if (selectParent.exec())
+    {
+        auto parentItem = selectParent.choice();
+
+        if (parentItem)
+            ui->parentLineEdit->setText(parentItem->name());
+        else
+            ui->parentLineEdit->setText({});
+        setDirty();
+    }
 }
 
 void ObjectEditor::chooseMask()
 {
-    SelectItem selectMask;
-    selectMask.exec();
+    ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Sprite);
+    SelectItem selectMask(pItem);
+    if (selectMask.exec())
+    {
+        auto maskItem = selectMask.choice();
+
+        if (maskItem)
+            ui->maskLineEdit->setText(maskItem->name());
+        else
+            ui->maskLineEdit->setText({});
+        setDirty();
+    }
+}
+
+void ObjectEditor::chooseSprite()
+{
+    ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Sprite);
+    SelectItem selectMask(pItem);
+    if (selectMask.exec())
+    {
+        auto spriteItem = selectMask.choice();
+
+        if (spriteItem)
+        {
+            auto sprite = qobject_cast<SpriteResourceItem*>(spriteItem);
+            ui->spriteViewer->setIcon(sprite->thumbnail());
+        }
+        else
+            ui->maskLineEdit->setText({});
+        setDirty();
+    }
 }
