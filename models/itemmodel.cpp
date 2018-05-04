@@ -31,7 +31,6 @@ QModelIndex ItemModel::index(int row, int column, const QModelIndex &parent) con
         ptr = rootItem;
     else
         ptr = static_cast<ResourceItem*>(parent.internalPointer());
-    if (ptr == nullptr) return QModelIndex();
     if (row == 0) return createIndex(row, column, ptr);
     auto childPtr = ptr->child(row - 1);
     return createIndex(row, column, childPtr);
