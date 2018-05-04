@@ -15,30 +15,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "instancelayer.h"
-#include "objectinstance.h"
-#include <QJsonArray>
+#ifndef GRAPHICSINSTANCE_H
+#define GRAPHICSINSTANCE_H
 
-InstanceLayer::InstanceLayer()
-    : RoomLayer(ResourceType::InstanceLayer)
+#include <QGraphicsPixmapItem>
+
+class GraphicsInstance : public QGraphicsPixmapItem
 {
-}
+public:
+    GraphicsInstance();
+};
 
-void InstanceLayer::load(QJsonObject object)
-{
-    RoomLayer::load(object);
-
-    auto instancesJson = object["instances"].toArray();
-    for (const auto & value : instancesJson)
-    {
-        auto data = value.toObject();
-        auto instance = new ObjectInstance();
-        instance->load(data);
-        m_instances.push_back(instance);
-    }
-}
-
-QVector<ObjectInstance *> InstanceLayer::instances() const
-{
-    return m_instances;
-}
+#endif // GRAPHICSINSTANCE_H

@@ -56,6 +56,7 @@ enum class ResourceType
     ImageLayer,
     InstanceLayer,
     BackgroundLayer,
+    ObjectInstance,
     Unknown
 };
 
@@ -124,5 +125,8 @@ class WindowsOptionsResourceItem;
 class SoundResourceItem;
 class FontResourceItem;
 class RoomLayer;
+class BackgroundLayer;
+class InstanceLayer;
+class ObjectInstance;
 
 #endif // RESOURCEITEM_H

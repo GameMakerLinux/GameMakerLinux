@@ -28,6 +28,10 @@ public:
     InstanceLayer();
 
     void load(QJsonObject object);
+    QVector<ObjectInstance*> instances() const;
+
+private:
+    QVector<ObjectInstance*> m_instances;
 };
 
 #endif // INSTANCELAYER_H

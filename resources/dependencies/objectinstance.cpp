@@ -15,30 +15,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "instancelayer.h"
 #include "objectinstance.h"
-#include <QJsonArray>
 
-InstanceLayer::InstanceLayer()
-    : RoomLayer(ResourceType::InstanceLayer)
+ObjectInstance::ObjectInstance()
+    : ResourceItem { ResourceType::ObjectInstance }
 {
 }
 
-void InstanceLayer::load(QJsonObject object)
+void ObjectInstance::load(QJsonObject object)
 {
-    RoomLayer::load(object);
+    setName(object["name"].toString());
 
-    auto instancesJson = object["instances"].toArray();
-    for (const auto & value : instancesJson)
-    {
-        auto data = value.toObject();
-        auto instance = new ObjectInstance();
-        instance->load(data);
-        m_instances.push_back(instance);
-    }
+    m_position.setX(object["x"].toInt());
+    m_position.setY(object["y"].toInt());
 }
 
-QVector<ObjectInstance *> InstanceLayer::instances() const
+QPoint ObjectInstance::position() const
 {
-    return m_instances;
+    return m_position;
 }

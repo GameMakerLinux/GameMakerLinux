@@ -24,6 +24,9 @@
 #include "gamesettings.h"
 #include "resources/dependencies/roomlayer.h"
 #include "resources/dependencies/backgroundlayer.h"
+#include "resources/dependencies/instancelayer.h"
+#include "graphics/graphicsinstance.h"
+#include "resources/dependencies/objectinstance.h"
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
     : MainEditor(item)
@@ -75,9 +78,23 @@ void RoomEditor::reset()
         {
             if (auto sprite = bgLayer->sprite())
             {
-                QPixmap pix = sprite->thumbnail();
+                QPixmap pix = sprite->pixmap();
                 auto pixItem = scene.addPixmap(pix);
                 pixItem->setParentItem(gLayer);
+            }
+            else
+            {
+                auto bgColor = scene.addRect(0, 0, pItem->width(), pItem->height(), QPen(), QBrush(Qt::black));
+                bgColor->setParentItem(gLayer);
+            }
+        }
+        else if (auto instLayer = qobject_cast<InstanceLayer*>(layer))
+        {
+            for (auto & instance : instLayer->instances())
+            {
+                auto instItem = new GraphicsInstance();
+                instItem->setParentItem(gLayer);
+                instItem->setPos(instance->position());
             }
         }
     }

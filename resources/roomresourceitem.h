@@ -29,10 +29,15 @@ public:
 
     void load(QJsonObject object) override;
 
+    int height() const;
+    int width() const;
+
     QVector<RoomLayer *> layers() const;
 
 private:
     QVector<RoomLayer *> m_layers;
+    int m_height;
+    int m_width;
 };
 
 #endif // ROOMRESOURCEITEM_H

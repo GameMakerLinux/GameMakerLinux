@@ -31,6 +31,7 @@ public:
     void load(QJsonObject object) override;
 
     QPixmap thumbnail() const override;
+    QPixmap pixmap() const;
 
 private:
     QVector<SpriteFrame*> m_frames;

@@ -65,7 +65,9 @@ SOURCES += \
     resources/dependencies/instancelayer.cpp \
     resources/dependencies/roomlayer.cpp \
     resources/dependencies/backgroundlayer.cpp \
-    models/itemmodel.cpp
+    models/itemmodel.cpp \
+    graphics/graphicsinstance.cpp \
+    resources/dependencies/objectinstance.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -109,7 +111,9 @@ HEADERS += \
     resources/dependencies/instancelayer.h \
     resources/dependencies/roomlayer.h \
     resources/dependencies/backgroundlayer.h \
-    models/itemmodel.h
+    models/itemmodel.h \
+    graphics/graphicsinstance.h \
+    resources/dependencies/objectinstance.h
 
 FORMS += \
         mainwindow.ui \
