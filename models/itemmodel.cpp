@@ -55,6 +55,7 @@ QModelIndex ItemModel::parent(const QModelIndex &index) const
     }
 }
 
+// +1 because the row 0 is a generic "going up one level in the hierarchy"
 int ItemModel::rowCount(const QModelIndex &parent) const
 {
     if (!parent.isValid())
