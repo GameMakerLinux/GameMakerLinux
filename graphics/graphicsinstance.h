@@ -20,10 +20,14 @@
 
 #include <QGraphicsPixmapItem>
 
+class ObjectInstance;
 class GraphicsInstance : public QGraphicsPixmapItem
 {
 public:
-    GraphicsInstance();
+    GraphicsInstance(ObjectInstance * instance);
+
+private:
+    ObjectInstance * m_objectInstance = nullptr;
 };
 
 #endif // GRAPHICSINSTANCE_H

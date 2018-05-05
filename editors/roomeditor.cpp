@@ -96,9 +96,8 @@ void RoomEditor::reset()
             auto instLayer = qobject_cast<InstanceLayer*>(layer);
             for (auto & instance : instLayer->instances())
             {
-                auto instItem = new GraphicsInstance();
+                auto instItem = new GraphicsInstance(instLayer);
                 instItem->setParentItem(gLayer);
-                instItem->setPos(instance->position());
             }
         }
     }
