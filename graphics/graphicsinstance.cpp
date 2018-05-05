@@ -29,6 +29,7 @@ GraphicsInstance::GraphicsInstance(ObjectInstance * instance)
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
     setPos(m_objectInstance->position());
+    setToolTip(m_objectInstance->name());
 }
 
 ObjectInstance * GraphicsInstance::objectInstance() const
