@@ -22,7 +22,6 @@ AndroidOptionsResourceItem::AndroidOptionsResourceItem()
 {
 }
 
-
 void AndroidOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());

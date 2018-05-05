@@ -19,11 +19,11 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QListView>
-#include "models/itemmodel.h"
 #include "resources/resourceitem.h"
 #include <QDebug>
 
 SelectItem::SelectItem(ResourceItem * rootElement)
+    : model { rootElement }
 {
     setWindowTitle("Select parent");
 
@@ -33,8 +33,7 @@ SelectItem::SelectItem(ResourceItem * rootElement)
     layout->addWidget(listView);
     layout->addWidget(buttons);
 
-    model = new ItemModel(rootElement);
-    listView->setModel(model);
+    listView->setModel(&model);
 
     connect(buttons, &QDialogButtonBox::accepted, this, &SelectItem::accept);
     connect(buttons, &QDialogButtonBox::rejected, this, &SelectItem::reject);

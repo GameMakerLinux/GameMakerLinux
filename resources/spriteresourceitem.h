@@ -27,6 +27,7 @@ class SpriteResourceItem : public ResourceItem
 
 public:
     SpriteResourceItem();
+    ~SpriteResourceItem();
 
     void load(QJsonObject object) override;
 

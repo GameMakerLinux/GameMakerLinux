@@ -22,7 +22,7 @@ RoomLayer::RoomLayer(ResourceType type)
 {
     if (type == ResourceType::BackgroundLayer)
         m_type = Type::Background;
-    else if (type == ResourceType::InstancesLayer)
+    else if (type == ResourceType::InstanceLayer)
         m_type = Type::Instances;
 }
 

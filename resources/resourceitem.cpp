@@ -132,7 +132,6 @@ ResourceItem *ResourceItem::get(QString id)
 
 void ResourceItem::clear()
 {
-    qDeleteAll(allResources);
     allResources.clear();
 }
 

@@ -19,8 +19,6 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "utils/utils.h"
-#include "models/resourcesmodel.h"
-#include "docks/resourcestreedock.h"
 #include <QDebug>
 #include <QAction>
 #include "gamesettings.h"
@@ -31,15 +29,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    resourcesModel(new ResourcesModel),
-    resourcesTreeDock(new ResourcesTreeDock)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     // DOCKS
-    resourcesTreeDock->setModel(resourcesModel);
-    addDockWidget(Qt::RightDockWidgetArea, resourcesTreeDock);
+    resourcesTreeDock.setModel(&resourcesModel);
+    addDockWidget(Qt::RightDockWidgetArea, &resourcesTreeDock);
 
     // CENTRAL WIDGET
     tabWidget = new QTabWidget;
@@ -48,21 +44,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // CONNECT
     connect(ui->action_Open_project, &QAction::triggered, this, &MainWindow::openProject);
-    connect(ui->action_Resources, &QAction::toggled, resourcesTreeDock, &ResourcesTreeDock::setVisible);
+    connect(ui->action_Resources, &QAction::toggled, &resourcesTreeDock, &ResourcesTreeDock::setVisible);
 
-    connect(resourcesTreeDock, &ResourcesTreeDock::openAmazonFireOptions, this, &MainWindow::openAmazonFireOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openAndroidOptions, this, &MainWindow::openAndroidOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openIncludedFile, this, &MainWindow::openIncludedFile);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openiOsOptions, this, &MainWindow::openiOsOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openLinuxOptions, this, &MainWindow::openLinuxOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openMacOptions, this, &MainWindow::openMacOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openMainOptions, this, &MainWindow::openMainOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openObject, this, &MainWindow::openObject);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openRoom, this, &MainWindow::openRoom);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openScript, this, &MainWindow::openScript);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openSprite, this, &MainWindow::openSprite);
-    connect(resourcesTreeDock, &ResourcesTreeDock::openWindowsOptions, this, &MainWindow::openWindowsOptions);
-    connect(resourcesTreeDock, &ResourcesTreeDock::visibilityChanged, ui->action_Resources, &QAction::setChecked);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openAmazonFireOptions, this, &MainWindow::openAmazonFireOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openAndroidOptions, this, &MainWindow::openAndroidOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openIncludedFile, this, &MainWindow::openIncludedFile);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openiOsOptions, this, &MainWindow::openiOsOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openLinuxOptions, this, &MainWindow::openLinuxOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openMacOptions, this, &MainWindow::openMacOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openMainOptions, this, &MainWindow::openMainOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openObject, this, &MainWindow::openObject);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openRoom, this, &MainWindow::openRoom);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openScript, this, &MainWindow::openScript);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openSprite, this, &MainWindow::openSprite);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::openWindowsOptions, this, &MainWindow::openWindowsOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::visibilityChanged, ui->action_Resources, &QAction::setChecked);
 
     connect(tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
@@ -75,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    closeProject();
+
     delete ui;
 }
 
@@ -268,13 +266,19 @@ void MainWindow::openObject(ObjectResourceItem * item)
     connectDirtiness(editor, item);
 }
 
+void MainWindow::closeProject()
+{
+    //TODO: check if dirty and ask to save if it is
+
+    // clear everything before
+    ResourceItem::clear();
+    resourcesModel.clear();
+    tabWidget->clear();
+}
+
 void MainWindow::loadProject(QString filename)
 {
-    // clear everything before
-    {
-        resourcesModel->clear();
-        tabWidget->clear();
-    }
+    closeProject();
 
     QFileInfo fi(filename);
     GameSettings::setRootPath(fi.absolutePath());
@@ -316,7 +320,7 @@ void MainWindow::loadProject(QString filename)
         resources[id] = item;
     }
 
-    resourcesModel->fill(resources);
+    resourcesModel.fill(resources);
 
     GameSettings::setLastOpenedProject(filename);
 }

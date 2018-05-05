@@ -157,13 +157,13 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
     for (int i = first; i <= last; i++)
     {
         auto editor = new CodeEditor;
+        ui->stackedCodeEditorWidget->insertWidget(i, editor);
+
         connect(editor, &CodeEditor::dirtyChanged, this, &ObjectEditor::setDirty);
 
         auto filename = eventsModel.getFilename(i);
         auto code = Utils::readFile(filename);
         editor->setCode(code);
-
-        ui->stackedCodeEditorWidget->insertWidget(i, editor);
     }
 }
 

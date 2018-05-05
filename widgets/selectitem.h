@@ -19,9 +19,9 @@
 #define SELECTITEM_H
 
 #include <QDialog>
+#include "models/itemmodel.h"
 
 class ResourceItem;
-class ItemModel;
 class QListView;
 class SelectItem : public QDialog
 {
@@ -34,7 +34,7 @@ private slots:
     void itemClicked(QModelIndex index);
 
 private:
-    ItemModel * model = nullptr;
+    ItemModel model;
     QListView * listView = nullptr;
     ResourceItem * selectedItem = nullptr;
 };

@@ -24,6 +24,11 @@ InstanceLayer::InstanceLayer()
 {
 }
 
+InstanceLayer::~InstanceLayer()
+{
+    qDeleteAll(m_instances);
+}
+
 void InstanceLayer::load(QJsonObject object)
 {
     RoomLayer::load(object);

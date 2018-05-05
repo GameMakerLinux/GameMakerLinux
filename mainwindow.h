@@ -21,13 +21,13 @@
 #include <QMainWindow>
 #include <QMap>
 #include "resources/resourceitem.h"
+#include "models/resourcesmodel.h"
+#include "docks/resourcestreedock.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-class ResourcesModel;
-class ResourcesTreeDock;
 class MainEditor;
 class MainWindow : public QMainWindow
 {
@@ -52,6 +52,8 @@ private slots:
     void openMainOptions(MainOptionsResourceItem* item);
     void openObject(ObjectResourceItem* item);
 
+    void closeProject();
+
 private:
     void loadProject(QString filename);
     bool checkTab(QString id);
@@ -59,8 +61,8 @@ private:
     void connectDirtiness(MainEditor* editor, ResourceItem * item);
 
     Ui::MainWindow * ui;
-    ResourcesModel * resourcesModel;
-    ResourcesTreeDock * resourcesTreeDock;
+    ResourcesModel resourcesModel;
+    ResourcesTreeDock resourcesTreeDock;
     QTabWidget * tabWidget;
     QVector<QString> idOfOpenedTabs;
 };

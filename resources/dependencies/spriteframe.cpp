@@ -22,6 +22,11 @@ SpriteFrame::SpriteFrame()
 {
 }
 
+SpriteFrame::~SpriteFrame()
+{
+    delete m_compositeImage;
+}
+
 SpriteImage *SpriteFrame::compositeImage() const
 {
     return m_compositeImage;
