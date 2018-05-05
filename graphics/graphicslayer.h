@@ -30,6 +30,8 @@ public:
     void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget) override;
 
     void select(ObjectInstance * instance);
+
+    void setCurrent(bool b);
 };
 
 #endif // GRAPHICSLAYER_H

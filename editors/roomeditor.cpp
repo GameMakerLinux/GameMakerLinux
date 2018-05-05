@@ -75,11 +75,11 @@ void RoomEditor::reset()
         graphicsLayers[layer->id] = gLayer;
         scene.addItem(gLayer);
 
-        auto depth = layer->depth();
-        gLayer->setZValue(-depth);
-
         if (layer->type() == RoomLayer::Type::Background)
         {
+            auto depth = layer->depth();
+            gLayer->setZValue(-depth);
+
             auto bgLayer = qobject_cast<BackgroundLayer*>(layer);
             if (auto sprite = bgLayer->sprite())
             {
@@ -101,6 +101,9 @@ void RoomEditor::reset()
                 auto instItem = new GraphicsInstance(instance);
                 instItem->setParentItem(gLayer);
             }
+            gLayer->setCurrent(false);
+            //so the instances are always visible
+            gLayer->setZValue(1000);
         }
     }
 }
@@ -122,7 +125,7 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
 
     if (m_currentLayer)
     {
-        m_currentLayer->setEnabled(false);
+        m_currentLayer->setCurrent(false);
         m_currentLayer = nullptr;
     }
 
@@ -138,7 +141,7 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
         }
 
         m_currentLayer = graphicsLayers[pInstLayer->id];
-        m_currentLayer->setEnabled(true);
+        m_currentLayer->setCurrent(true);
     }
 }
 

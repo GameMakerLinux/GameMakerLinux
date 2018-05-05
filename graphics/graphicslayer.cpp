@@ -52,3 +52,13 @@ void GraphicsLayer::select(ObjectInstance * instance)
         }
     }
 }
+
+void GraphicsLayer::setCurrent(bool b)
+{
+    setEnabled(b);
+
+    if (b)
+        setOpacity(1);
+    else
+        setOpacity(0.5);
+}
