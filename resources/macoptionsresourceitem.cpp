@@ -18,7 +18,7 @@
 #include "macoptionsresourceitem.h"
 
 MacOptionsResourceItem::MacOptionsResourceItem()
-    : ResourceItem(ResourceType::MacOptions)
+    : ResourceItem { ResourceType::MacOptions }
 {
 }
 

@@ -40,6 +40,8 @@ protected slots:
 private slots:
     void setLayerVisibility(QString id, bool visible);
     void updateObjectsList(const QModelIndex & index);
+    void selectedItemChanged();
+    void updateSelectedItem(const QModelIndex & index);
 
 private:
     Ui::RoomEditor *ui;
@@ -47,6 +49,7 @@ private:
     ObjectsModel objectsModel;
     QGraphicsScene scene;
     QMap<QString, GraphicsLayer*> graphicsLayers;
+    GraphicsLayer * m_currentLayer = nullptr;
 };
 
 #endif // ROOMEDITOR_H

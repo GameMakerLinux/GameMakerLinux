@@ -29,7 +29,7 @@
 static int QT_FIX_DND = -1;
 
 ResourcesModel::ResourcesModel(QObject *parent)
-    : QAbstractItemModel(parent)
+    : QAbstractItemModel { parent }
 {
 }
 

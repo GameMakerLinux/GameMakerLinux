@@ -18,7 +18,7 @@
 #include "scriptresourceitem.h"
 
 ScriptResourceItem::ScriptResourceItem()
-    : ResourceItem(ResourceType::Script)
+    : ResourceItem { ResourceType::Script }
 {
 }
 

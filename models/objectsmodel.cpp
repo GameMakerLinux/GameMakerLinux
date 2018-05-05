@@ -19,7 +19,7 @@
 #include "resources/dependencies/objectinstance.h"
 
 ObjectsModel::ObjectsModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : QAbstractListModel { parent }
 {
 }
 
@@ -76,6 +76,35 @@ void ObjectsModel::addObject(ObjectInstance * object)
     beginInsertRows(QModelIndex(), items.size(), items.size());
     items.append({ object });
     endInsertRows();
+}
+
+int ObjectsModel::rowOf(ObjectInstance * object) const
+{
+    int i = 0;
+    for (auto & item : items)
+    {
+        if (item.object == object)
+        {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
+QModelIndex ObjectsModel::indexOf(ObjectInstance * object) const
+{
+    auto row = rowOf(object);
+    if (row != -1)
+    {
+        return index(row);
+    }
+    return QModelIndex();
+}
+
+ObjectInstance *ObjectsModel::objectInstance(int row) const
+{
+    return items[row].object;
 }
 
 void ObjectsModel::clear()

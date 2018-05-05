@@ -20,6 +20,7 @@
 
 #include <QGraphicsItem>
 
+class ObjectInstance;
 class GraphicsLayer : public QGraphicsItem
 {
 public:
@@ -27,6 +28,8 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget) override;
+
+    void select(ObjectInstance * instance);
 };
 
 #endif // GRAPHICSLAYER_H

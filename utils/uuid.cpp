@@ -21,8 +21,7 @@ static QString uuid_null("00000000-0000-0000-0000-000000000000");
 
 QString Uuid::null()
 {
-    // need to change because it has curly brackets.
-    return QUuid().toString();
+    return uuid_null;
 }
 
 bool Uuid::isNull(QString uuid)
@@ -32,5 +31,6 @@ bool Uuid::isNull(QString uuid)
 
 QString Uuid::generate()
 {
+    // need to remove the curly brackets
     return QUuid::createUuid().toString();
 }

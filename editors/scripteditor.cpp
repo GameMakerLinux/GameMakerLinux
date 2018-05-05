@@ -23,7 +23,7 @@
 #include <QDebug>
 
 ScriptEditor::ScriptEditor(ScriptResourceItem * item)
-    : MainEditor(item)
+    : MainEditor { item }
 {
     codeEditor = new CodeEditor;
     setWidget(codeEditor);

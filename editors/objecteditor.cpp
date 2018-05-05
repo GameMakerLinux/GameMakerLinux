@@ -23,8 +23,8 @@
 #include "resources/spriteresourceitem.h"
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
-    : MainEditor(item)
-    , ui(new Ui::ObjectEditor)
+    : MainEditor { item }
+    , ui { new Ui::ObjectEditor }
 {
     QTabWidget * tabWidget = new QTabWidget;
     ui->setupUi(tabWidget);

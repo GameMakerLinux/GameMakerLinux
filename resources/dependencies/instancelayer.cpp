@@ -20,7 +20,7 @@
 #include <QJsonArray>
 
 InstanceLayer::InstanceLayer()
-    : RoomLayer(ResourceType::InstanceLayer)
+    : RoomLayer { ResourceType::InstanceLayer }
 {
 }
 

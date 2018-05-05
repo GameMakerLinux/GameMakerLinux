@@ -19,7 +19,7 @@
 #include <QPixmap>
 
 SpriteImage::SpriteImage()
-    : ResourceItem(ResourceType::SpriteImage)
+    : ResourceItem { ResourceType::SpriteImage }
 {
 }
 

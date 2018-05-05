@@ -23,10 +23,15 @@
 #include <QPainter>
 
 GraphicsInstance::GraphicsInstance(ObjectInstance * instance)
-    : QGraphicsPixmapItem(QIcon::fromTheme("help-about").pixmap(16, 16))
-    , m_objectInstance { m_objectInstance }
+    : QGraphicsPixmapItem { QIcon::fromTheme("help-about").pixmap(16, 16) }
+    , m_objectInstance { instance }
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
     setPos(m_objectInstance->position());
+}
+
+ObjectInstance * GraphicsInstance::objectInstance() const
+{
+    return m_objectInstance;
 }

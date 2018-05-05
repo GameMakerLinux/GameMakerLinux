@@ -18,7 +18,7 @@
 #include "spriteframe.h"
 
 SpriteFrame::SpriteFrame()
-    : ResourceItem(ResourceType::SpriteFrame)
+    : ResourceItem { ResourceType::SpriteFrame }
 {
 }
 

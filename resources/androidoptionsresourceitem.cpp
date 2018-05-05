@@ -18,7 +18,7 @@
 #include "androidoptionsresourceitem.h"
 
 AndroidOptionsResourceItem::AndroidOptionsResourceItem()
-    : ResourceItem(ResourceType::AndroidOptions)
+    : ResourceItem { ResourceType::AndroidOptions }
 {
 }
 

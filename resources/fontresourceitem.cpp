@@ -18,7 +18,7 @@
 #include "fontresourceitem.h"
 
 FontResourceItem::FontResourceItem()
-    : ResourceItem(ResourceType::Font)
+    : ResourceItem { ResourceType::Font }
 {
 }
 

@@ -18,7 +18,7 @@
 #include "amazonfireoptionsresourceitem.h"
 
 AmazonFireOptionsResourceItem::AmazonFireOptionsResourceItem()
-    : ResourceItem(ResourceType::AmazonFireOptions)
+    : ResourceItem { ResourceType::AmazonFireOptions }
 {
 }
 

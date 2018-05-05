@@ -18,7 +18,7 @@
 #include "linuxoptionsresourceitem.h"
 
 LinuxOptionsResourceItem::LinuxOptionsResourceItem()
-    : ResourceItem(ResourceType::LinuxOptions)
+    : ResourceItem { ResourceType::LinuxOptions }
 {
 }
 

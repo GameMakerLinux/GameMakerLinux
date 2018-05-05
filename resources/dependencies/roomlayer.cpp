@@ -18,7 +18,7 @@
 #include "roomlayer.h"
 
 RoomLayer::RoomLayer(ResourceType type)
-    : ResourceItem(type)
+    : ResourceItem { type }
 {
     if (type == ResourceType::BackgroundLayer)
         m_type = Type::Background;

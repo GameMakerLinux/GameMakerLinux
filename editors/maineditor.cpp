@@ -20,9 +20,9 @@
 #include <QPushButton>
 
 MainEditor::MainEditor(ResourceItem * resourceItem, QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::MainEditor)
-    , resourceItem(resourceItem)
+    : QWidget { parent }
+    , ui { new Ui::MainEditor }
+    , resourceItem { resourceItem }
 {
     ui->setupUi(this);
 

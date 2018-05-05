@@ -42,6 +42,9 @@ public:
     bool setData(const QModelIndex & index, const QVariant & value, int role) override;
 
     void addObject(ObjectInstance * object);
+    int rowOf(ObjectInstance * object) const;
+    QModelIndex indexOf(ObjectInstance * object) const;
+    ObjectInstance * objectInstance(int row) const;
 
     void clear();
 

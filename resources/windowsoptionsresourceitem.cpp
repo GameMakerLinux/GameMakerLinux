@@ -18,7 +18,7 @@
 #include "windowsoptionsresourceitem.h"
 
 WindowsOptionsResourceItem::WindowsOptionsResourceItem()
-    : ResourceItem(ResourceType::WindowsOptions)
+    : ResourceItem { ResourceType::WindowsOptions }
 {
 }
 

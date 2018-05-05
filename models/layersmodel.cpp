@@ -19,7 +19,7 @@
 #include "resources/dependencies/instancelayer.h"
 
 LayersModel::LayersModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : QAbstractListModel { parent }
 {
 }
 

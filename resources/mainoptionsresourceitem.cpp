@@ -18,7 +18,7 @@
 #include "mainoptionsresourceitem.h"
 
 MainOptionsResourceItem::MainOptionsResourceItem()
-    : ResourceItem(ResourceType::MainOptions)
+    : ResourceItem { ResourceType::MainOptions }
 {
 }
 

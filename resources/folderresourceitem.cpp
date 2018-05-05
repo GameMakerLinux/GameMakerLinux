@@ -21,7 +21,7 @@
 #include <QDebug>
 
 FolderResourceItem::FolderResourceItem()
-    : ResourceItem(ResourceType::Folder)
+    : ResourceItem { ResourceType::Folder }
 {
 }
 

@@ -16,9 +16,11 @@
 */
 
 #include "graphicslayer.h"
+#include "graphicsinstance.h"
 
 GraphicsLayer::GraphicsLayer()
 {
+    setEnabled(false);
 }
 
 
@@ -32,4 +34,21 @@ void GraphicsLayer::paint(QPainter * painter, const QStyleOptionGraphicsItem * o
     Q_UNUSED(painter)
     Q_UNUSED(option)
     Q_UNUSED(widget)
+}
+
+void GraphicsLayer::select(ObjectInstance * instance)
+{
+    auto children = childItems();
+    for (auto & child : children)
+    {
+        auto pInstance = static_cast<GraphicsInstance*>(child);
+        if (pInstance->objectInstance() == instance)
+        {
+            pInstance->setSelected(true);
+        }
+        else
+        {
+            pInstance->setSelected(false);
+        }
+    }
 }

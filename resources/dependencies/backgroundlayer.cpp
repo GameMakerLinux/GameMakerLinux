@@ -20,7 +20,7 @@
 #include "resources/spriteresourceitem.h"
 
 BackgroundLayer::BackgroundLayer()
-    : RoomLayer(ResourceType::BackgroundLayer)
+    : RoomLayer { ResourceType::BackgroundLayer }
 {
 }
 

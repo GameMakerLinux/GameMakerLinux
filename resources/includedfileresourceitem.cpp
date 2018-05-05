@@ -18,7 +18,7 @@
 #include "includedfileresourceitem.h"
 
 IncludedFileResourceItem::IncludedFileResourceItem()
-    : ResourceItem(ResourceType::IncludedFile)
+    : ResourceItem  { ResourceType::IncludedFile }
 {
 }
 

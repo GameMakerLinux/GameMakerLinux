@@ -18,7 +18,7 @@
 #include "unknownresourceitem.h"
 
 UnknownResourceItem::UnknownResourceItem()
-    : ResourceItem(ResourceType::Unknown)
+    : ResourceItem { ResourceType::Unknown }
 {
 }
 

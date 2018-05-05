@@ -22,7 +22,7 @@
 #include <QJsonArray>
 
 RoomResourceItem::RoomResourceItem()
-    : ResourceItem(ResourceType::Room)
+    : ResourceItem { ResourceType::Room }
 {
 }
 

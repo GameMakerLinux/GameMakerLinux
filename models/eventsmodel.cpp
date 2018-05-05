@@ -21,7 +21,7 @@
 #include "resources/dependencies/objectevent.h"
 
 EventsModel::EventsModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : QAbstractListModel { parent }
 {
 }
 

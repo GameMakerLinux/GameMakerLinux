@@ -29,8 +29,8 @@
 #include "resources/dependencies/objectinstance.h"
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
-    : MainEditor(item)
-    , ui(new Ui::RoomEditor)
+    : MainEditor { item }
+    , ui { new Ui::RoomEditor }
 {
     QWidget * w = new QWidget;
     ui->setupUi(w);
@@ -44,6 +44,8 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     connect(&layersModel, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
     connect(ui->layersListView, &QListView::clicked, this, &RoomEditor::updateObjectsList);
+    connect(ui->objectsListView, &QListView::clicked, this, &RoomEditor::updateSelectedItem);
+    connect(&scene, &QGraphicsScene::selectionChanged, this, &RoomEditor::selectedItemChanged);
 
     reset();
 }
@@ -96,7 +98,7 @@ void RoomEditor::reset()
             auto instLayer = qobject_cast<InstanceLayer*>(layer);
             for (auto & instance : instLayer->instances())
             {
-                auto instItem = new GraphicsInstance(instLayer);
+                auto instItem = new GraphicsInstance(instance);
                 instItem->setParentItem(gLayer);
             }
         }
@@ -118,6 +120,12 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
         return;
     }
 
+    if (m_currentLayer)
+    {
+        m_currentLayer->setEnabled(false);
+        m_currentLayer = nullptr;
+    }
+
     objectsModel.clear();
 
     auto pLayer = layersModel.layer(index.row());
@@ -128,5 +136,41 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
         {
             objectsModel.addObject(inst);
         }
+
+        m_currentLayer = graphicsLayers[pInstLayer->id];
+        m_currentLayer->setEnabled(true);
     }
+}
+
+void RoomEditor::selectedItemChanged()
+{
+    auto items = scene.selectedItems();
+    if (items.size() != 1)
+    {
+        if (items.size() > 1)
+        {
+            qCritical() << "More than one item selected";
+        }
+        return;
+    }
+
+    auto item = items.first();
+    auto instanceItem = static_cast<GraphicsInstance*>(item);
+    if (instanceItem)
+    {
+        auto modelIndex = objectsModel.indexOf(instanceItem->objectInstance());
+        ui->objectsListView->selectionModel()->select(modelIndex, QItemSelectionModel::ClearAndSelect);
+    }
+}
+
+void RoomEditor::updateSelectedItem(const QModelIndex & index)
+{
+    if (!index.isValid())
+    {
+        return;
+    }
+
+    auto pItem = objectsModel.objectInstance(index.row());
+
+    m_currentLayer->select(pItem);
 }

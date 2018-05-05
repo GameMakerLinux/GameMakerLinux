@@ -20,7 +20,8 @@
 #include "utils/gmlhighlighter.h"
 #include <QDebug>
 
-CodeEditor::CodeEditor(QWidget *parent) : QWidget(parent)
+CodeEditor::CodeEditor(QWidget *parent)
+    : QWidget { parent }
 {
     textEdit = new QsciScintilla;
     textEdit->setAutoIndent(true);

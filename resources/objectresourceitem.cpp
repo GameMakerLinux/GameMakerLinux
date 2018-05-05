@@ -23,7 +23,7 @@
 #include "spriteresourceitem.h"
 
 ObjectResourceItem::ObjectResourceItem()
-    : ResourceItem(ResourceType::Object)
+    : ResourceItem { ResourceType::Object }
 {
 }
 

@@ -18,7 +18,7 @@
 #include "soundresourceitem.h"
 
 SoundResourceItem::SoundResourceItem()
-    : ResourceItem(ResourceType::Sound)
+    : ResourceItem { ResourceType::Sound }
 {
 }
 

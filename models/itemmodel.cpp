@@ -19,8 +19,8 @@
 #include "resources/resourceitem.h"
 
 ItemModel::ItemModel(ResourceItem * item, QObject *parent)
-    : QAbstractItemModel(parent)
-    , rootItem(item)
+    : QAbstractItemModel { parent }
+    , rootItem { item }
 {
 }
 

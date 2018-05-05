@@ -26,6 +26,8 @@ class GraphicsInstance : public QGraphicsPixmapItem
 public:
     GraphicsInstance(ObjectInstance * instance);
 
+    ObjectInstance * objectInstance() const;
+
 private:
     ObjectInstance * m_objectInstance = nullptr;
 };

@@ -18,7 +18,7 @@
 #include "iosoptionsresourceitem.h"
 
 iOSOptionsResourceItem::iOSOptionsResourceItem()
-    : ResourceItem(ResourceType::iOSOptions)
+    : ResourceItem { ResourceType::iOSOptions }
 {
 }
 

@@ -20,8 +20,8 @@
 #include <QDebug>
 
 ObjectEvent::ObjectEvent(EventType type, int number)
-    : m_eventType(type)
-    , m_eventNumber(number)
+    : m_eventType { type }
+    , m_eventNumber { number }
 {
     m_id = Uuid::generate();
 }

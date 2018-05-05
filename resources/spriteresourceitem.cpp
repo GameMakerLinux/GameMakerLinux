@@ -23,7 +23,7 @@
 #include "gamesettings.h"
 
 SpriteResourceItem::SpriteResourceItem()
-    : ResourceItem(ResourceType::Sprite)
+    : ResourceItem { ResourceType::Sprite }
 {
 }
 
