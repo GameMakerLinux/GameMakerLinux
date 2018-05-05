@@ -106,7 +106,7 @@ static QMap<QString, ResourceType> resourcesTypesStrings = {
     { "GMSpriteImage",      ResourceType::SpriteImage,      },
     { "GMSpriteFrame",      ResourceType::SpriteFrame,      },
     { "GMImageLayer",       ResourceType::ImageLayer,       },
-    { "GMRInstanceLayer",   ResourceType::InstancesLayer,    },
+    { "GMRInstanceLayer",   ResourceType::InstanceLayer,    },
     { "GMRBackgroundLayer", ResourceType::BackgroundLayer,  }
 };
 
