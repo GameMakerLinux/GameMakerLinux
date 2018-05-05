@@ -17,8 +17,12 @@
 
 #include "graphicsinstance.h"
 #include <QIcon>
+#include <QStyleOptionGraphicsItem>
+#include <QDebug>
+#include <QPainter>
 
 GraphicsInstance::GraphicsInstance()
     : QGraphicsPixmapItem(QIcon::fromTheme("help-about").pixmap(16, 16))
 {
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }

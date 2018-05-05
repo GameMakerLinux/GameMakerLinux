@@ -20,6 +20,10 @@
 RoomLayer::RoomLayer(ResourceType type)
     : ResourceItem(type)
 {
+    if (type == ResourceType::BackgroundLayer)
+        m_type = Type::Background;
+    else if (type == ResourceType::InstancesLayer)
+        m_type = Type::Instances;
 }
 
 int RoomLayer::depth() const
@@ -37,4 +41,9 @@ void RoomLayer::load(QJsonObject object)
     id = object["id"].toString();
     setName(object["name"].toString());
     setDepth(object["depth"].toInt());
+}
+
+RoomLayer::Type RoomLayer::type() const
+{
+    return m_type;
 }

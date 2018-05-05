@@ -22,10 +22,20 @@
 
 class RoomLayer : public ResourceItem
 {
+    Q_OBJECT
+
 public:
+    enum class Type {
+        Instances,
+        Background,
+        Unknown
+    };
+
     RoomLayer(ResourceType type);
+    ~RoomLayer() = default;
 
     void load(QJsonObject object);
+    Type type() const;
 
     int depth() const;
 
@@ -33,7 +43,8 @@ protected:
     void setDepth(int d);
 
 private:
-    int m_depth;
+    int m_depth = 0;
+    Type m_type = Type::Unknown;
 };
 
 #endif // ROOMLAYER_H

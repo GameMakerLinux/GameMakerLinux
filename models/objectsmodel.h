@@ -15,25 +15,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LAYERSMODEL_H
-#define LAYERSMODEL_H
+#ifndef OBJECTSMODEL_H
+#define OBJECTSMODEL_H
 
 #include <QAbstractListModel>
 
-class RoomLayer;
-struct LayerItem
+class ObjectInstance;
+struct ObjectItem
 {
-    RoomLayer * layer;
+    ObjectInstance * object;
     Qt::CheckState visible = Qt::Checked;
     bool locked = false; // unused
 };
 
-class LayersModel : public QAbstractListModel
+class ObjectsModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit LayersModel(QObject *parent = nullptr);
+    explicit ObjectsModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -41,8 +41,7 @@ public:
 
     bool setData(const QModelIndex & index, const QVariant & value, int role) override;
 
-    void addLayer(RoomLayer * layer);
-    RoomLayer * layer(int row) const;
+    void addObject(ObjectInstance * object);
 
     void clear();
 
@@ -50,7 +49,7 @@ signals:
     void visibilityChanged(QString id, bool visible);
 
 private:
-    QVector<LayerItem> items;
+    QVector<ObjectItem> items;
 };
 
-#endif // LAYERSMODEL_H
+#endif // OBJECTSMODEL_H

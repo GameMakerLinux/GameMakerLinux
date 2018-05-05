@@ -22,6 +22,7 @@
 #include "resources/roomresourceitem.h"
 #include "ui_roomeditor.h"
 #include "models/layersmodel.h"
+#include "models/objectsmodel.h"
 
 class GraphicsLayer;
 class RoomEditor : public MainEditor
@@ -38,10 +39,12 @@ protected slots:
 
 private slots:
     void setLayerVisibility(QString id, bool visible);
+    void updateObjectsList(const QModelIndex & index);
 
 private:
     Ui::RoomEditor *ui;
-    LayersModel model;
+    LayersModel layersModel;
+    ObjectsModel objectsModel;
     QGraphicsScene scene;
     QMap<QString, GraphicsLayer*> graphicsLayers;
 };

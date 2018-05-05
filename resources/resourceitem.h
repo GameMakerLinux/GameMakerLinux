@@ -54,7 +54,7 @@ enum class ResourceType
     SpriteImage,
     SpriteFrame,
     ImageLayer,
-    InstanceLayer,
+    InstancesLayer,
     BackgroundLayer,
     ObjectInstance,
     Unknown

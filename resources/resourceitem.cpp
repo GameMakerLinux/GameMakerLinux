@@ -106,7 +106,7 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
     case ResourceType::WindowsOptions:
         item = new WindowsOptionsResourceItem;
         break;
-    case ResourceType::InstanceLayer:
+    case ResourceType::InstancesLayer:
         item = new InstanceLayer;
         break;
     case ResourceType::BackgroundLayer:

@@ -15,15 +15,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "layersmodel.h"
-#include "resources/dependencies/instancelayer.h"
+#include "objectsmodel.h"
+#include "resources/dependencies/objectinstance.h"
 
-LayersModel::LayersModel(QObject *parent)
+ObjectsModel::ObjectsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
 }
 
-int LayersModel::rowCount(const QModelIndex &parent) const
+int ObjectsModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -31,7 +31,7 @@ int LayersModel::rowCount(const QModelIndex &parent) const
     return items.size();
 }
 
-QVariant LayersModel::data(const QModelIndex &index, int role) const
+QVariant ObjectsModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -40,7 +40,7 @@ QVariant LayersModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case Qt::DisplayRole:
-        return item.layer->name();
+        return item.object->name();
     case Qt::CheckStateRole:
         return item.visible;
     }
@@ -48,7 +48,13 @@ QVariant LayersModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int role)
+Qt::ItemFlags ObjectsModel::flags(const QModelIndex & index) const
+{
+    auto f = QAbstractListModel::flags(index);
+    return f | Qt::ItemIsUserCheckable;
+}
+
+bool ObjectsModel::setData(const QModelIndex & index, const QVariant & value, int role)
 {
     if (index.isValid())
     {
@@ -57,7 +63,7 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
         case Qt::CheckStateRole:
             items[index.row()].visible = value.value<Qt::CheckState>();
 
-            visibilityChanged(items[index.row()].layer->id, value.value<Qt::CheckState>() == Qt::Checked);
+            visibilityChanged(items[index.row()].object->id, value.value<Qt::CheckState>() == Qt::Checked);
             return true;
         }
     }
@@ -65,27 +71,16 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
     return false;
 }
 
-void LayersModel::addLayer(RoomLayer * layer)
+void ObjectsModel::addObject(ObjectInstance * object)
 {
     beginInsertRows(QModelIndex(), items.size(), items.size());
-    items.append({ layer });
+    items.append({ object });
     endInsertRows();
 }
 
-RoomLayer * LayersModel::layer(int row) const
-{
-    return items[row].layer;
-}
-
-void LayersModel::clear()
+void ObjectsModel::clear()
 {
     beginResetModel();
     items.clear();
     endResetModel();
-}
-
-Qt::ItemFlags LayersModel::flags(const QModelIndex & index) const
-{
-    auto f = QAbstractListModel::flags(index);
-    return f | Qt::ItemIsUserCheckable;
 }

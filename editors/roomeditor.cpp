@@ -38,10 +38,12 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     ui->splitter->setSizes({ 50, 300 });
 
-    ui->layersListView->setModel(&model);
+    ui->layersListView->setModel(&layersModel);
+    ui->objectsListView->setModel(&objectsModel);
     ui->roomView->setScene(&scene);
 
-    connect(&model, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
+    connect(&layersModel, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
+    connect(ui->layersListView, &QListView::clicked, this, &RoomEditor::updateObjectsList);
 
     reset();
 }
@@ -65,7 +67,7 @@ void RoomEditor::reset()
 
     for (auto & layer : pItem->layers())
     {
-        model.addLayer(layer);
+        layersModel.addLayer(layer);
 
         GraphicsLayer * gLayer = new GraphicsLayer;
         graphicsLayers[layer->id] = gLayer;
@@ -74,8 +76,9 @@ void RoomEditor::reset()
         auto depth = layer->depth();
         gLayer->setZValue(-depth);
 
-        if (auto bgLayer = qobject_cast<BackgroundLayer*>(layer))
+        if (layer->type() == RoomLayer::Type::Background)
         {
+            auto bgLayer = qobject_cast<BackgroundLayer*>(layer);
             if (auto sprite = bgLayer->sprite())
             {
                 QPixmap pix = sprite->pixmap();
@@ -88,8 +91,9 @@ void RoomEditor::reset()
                 bgColor->setParentItem(gLayer);
             }
         }
-        else if (auto instLayer = qobject_cast<InstanceLayer*>(layer))
+        else if (layer->type() == RoomLayer::Type::Instances)
         {
+            auto instLayer = qobject_cast<InstanceLayer*>(layer);
             for (auto & instance : instLayer->instances())
             {
                 auto instItem = new GraphicsInstance();
@@ -106,4 +110,24 @@ void RoomEditor::setLayerVisibility(QString id, bool visible)
     ui->layersListView->update();
 
     setDirty();
+}
+
+void RoomEditor::updateObjectsList(const QModelIndex & index)
+{
+    if (!index.isValid())
+    {
+        return;
+    }
+
+    objectsModel.clear();
+
+    auto pLayer = layersModel.layer(index.row());
+    if (pLayer->type() == RoomLayer::Type::Instances)
+    {
+        auto pInstLayer = qobject_cast<InstanceLayer*>(pLayer);
+        for (auto & inst : pInstLayer->instances())
+        {
+            objectsModel.addObject(inst);
+        }
+    }
 }

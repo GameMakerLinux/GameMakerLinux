@@ -90,6 +90,9 @@
             <item>
              <widget class="QListView" name="layersListView"/>
             </item>
+            <item>
+             <widget class="QListView" name="objectsListView"/>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -106,7 +109,7 @@
         </rect>
        </property>
        <attribute name="label">
-        <string>Objects</string>
+        <string>Views</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="leftMargin">
