@@ -71,8 +71,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    closeProject();
-
     delete ui;
 }
 
@@ -284,19 +282,42 @@ void MainWindow::openInstance(ObjectInstance * item)
     tabWidget->setCurrentIndex(pos);
 }
 
-void MainWindow::closeProject()
+bool MainWindow::closeProject()
 {
-    //TODO: check if dirty and ask to save if it is
+    bool isDirty = false;
+    for (int i = 0; i < tabWidget->count(); i++)
+    {
+        auto editor = qobject_cast<MainEditor*>(tabWidget->widget(i));
+        if (editor && editor->isDirty())
+        {
+            isDirty = true;
+            break;
+        }
+    }
+
+    if (isDirty)
+    {
+        auto choice = QMessageBox::information(this, "Unsaved changes", "Do you want to close this project without saving?", QMessageBox::Yes, QMessageBox::No);
+        if (choice == QMessageBox::No)
+        {
+            return false;
+        }
+    }
 
     // clear everything
     ResourceItem::clear();
     resourcesModel.clear();
     tabWidget->clear();
+
+    return true;
 }
 
 void MainWindow::loadProject(QString filename)
 {
-    closeProject();
+    if (!closeProject())
+    {
+        return;
+    }
 
     QFileInfo fi(filename);
     GameSettings::setRootPath(fi.absolutePath());
@@ -355,7 +376,7 @@ bool MainWindow::checkTab(QString id)
     return false;
 }
 
-void MainWindow::closeTab(int pos)
+bool MainWindow::closeTab(int pos)
 {
     auto editor = qobject_cast<MainEditor*>(tabWidget->widget(pos));
     if (editor && editor->isDirty())
@@ -363,12 +384,14 @@ void MainWindow::closeTab(int pos)
         auto btn = QMessageBox::warning(this, "Unsaved changes", "You have unsaved changes, do you really want to close this editor?", QMessageBox::Yes, QMessageBox::No);
         if (btn == QMessageBox::No)
         {
-            return;
+            return false;
         }
     }
 
     idOfOpenedTabs.remove(pos);
     tabWidget->removeTab(pos);
+
+    return true;
 }
 
 void MainWindow::connectDirtiness(MainEditor * editor, ResourceItem* item)
@@ -377,4 +400,16 @@ void MainWindow::connectDirtiness(MainEditor * editor, ResourceItem* item)
         int index = idOfOpenedTabs.indexOf(item->id);
         tabWidget->setTabText(index, item->name() + (b ? "*" : ""));
     });
+}
+
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+    if (closeProject())
+    {
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
 }

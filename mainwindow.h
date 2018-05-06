@@ -53,12 +53,15 @@ private slots:
     void openObject(ObjectResourceItem* item);
     void openInstance(ObjectInstance* item);
 
-    void closeProject();
+    bool closeProject();
+
+protected:
+    void closeEvent(QCloseEvent * event) override;
 
 private:
     void loadProject(QString filename);
     bool checkTab(QString id);
-    void closeTab(int pos);
+    bool closeTab(int pos);
     void connectDirtiness(MainEditor* editor, ResourceItem * item);
 
     Ui::MainWindow * ui;
