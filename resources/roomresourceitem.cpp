@@ -32,8 +32,7 @@ void RoomResourceItem::load(QJsonObject object)
 
     // TODO: replace it with a GMRoomSettings object
     auto roomSettings = object["roomSettings"].toObject();
-    m_width = roomSettings["Width"].toInt();
-    m_height = roomSettings["Height"].toInt();
+    m_settings.load(roomSettings);
 
     auto layers = object["layers"].toArray();
     for (const auto & value : layers)
@@ -51,12 +50,12 @@ void RoomResourceItem::load(QJsonObject object)
 
 int RoomResourceItem::height() const
 {
-    return m_height;
+    return m_settings.height();
 }
 
 int RoomResourceItem::width() const
 {
-    return m_width;
+    return m_settings.width();
 }
 
 QVector<RoomLayer *> RoomResourceItem::layers() const

@@ -36,7 +36,7 @@ void GraphicsLayer::paint(QPainter * painter, const QStyleOptionGraphicsItem * o
     Q_UNUSED(widget)
 }
 
-void GraphicsLayer::select(ObjectInstance * instance)
+void GraphicsLayer::selectItem(ObjectInstance * instance)
 {
     auto children = childItems();
     for (auto & child : children)
@@ -51,6 +51,21 @@ void GraphicsLayer::select(ObjectInstance * instance)
             pInstance->setSelected(false);
         }
     }
+}
+
+void GraphicsLayer::setElementVisible(ObjectInstance * instance, bool visible)
+{
+    auto children = childItems();
+    for (auto & child : children)
+    {
+        auto pInstance = static_cast<GraphicsInstance*>(child);
+        if (pInstance->objectInstance() == instance)
+        {
+            pInstance->setVisible(visible);
+            break;
+        }
+    }
+    update();
 }
 
 void GraphicsLayer::setCurrent(bool b)

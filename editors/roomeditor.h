@@ -42,6 +42,7 @@ private slots:
     void updateObjectsList(const QModelIndex & index);
     void selectedItemChanged();
     void updateSelectedItem(const QModelIndex & index);
+    void setInstanceVisibility(QString id, bool visible);
 
 private:
     Ui::RoomEditor *ui;

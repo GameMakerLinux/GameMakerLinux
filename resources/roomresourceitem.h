@@ -19,6 +19,7 @@
 #define ROOMRESOURCEITEM_H
 
 #include "resourceitem.h"
+#include "dependencies/roomsettings.h"
 
 class RoomResourceItem : public ResourceItem
 {
@@ -36,8 +37,7 @@ public:
 
 private:
     QVector<RoomLayer *> m_layers;
-    int m_height;
-    int m_width;
+    RoomSettings m_settings;
 };
 
 #endif // ROOMRESOURCEITEM_H

@@ -23,6 +23,8 @@
 
 class ObjectInstance : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     ObjectInstance();
 

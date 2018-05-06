@@ -29,7 +29,8 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget) override;
 
-    void select(ObjectInstance * instance);
+    void selectItem(ObjectInstance * instance);
+    void setElementVisible(ObjectInstance * instance, bool visible);
 
     void setCurrent(bool b);
 };

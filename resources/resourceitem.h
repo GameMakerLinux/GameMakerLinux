@@ -85,6 +85,7 @@ public:
     ResourceItem* parentItem = nullptr;
 
     static ResourceItem* create(ResourceType type, QString id);
+    static void registerItem(QString id, ResourceItem * item);
     static ResourceItem* get(QString id);
     template <typename T>
     static T* get(QString id)
@@ -129,5 +130,6 @@ class RoomLayer;
 class BackgroundLayer;
 class InstanceLayer;
 class ObjectInstance;
+class RoomSettings;
 
 #endif // RESOURCEITEM_H

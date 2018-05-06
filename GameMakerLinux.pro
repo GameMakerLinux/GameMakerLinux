@@ -68,7 +68,8 @@ SOURCES += \
     models/itemmodel.cpp \
     graphics/graphicsinstance.cpp \
     resources/dependencies/objectinstance.cpp \
-    models/objectsmodel.cpp
+    models/objectsmodel.cpp \
+    resources/dependencies/roomsettings.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -115,7 +116,8 @@ HEADERS += \
     models/itemmodel.h \
     graphics/graphicsinstance.h \
     resources/dependencies/objectinstance.h \
-    models/objectsmodel.h
+    models/objectsmodel.h \
+    resources/dependencies/roomsettings.h
 
 FORMS += \
         mainwindow.ui \

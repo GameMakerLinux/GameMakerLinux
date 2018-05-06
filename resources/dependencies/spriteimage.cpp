@@ -25,6 +25,9 @@ SpriteImage::SpriteImage()
 
 void SpriteImage::load(QJsonObject object)
 {
+    id = object["id"].toString();
+    ResourceItem::registerItem(id, this);
+
     setName("SpriteImage");
 
     m_frameId = object["FrameId"].toString();

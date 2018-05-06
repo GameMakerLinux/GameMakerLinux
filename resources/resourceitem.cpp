@@ -122,6 +122,14 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
     return item;
 }
 
+void ResourceItem::registerItem(QString id, ResourceItem * item)
+{
+    if (!Uuid::isNull(id))
+    {
+        allResources[id] = item;
+    }
+}
+
 ResourceItem *ResourceItem::get(QString id)
 {
     Q_ASSERT(!Uuid::isNull(id));

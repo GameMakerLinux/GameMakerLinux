@@ -24,6 +24,9 @@ ObjectInstance::ObjectInstance()
 
 void ObjectInstance::load(QJsonObject object)
 {
+    id = object["id"].toString();
+    ResourceItem::registerItem(id, this);
+
     setName(object["name"].toString());
 
     m_position.setX(object["x"].toInt());

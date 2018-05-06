@@ -20,15 +20,23 @@
 #include <QDebug>
 
 ObjectEvent::ObjectEvent(EventType type, int number)
-    : m_eventType { type }
+    : ResourceItem { ResourceType::Event }
+    , m_eventType { type }
     , m_eventNumber { number }
 {
-    m_id = Uuid::generate();
+    id = Uuid::generate();
+    ResourceItem::registerItem(id, this);
 }
 
 ObjectEvent::ObjectEvent(QJsonObject object)
+    : ResourceItem { ResourceType::Event }
 {
-    m_id = object["id"].toString();
+    load(object);
+}
+
+void ObjectEvent::load(QJsonObject object)
+{
+    id = object["id"].toString();
     m_collisionObjectId = object["collisionObjectId"].toString();
     m_eventNumber = object["enumb"].toInt();
     m_eventType = static_cast<EventType>(object["eventtype"].toInt());
@@ -38,7 +46,7 @@ ObjectEvent::ObjectEvent(QJsonObject object)
 QJsonObject ObjectEvent::pack()
 {
     QJsonObject json;
-    json["id"] = m_id;
+    json["id"] = id;
     json["modelName"] = Utils::resourceTypeToString(ResourceType::Event);
     json["mvc"] = "1.0";
     json["IsDnD"] = false;
@@ -50,17 +58,12 @@ QJsonObject ObjectEvent::pack()
     return json;
 }
 
-QString ObjectEvent::id() const
-{
-    return m_id;
-}
-
-ObjectEvent::EventType ObjectEvent::type() const
+ObjectEvent::EventType ObjectEvent::eventType() const
 {
     return m_eventType;
 }
 
-int ObjectEvent::number() const
+int ObjectEvent::eventNumber() const
 {
     return m_eventNumber;
 }

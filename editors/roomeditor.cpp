@@ -43,6 +43,7 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
     ui->roomView->setScene(&scene);
 
     connect(&layersModel, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
+    connect(&objectsModel, &ObjectsModel::visibilityChanged, this, &RoomEditor::setInstanceVisibility);
     connect(ui->layersListView, &QListView::clicked, this, &RoomEditor::updateObjectsList);
     connect(ui->objectsListView, &QListView::clicked, this, &RoomEditor::updateSelectedItem);
     connect(&scene, &QGraphicsScene::selectionChanged, this, &RoomEditor::selectedItemChanged);
@@ -175,5 +176,11 @@ void RoomEditor::updateSelectedItem(const QModelIndex & index)
 
     auto pItem = objectsModel.objectInstance(index.row());
 
-    m_currentLayer->select(pItem);
+    m_currentLayer->selectItem(pItem);
+}
+
+void RoomEditor::setInstanceVisibility(QString id, bool visible)
+{
+    auto pInstance = ResourceItem::get<ObjectInstance>(id);
+    m_currentLayer->setElementVisible(pInstance, visible);
 }

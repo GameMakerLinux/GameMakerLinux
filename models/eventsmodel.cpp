@@ -59,7 +59,7 @@ QVariant EventsModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case Qt::DisplayRole:
-        return ObjectEvent::getName(event->type(), event->number()) + (item.modified ? "*" : "");
+        return ObjectEvent::getName(event->eventType(), event->eventNumber()) + (item.modified ? "*" : "");
     }
 
     return QVariant();
@@ -70,7 +70,7 @@ QString EventsModel::getFilename(int row) const
     auto & item = items[row];
     auto event = item.event;
     auto pItem = ResourceItem::get(event->owner());
-    QString fileName = ObjectEvent::getFileName(event->type(), event->number());
+    QString fileName = ObjectEvent::getFileName(event->eventType(), event->eventNumber());
     return QString("%1/objects/%2/%3.gml").arg(GameSettings::rootPath(), pItem->name(), fileName);
 }
 
