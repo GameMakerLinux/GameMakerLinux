@@ -31,6 +31,7 @@ public:
 
     void selectItem(ObjectInstance * instance);
     void setElementVisible(ObjectInstance * instance, bool visible);
+    bool isElementVisible(ObjectInstance * instance) const;
 
     void setCurrent(bool b);
 };

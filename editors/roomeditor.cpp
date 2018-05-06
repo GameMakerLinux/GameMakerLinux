@@ -44,8 +44,8 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     connect(&layersModel, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
     connect(&objectsModel, &ObjectsModel::visibilityChanged, this, &RoomEditor::setInstanceVisibility);
-    connect(ui->layersListView, &QListView::clicked, this, &RoomEditor::updateObjectsList);
-    connect(ui->objectsListView, &QListView::clicked, this, &RoomEditor::updateSelectedItem);
+    connect(ui->layersListView, &QListView::pressed, this, &RoomEditor::updateObjectsList);
+    connect(ui->objectsListView, &QListView::pressed, this, &RoomEditor::updateSelectedItem);
     connect(&scene, &QGraphicsScene::selectionChanged, this, &RoomEditor::selectedItemChanged);
 
     reset();
@@ -136,13 +136,16 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
     if (pLayer->type() == RoomLayer::Type::Instances)
     {
         auto pInstLayer = qobject_cast<InstanceLayer*>(pLayer);
+        m_currentLayer = graphicsLayers[pInstLayer->id];
+        m_currentLayer->setCurrent(true);
+
         for (auto & inst : pInstLayer->instances())
         {
             objectsModel.addObject(inst);
+            auto idx = objectsModel.indexOf(inst);
+            auto checked = m_currentLayer->isElementVisible(inst);
+            objectsModel.setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
         }
-
-        m_currentLayer = graphicsLayers[pInstLayer->id];
-        m_currentLayer->setCurrent(true);
     }
 }
 

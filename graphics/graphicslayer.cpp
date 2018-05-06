@@ -68,6 +68,20 @@ void GraphicsLayer::setElementVisible(ObjectInstance * instance, bool visible)
     update();
 }
 
+bool GraphicsLayer::isElementVisible(ObjectInstance * instance) const
+{
+    auto children = childItems();
+    for (auto & child : children)
+    {
+        auto pInstance = static_cast<GraphicsInstance*>(child);
+        if (pInstance->objectInstance() == instance)
+        {
+            return pInstance->isVisible();
+        }
+    }
+    return false;
+}
+
 void GraphicsLayer::setCurrent(bool b)
 {
     setEnabled(b);
