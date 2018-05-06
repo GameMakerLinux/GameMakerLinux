@@ -30,9 +30,11 @@ public:
 
     void load(QJsonObject object) override;
     QPoint position() const;
+    ObjectResourceItem * object();
 
 private:
     QPoint m_position;
+    QString m_objId;
 };
 
 #endif // OBJECTINSTANCE_H

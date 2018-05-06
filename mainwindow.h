@@ -51,6 +51,7 @@ private slots:
     void openIncludedFile(IncludedFileResourceItem* item);
     void openMainOptions(MainOptionsResourceItem* item);
     void openObject(ObjectResourceItem* item);
+    void openInstance(ObjectInstance* item);
 
     void closeProject();
 

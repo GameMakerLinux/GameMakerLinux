@@ -36,5 +36,6 @@
 #include "fontresourceitem.h"
 #include "dependencies/instancelayer.h"
 #include "dependencies/backgroundlayer.h"
+#include "dependencies/objectinstance.h"
 
 #endif // ALLRESOURCEITEMS_H

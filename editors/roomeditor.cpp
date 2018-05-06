@@ -27,6 +27,7 @@
 #include "resources/dependencies/instancelayer.h"
 #include "graphics/graphicsinstance.h"
 #include "resources/dependencies/objectinstance.h"
+#include "resources/objectresourceitem.h"
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
     : MainEditor { item }
@@ -68,6 +69,10 @@ void RoomEditor::reset()
 {
     auto pItem = item<RoomResourceItem>();
 
+    scene.setBackgroundBrush(Qt::gray);
+    auto bg = scene.addRect(0, 0, pItem->width() - 1, pItem->height() - 1, QPen(QColor(0, 0, 0)), QBrush(Qt::white));
+    bg->setZValue(-999999);
+
     for (auto & layer : pItem->layers())
     {
         layersModel.addLayer(layer);
@@ -101,6 +106,8 @@ void RoomEditor::reset()
             {
                 auto instItem = new GraphicsInstance(instance);
                 instItem->setParentItem(gLayer);
+                connect(instItem, &GraphicsInstance::openObject, this, &RoomEditor::openObject);
+                connect(instItem, &GraphicsInstance::openInstance, this, &RoomEditor::openInstance);
             }
             gLayer->setCurrent(false);
             //so the instances are always visible

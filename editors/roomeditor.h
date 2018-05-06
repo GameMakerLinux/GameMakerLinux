@@ -25,6 +25,7 @@
 #include "models/objectsmodel.h"
 
 class GraphicsLayer;
+class ObjectResourceItem;
 class RoomEditor : public MainEditor
 {
     Q_OBJECT
@@ -32,6 +33,10 @@ class RoomEditor : public MainEditor
 public:
     explicit RoomEditor(RoomResourceItem* item);
     ~RoomEditor();
+
+signals:
+    void openObject(ObjectResourceItem * item);
+    void openInstance(ObjectInstance* item);
 
 protected slots:
     void save() override;

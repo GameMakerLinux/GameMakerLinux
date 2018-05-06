@@ -99,6 +99,9 @@ void MainWindow::openRoom(RoomResourceItem * item)
     idOfOpenedTabs.push_back(item->id);
 
     tabWidget->setCurrentIndex(pos);
+
+    connect(editor, &RoomEditor::openObject, this, &MainWindow::openObject);
+    connect(editor, &RoomEditor::openInstance, this, &MainWindow::openInstance);
 }
 
 void MainWindow::openSprite(SpriteResourceItem * item)
@@ -266,11 +269,26 @@ void MainWindow::openObject(ObjectResourceItem * item)
     connectDirtiness(editor, item);
 }
 
+void MainWindow::openInstance(ObjectInstance * item)
+{
+    auto id = item->id;
+    if (checkTab(id))
+    {
+        return;
+    }
+
+    int pos = tabWidget->addTab(new QLabel("instance"), item->name());
+
+    idOfOpenedTabs.push_back(id);
+
+    tabWidget->setCurrentIndex(pos);
+}
+
 void MainWindow::closeProject()
 {
     //TODO: check if dirty and ask to save if it is
 
-    // clear everything before
+    // clear everything
     ResourceItem::clear();
     resourcesModel.clear();
     tabWidget->clear();

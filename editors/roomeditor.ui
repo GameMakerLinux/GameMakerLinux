@@ -57,7 +57,7 @@
         </rect>
        </property>
        <attribute name="label">
-        <string>Layers</string>
+        <string>Room content</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="leftMargin">
@@ -88,7 +88,21 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Layers:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QListView" name="layersListView"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Instances:</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QListView" name="objectsListView"/>

@@ -21,6 +21,8 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 #include <QPainter>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QMenu>
 
 GraphicsInstance::GraphicsInstance(ObjectInstance * instance)
     : QGraphicsPixmapItem { QIcon::fromTheme("help-about").pixmap(16, 16) }
@@ -35,4 +37,19 @@ GraphicsInstance::GraphicsInstance(ObjectInstance * instance)
 ObjectInstance * GraphicsInstance::objectInstance() const
 {
     return m_objectInstance;
+}
+
+
+void GraphicsInstance::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+{
+    event->accept();
+
+    QMenu menu;
+    menu.addAction("Edit instance", [this]() {
+        emit openInstance(this->objectInstance());
+    });
+    menu.addAction("Edit object", [this]() {
+        emit openObject(this->objectInstance()->object());
+    });
+    menu.exec(event->screenPos());
 }

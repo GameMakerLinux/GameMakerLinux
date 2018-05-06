@@ -18,15 +18,26 @@
 #ifndef GRAPHICSINSTANCE_H
 #define GRAPHICSINSTANCE_H
 
+#include <QObject>
 #include <QGraphicsPixmapItem>
 
 class ObjectInstance;
-class GraphicsInstance : public QGraphicsPixmapItem
+class ObjectResourceItem;
+class GraphicsInstance : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
+
 public:
     GraphicsInstance(ObjectInstance * instance);
 
     ObjectInstance * objectInstance() const;
+
+signals:
+    void openInstance(ObjectInstance * item);
+    void openObject(ObjectResourceItem * item);
+
+protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
 
 private:
     ObjectInstance * m_objectInstance = nullptr;

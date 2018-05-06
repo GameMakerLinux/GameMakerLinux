@@ -16,6 +16,8 @@
 */
 
 #include "objectinstance.h"
+#include "utils/uuid.h"
+#include "resources/objectresourceitem.h"
 
 ObjectInstance::ObjectInstance()
     : ResourceItem { ResourceType::ObjectInstance }
@@ -31,9 +33,18 @@ void ObjectInstance::load(QJsonObject object)
 
     m_position.setX(object["x"].toInt());
     m_position.setY(object["y"].toInt());
+
+    m_objId = object["objId"].toString();
 }
 
 QPoint ObjectInstance::position() const
 {
     return m_position;
+}
+
+ObjectResourceItem *ObjectInstance::object()
+{
+    if (!Uuid::isNull(m_objId))
+        return ResourceItem::get<ObjectResourceItem>(m_objId);
+    return nullptr;
 }
