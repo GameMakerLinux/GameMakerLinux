@@ -28,6 +28,7 @@
 #include "graphics/graphicsinstance.h"
 #include "resources/dependencies/objectinstance.h"
 #include "resources/objectresourceitem.h"
+#include <QMenu>
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
     : MainEditor { item }
@@ -47,6 +48,7 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
     connect(&objectsModel, &ObjectsModel::visibilityChanged, this, &RoomEditor::setInstanceVisibility);
     connect(ui->layersListView, &QListView::pressed, this, &RoomEditor::updateObjectsList);
     connect(ui->objectsListView, &QListView::pressed, this, &RoomEditor::updateSelectedItem);
+    connect(ui->objectsListView, &QListView::customContextMenuRequested, this, &RoomEditor::showObjectsListContextMenu);
     connect(&scene, &QGraphicsScene::selectionChanged, this, &RoomEditor::selectedItemChanged);
 
     reset();
@@ -159,15 +161,10 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
 void RoomEditor::selectedItemChanged()
 {
     auto items = scene.selectedItems();
-    if (items.size() != 1)
-    {
-        if (items.size() > 1)
-        {
-            qCritical() << "More than one item selected";
-        }
+    if (items.size() == 0)
         return;
-    }
 
+    // if more than 1 items are present in the list, the first one is THE ONE we are interested in.
     auto item = items.first();
     auto instanceItem = static_cast<GraphicsInstance*>(item);
     if (instanceItem)
@@ -180,9 +177,7 @@ void RoomEditor::selectedItemChanged()
 void RoomEditor::updateSelectedItem(const QModelIndex & index)
 {
     if (!index.isValid())
-    {
         return;
-    }
 
     auto pItem = objectsModel.objectInstance(index.row());
 
@@ -193,4 +188,21 @@ void RoomEditor::setInstanceVisibility(QString id, bool visible)
 {
     auto pInstance = ResourceItem::get<ObjectInstance>(id);
     m_currentLayer->setElementVisible(pInstance, visible);
+}
+
+void RoomEditor::showObjectsListContextMenu(const QPoint & pos)
+{
+    auto index = ui->objectsListView->indexAt(pos);
+    auto inst = objectsModel.objectInstance(index.row());
+    if (inst == nullptr)
+        return;
+
+    QMenu menu;
+    menu.addAction("Edit instance", [this, inst]() {
+        emit openInstance(inst);
+    });
+    menu.addAction("Edit object", [this, inst]() {
+        emit openObject(inst->object());
+    });
+    menu.exec(ui->objectsListView->mapToGlobal(pos));
 }

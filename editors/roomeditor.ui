@@ -105,7 +105,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QListView" name="objectsListView"/>
+             <widget class="QListView" name="objectsListView">
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>

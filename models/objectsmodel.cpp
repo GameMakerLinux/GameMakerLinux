@@ -96,15 +96,15 @@ QModelIndex ObjectsModel::indexOf(ObjectInstance * object) const
 {
     auto row = rowOf(object);
     if (row != -1)
-    {
         return index(row);
-    }
     return QModelIndex();
 }
 
 ObjectInstance *ObjectsModel::objectInstance(int row) const
 {
-    return items[row].object;
+    if (row < items.size())
+        return items[row].object;
+    return nullptr;
 }
 
 void ObjectsModel::clear()
