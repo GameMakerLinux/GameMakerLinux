@@ -22,6 +22,8 @@
 
 class FontResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     FontResourceItem();
 

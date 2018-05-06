@@ -23,6 +23,8 @@
 
 class SpriteFrame : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     SpriteFrame();
     ~SpriteFrame();

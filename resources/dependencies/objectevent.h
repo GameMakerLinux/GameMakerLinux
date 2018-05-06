@@ -25,6 +25,8 @@
 
 class ObjectEvent : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     enum EventType {
         CreateEvent,
