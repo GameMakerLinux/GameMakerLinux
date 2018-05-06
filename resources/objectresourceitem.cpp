@@ -27,11 +27,6 @@ ObjectResourceItem::ObjectResourceItem()
 {
 }
 
-ObjectResourceItem::~ObjectResourceItem()
-{
-    qDeleteAll(eventsList);
-}
-
 void ObjectResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());

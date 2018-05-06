@@ -27,11 +27,6 @@ SpriteResourceItem::SpriteResourceItem()
 {
 }
 
-SpriteResourceItem::~SpriteResourceItem()
-{
-    qDeleteAll(m_frames);
-}
-
 void SpriteResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());

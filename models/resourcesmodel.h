@@ -57,7 +57,7 @@ public:
     bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) override;
 
 private:
-    QScopedPointer<ResourceItem> rootItem;
+    ResourceItem * rootItem = nullptr;
 };
 
 #endif // RESOURCESMODEL_H

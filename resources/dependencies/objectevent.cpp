@@ -32,6 +32,7 @@ ObjectEvent::ObjectEvent(QJsonObject object)
     : ResourceItem { ResourceType::Event }
 {
     load(object);
+    ResourceItem::registerItem(id, this);
 }
 
 void ObjectEvent::load(QJsonObject object)

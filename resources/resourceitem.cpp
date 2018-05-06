@@ -25,11 +25,6 @@ ResourceItem::ResourceItem(ResourceType type)
 {
 }
 
-ResourceItem::~ResourceItem()
-{
-    qDeleteAll(children);
-}
-
 ResourceItem *ResourceItem::child(int index)
 {
     if (index < children.size())
@@ -140,6 +135,7 @@ ResourceItem *ResourceItem::get(QString id)
 
 void ResourceItem::clear()
 {
+    qDeleteAll(allResources);
     allResources.clear();
 }
 

@@ -35,7 +35,9 @@ ResourcesModel::ResourcesModel(QObject *parent)
 
 void ResourcesModel::clear()
 {
-    rootItem.reset();
+    beginResetModel();
+    rootItem = nullptr;
+    endResetModel();
 }
 
 void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
@@ -76,7 +78,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
                 // replace by "item->type() == root"?
                 if (json["isDefaultView"].toBool())
                 {
-                    rootItem.reset(resources[item->id]);
+                    rootItem = resources[item->id];
                 }
             }
 
@@ -87,7 +89,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
     }
 
     QVector<ResourceItem*> to_process;
-    to_process.push_back(rootItem.data());
+    to_process.push_back(rootItem);
     while (!to_process.isEmpty())
     {
         auto item = to_process.front();
@@ -120,7 +122,7 @@ QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent
 {
     ResourceItem* ptr = nullptr;
     if (!parent.isValid())
-        ptr = rootItem.data();
+        ptr = rootItem;
     else
         ptr = static_cast<ResourceItem*>(parent.internalPointer());
     if (ptr == nullptr) return QModelIndex();
@@ -132,7 +134,7 @@ QModelIndex ResourcesModel::parent(const QModelIndex &index) const
 {
     auto ptr = static_cast<ResourceItem*>(index.internalPointer());
     auto parentPtr = ptr->parentItem;
-    if (parentPtr == rootItem.data())
+    if (parentPtr == rootItem)
         return QModelIndex();
     return createIndex(parentPtr->children.indexOf(ptr), 0, parentPtr);
 }
@@ -141,7 +143,7 @@ int ResourcesModel::rowCount(const QModelIndex &parent) const
 {
     if (!parent.isValid())
     {
-        if (rootItem.isNull()) return 0;
+        if (rootItem == nullptr) return 0;
         return rootItem->children.size();
     }
 

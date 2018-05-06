@@ -26,7 +26,6 @@ class InstanceLayer : public RoomLayer
 
 public:
     InstanceLayer();
-    ~InstanceLayer();
 
     void load(QJsonObject object);
     QVector<ObjectInstance*> instances() const;

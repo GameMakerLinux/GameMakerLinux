@@ -27,7 +27,6 @@ class SpriteFrame : public ResourceItem
 
 public:
     SpriteFrame();
-    ~SpriteFrame();
 
     void load(QJsonObject object) override;
 

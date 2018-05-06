@@ -29,7 +29,6 @@ class ObjectResourceItem : public ResourceItem
 
 public:
     ObjectResourceItem();
-    ~ObjectResourceItem();
 
     void load(QJsonObject object) override;
 
