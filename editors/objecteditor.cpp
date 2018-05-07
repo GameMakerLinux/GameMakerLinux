@@ -187,7 +187,7 @@ void ObjectEditor::onEventsCleared()
 void ObjectEditor::chooseParent()
 {
     ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Object);
-    SelectItem selectParent(pItem);
+    SelectItem selectParent(pItem, item<ObjectResourceItem>());
     if (selectParent.exec())
     {
         auto parentItem = selectParent.choice();

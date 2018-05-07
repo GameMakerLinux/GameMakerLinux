@@ -97,3 +97,22 @@ QVariant ItemModel::data(const QModelIndex &index, int role) const
 
     return QVariant();
 }
+
+void ItemModel::excludeItem(ResourceItem * itemToExclude)
+{
+    excludedItems.insert(itemToExclude);
+}
+
+Qt::ItemFlags ItemModel::flags(const QModelIndex & index) const
+{
+    if (index.row() != 0)
+    {
+        auto ptr = static_cast<ResourceItem*>(index.internalPointer());
+        if (excludedItems.contains(ptr))
+        {
+            return Qt::NoItemFlags;
+        }
+    }
+
+    return QAbstractItemModel::flags(index);
+}

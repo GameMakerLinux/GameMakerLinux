@@ -22,12 +22,15 @@
 #include "resources/resourceitem.h"
 #include <QDebug>
 
-SelectItem::SelectItem(ResourceItem * rootElement)
+SelectItem::SelectItem(ResourceItem * rootElement, ResourceItem * excludedElement)
     : model { rootElement }
 {
     setWindowTitle("Select parent");
 
+    model.excludeItem(excludedElement);
+
     listView = new QListView;
+    listView->setFocusPolicy(Qt::NoFocus);
     auto buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     auto layout = new QVBoxLayout(this);
     layout->addWidget(listView);
@@ -38,7 +41,8 @@ SelectItem::SelectItem(ResourceItem * rootElement)
     connect(buttons, &QDialogButtonBox::accepted, this, &SelectItem::accept);
     connect(buttons, &QDialogButtonBox::rejected, this, &SelectItem::reject);
 
-    connect(listView, &QListView::doubleClicked, this, &SelectItem::itemClicked);
+    connect(listView, &QListView::clicked, this, &SelectItem::itemClicked);
+    connect(listView, &QListView::doubleClicked, this, &SelectItem::itemDoubleClicked);
 }
 
 ResourceItem *SelectItem::choice() const
@@ -47,6 +51,15 @@ ResourceItem *SelectItem::choice() const
 }
 
 void SelectItem::itemClicked(QModelIndex index)
+{
+    auto pItem = static_cast<ResourceItem*>(index.internalPointer());
+    if (pItem->type() != ResourceType::Folder)
+    {
+        selectedItem = pItem;
+    }
+}
+
+void SelectItem::itemDoubleClicked(QModelIndex index)
 {
     // first item is always "go back" or "no sprites" if at the top
     if (index.row() == 0)

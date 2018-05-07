@@ -18,6 +18,7 @@
 #include "backgroundlayer.h"
 #include "utils/uuid.h"
 #include "resources/spriteresourceitem.h"
+#include <QVariant>
 
 BackgroundLayer::BackgroundLayer()
     : RoomLayer { ResourceType::BackgroundLayer }
@@ -33,9 +34,22 @@ void BackgroundLayer::load(QJsonObject object)
     {
         m_sprite = ResourceItem::get<SpriteResourceItem>(spriteId);
     }
+
+    auto colourJson = object["colour"].toObject();
+    auto colourValue = colourJson["Value"].toVariant().toUInt();
+    int r = colourValue & 0xFF;
+    int g = (colourValue >> 8) & 0xFF;
+    int b = (colourValue >> 16) & 0xFF;
+    int a = (colourValue >> 24) & 0xFF;
+    m_colour = QColor(r, g, b, a);
 }
 
 SpriteResourceItem *BackgroundLayer::sprite() const
 {
     return m_sprite;
+}
+
+QColor BackgroundLayer::colour() const
+{
+    return m_colour;
 }

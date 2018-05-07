@@ -30,6 +30,7 @@ ResourcesTreeDock::ResourcesTreeDock()
     resourcesTree = new QTreeView;
     resourcesTree->setDropIndicatorShown(true);
     resourcesTree->setDragDropMode(QAbstractItemView::InternalMove);
+    resourcesTree->setFocusPolicy(Qt::NoFocus);
     setWidget(resourcesTree);
 
     connect(resourcesTree, &QTreeView::doubleClicked, this, &ResourcesTreeDock::onItemDoubleClicked);

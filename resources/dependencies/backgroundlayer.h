@@ -19,6 +19,7 @@
 #define BACKGROUNDLAYER_H
 
 #include "roomlayer.h"
+#include <QColor>
 
 class BackgroundLayer : public RoomLayer
 {
@@ -30,9 +31,11 @@ public:
     void load(QJsonObject object);
 
     SpriteResourceItem * sprite() const;
+    QColor colour() const;
 
 private:
     SpriteResourceItem * m_sprite = nullptr;
+    QColor m_colour = Qt::black;
 };
 
 #endif // BACKGROUNDLAYER_H

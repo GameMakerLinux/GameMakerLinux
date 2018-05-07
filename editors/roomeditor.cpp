@@ -97,7 +97,7 @@ void RoomEditor::reset()
             }
             else
             {
-                auto bgColor = scene.addRect(0, 0, pItem->width(), pItem->height(), QPen(), QBrush(Qt::black));
+                auto bgColor = scene.addRect(0, 0, pItem->width(), pItem->height(), QPen(), QBrush(bgLayer->colour()));
                 bgColor->setParentItem(gLayer);
             }
         }

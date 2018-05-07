@@ -26,12 +26,13 @@ class QListView;
 class SelectItem : public QDialog
 {
 public:
-    SelectItem(ResourceItem * rootElement);
+    SelectItem(ResourceItem * rootElement, ResourceItem * excludedElement = nullptr);
 
     ResourceItem * choice() const;
 
 private slots:
     void itemClicked(QModelIndex index);
+    void itemDoubleClicked(QModelIndex index);
 
 private:
     ItemModel model;
