@@ -29,6 +29,7 @@ public:
     RoomResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 
     int height() const;
     int width() const;

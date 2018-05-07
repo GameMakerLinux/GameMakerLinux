@@ -60,6 +60,12 @@ QString Utils::readFile(QString filename)
     return str;
 }
 
+bool Utils::writeFile(QString filename, QJsonObject object)
+{
+    auto data = QJsonDocument(object).toJson();
+    return Utils::writeFile(filename, data);
+}
+
 bool Utils::writeFile(QString filename, QByteArray data)
 {
     QFile f(filename);

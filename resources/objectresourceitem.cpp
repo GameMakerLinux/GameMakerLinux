@@ -21,6 +21,7 @@
 #include "utils/utils.h"
 #include "dependencies/objectevent.h"
 #include "spriteresourceitem.h"
+#include "gamesettings.h"
 
 ObjectResourceItem::ObjectResourceItem()
     : ResourceItem { ResourceType::Object }
@@ -43,52 +44,59 @@ void ObjectResourceItem::load(QJsonObject object)
     m_maskSpriteId = object["maskSpriteId"].toString();
     m_parentObjectId = object["parentObjectId"].toString();
     m_spriteId = object["spriteId"].toString();
+
+    m_persistent = object["persistent"].toBool();
+    m_physicsAngularDamping = object["physicsAngularDamping"].toDouble();
+    m_physicsDensity = object["physicsDensity"].toDouble();
+    m_physicsFriction = object["physicsFriction"].toDouble();
+    m_physicsGroup = object["physicsGroup"].toInt();
+    m_physicsKinematic = object["physicsKinematic"].toBool();
+    m_physicsLinearDamping = object["physicsLinearDamping"].toDouble();
+    m_physicsObject = object["physicsObject"].toBool();
+    m_physicsRestitution = object["physicsRestitution"].toDouble();
+    m_physicsSensor = object["physicsSensor"].toBool();
+    m_physicsShape = object["physicsShape"].toInt();
+    m_physicsStartAwake = object["physicsStartAwake"].toBool();
+    m_solid = object["solid"].toBool();
+    m_visible = object["visible"].toBool();
 }
 
 QJsonObject ObjectResourceItem::save()
 {
     QJsonObject object;
     object["id"] = id();
-/*
-{
-    "id": "e6955b21-1ff0-456b-8b55-4a4e7f4c0bf3",
-    "modelName": "GMObject",
-    "mvc": "1.0",
-    "name": "obj_enemy_behind_left",
-    "eventList": [
-        {
-            "id": "03bf3b5a-00ed-4df5-be63-29d48351f2f8",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 73,
-            "eventtype": 8,
-            "m_owner": "e6955b21-1ff0-456b-8b55-4a4e7f4c0bf3"
-        }
-    ],
-    "maskSpriteId": "00000000-0000-0000-0000-000000000000",
-    "overriddenProperties": null,
-    "parentObjectId": "129c4145-87b0-4911-bb13-e558733d672a",
-    "persistent": false,
-    "physicsAngularDamping": 0.1,
-    "physicsDensity": 0.5,
-    "physicsFriction": 0.2,
-    "physicsGroup": 0,
-    "physicsKinematic": false,
-    "physicsLinearDamping": 0.1,
-    "physicsObject": false,
-    "physicsRestitution": 0.1,
-    "physicsSensor": false,
-    "physicsShape": 1,
-    "physicsShapePoints": null,
-    "physicsStartAwake": true,
-    "properties": null,
-    "solid": false,
-    "spriteId": "76e40821-6926-4152-8ebb-6d9a03de7e44",
-    "visible": true
-}
-*/
+    object["modelName"] = Utils::resourceTypeToString(type());
+    object["mvc"] = "1.0";
+    object["name"] = name();
+
+    QJsonArray events;
+    for (auto & event : eventsList)
+    {
+        events.append(event->pack());
+    }
+    object["eventList"] = events;
+
+    object["maskSpriteId"] = m_maskSpriteId;
+    object["overriddenProperties"] = QJsonValue();
+    object["parentObjectId"] = m_parentObjectId;
+    object["persistent"] = m_persistent;
+    object["physicsAngularDamping"] = m_physicsAngularDamping;
+    object["physicsDensity"] = m_physicsDensity;
+    object["physicsFriction"] = m_physicsFriction;
+    object["physicsGroup"] = m_physicsGroup;
+    object["physicsKinematic"] = m_physicsKinematic;
+    object["physicsLinearDamping"] = m_physicsLinearDamping;
+    object["physicsObject"] = m_physicsObject;
+    object["physicsRestitution"] = m_physicsRestitution;
+    object["physicsSensor"] = m_physicsSensor;
+    object["physicsShape"] = m_physicsShape;
+    object["physicsShapePoints"] = QJsonValue();
+    object["physicsStartAwake"] = m_physicsStartAwake;
+    object["properties"] = QJsonValue();
+    object["solid"] = m_solid;
+    object["spriteId"] = m_spriteId;
+    object["visible"] = m_visible;
+
     return object;
 }
 
@@ -145,4 +153,9 @@ void ObjectResourceItem::setMaskSprite(SpriteResourceItem * sprite)
         m_maskSpriteId = sprite->id();
     else
         m_maskSpriteId = Uuid::null();
+}
+
+QString ObjectResourceItem::filename() const
+{
+    return QString("%1/objects/%2/%2.yy").arg(GameSettings::rootPath(), name());
 }

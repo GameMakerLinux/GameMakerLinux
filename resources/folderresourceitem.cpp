@@ -34,7 +34,6 @@ void FolderResourceItem::load(QJsonObject object)
     setName(m_folderName);
 }
 
-
 QJsonObject FolderResourceItem::save()
 {
     QJsonObject object;
@@ -55,6 +54,11 @@ QJsonObject FolderResourceItem::save()
     object["children"] = childrenJson;
 
     return object;
+}
+
+QString FolderResourceItem::filename() const
+{
+    return QString("%1/views/%2.yy").arg(GameSettings::rootPath(), id());
 }
 
 ResourceType FolderResourceItem::filterType() const

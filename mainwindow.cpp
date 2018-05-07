@@ -352,7 +352,9 @@ void MainWindow::loadProject(QString filename)
 
         auto type = Utils::resourceStringToType(data["resourceType"].toString());
         auto item = ResourceItem::create(type, id);
-        item->filename = GameSettings::rootPath() + "/" + filenameYY;
+
+        auto json = Utils::readFileToJSON(GameSettings::rootPath() + "/" + filenameYY);
+        item->load(json);
 
         resources[id] = item;
     }
@@ -367,7 +369,8 @@ void MainWindow::loadProject(QString filename)
 
         auto type = Utils::resourceStringToType(data["resourceType"].toString());
         auto item = ResourceItem::create(type, id);
-        item->filename = GameSettings::rootPath() + "/" + filenameYY;
+        auto json = Utils::readFileToJSON(GameSettings::rootPath() + "/" + filenameYY);
+        item->load(json);
 
         resources[id] = item;
     }

@@ -49,41 +49,36 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
 
     for (auto & item : resources)
     {
-        if (item->type() == ResourceType::MainOptions)
+        if (item->type() == ResourceType::Folder)
         {
-            item->load(QJsonObject());
-            continue;
-        }
-
-        QFile f(item->filename);
-        if (!f.open(QFile::ReadOnly))
-        {
-            qCritical() << "Error: can't open resource" << item->filename;
-        }
-        else
-        {
-            auto doc = QJsonDocument::fromJson(f.readAll());
-            auto json = doc.object();
-
-            if (item->type() == ResourceType::Folder)
+            QFile f(item->filename());
+            if (!f.open(QFile::ReadOnly))
             {
-                auto childrenJson = json["children"].toArray();
-                for (const auto & value : childrenJson)
-                {
-                    auto child = value.toString();
-                    children[item->id()].push_back(child);
-                    allChildren.push_back(child);
-                }
-
-                if (json["isDefaultView"].toBool())
-                {
-                    rootItem = resources[item->id()];
-                }
+                qCritical() << "Error: can't open resource" << item->filename();
             }
+            else
+            {
+                auto doc = QJsonDocument::fromJson(f.readAll());
+                auto json = doc.object();
 
-            item->load(json);
+                if (item->type() == ResourceType::Folder)
+                {
+                    auto childrenJson = json["children"].toArray();
+                    for (const auto & value : childrenJson)
+                    {
+                        auto child = value.toString();
+                        children[item->id()].push_back(child);
+                        allChildren.push_back(child);
+                    }
 
-            f.close();
+                    if (json["isDefaultView"].toBool())
+                    {
+                        rootItem = resources[item->id()];
+                    }
+                }
+
+                f.close();
+            }
         }
     }
 

@@ -29,6 +29,7 @@ public:
     SpriteResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 
     QPixmap thumbnail() const override;
     QPixmap pixmap() const;

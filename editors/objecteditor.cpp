@@ -22,6 +22,8 @@
 #include "widgets/selectitem.h"
 #include "resources/spriteresourceitem.h"
 #include "models/sortedeventsmodel.h"
+#include <QDir>
+#include <QDebug>
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     : MainEditor { item }
@@ -64,12 +66,16 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
 void ObjectEditor::save()
 {
     auto pItem = item<ObjectResourceItem>();
+    auto oldName = pItem->name();
 
     // GENERAL SETTINGS
     auto name = ui->nameLineEdit->text();
     pItem->setName(name);
     pItem->setSprite(m_sprite);
     pItem->setMaskSprite(m_maskSprite);
+    qDebug() << "Renamed" << oldName << "to" << name << ":";
+    qDebug() << QDir(GameSettings::rootPath() + "/objects").rename(oldName, name);
+    qDebug() << QFile(GameSettings::rootPath() + "/objects/" + name + "/" + oldName + ".yy").rename(name + ".yy");
 
     // EVENTS (TODO: improve?)
     for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
@@ -85,7 +91,8 @@ void ObjectEditor::save()
     // HIERARCHY
     pItem->setParentObject(m_parentObject);
 
-    pItem->save();
+    auto json = pItem->save();
+    Utils::writeFile(pItem->filename(), json);
 
     setDirty(false);
 }

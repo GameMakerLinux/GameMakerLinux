@@ -28,6 +28,7 @@ public:
     FontResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 };
 
 #endif // FONTRESOURCEITEM_H

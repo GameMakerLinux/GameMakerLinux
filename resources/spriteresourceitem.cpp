@@ -60,3 +60,9 @@ QPixmap SpriteResourceItem::pixmap() const
     }
     return QPixmap();
 }
+
+
+QString SpriteResourceItem::filename() const
+{
+    return QString("%1/sprites/%2/%2.yy").arg(GameSettings::rootPath(), name());
+}

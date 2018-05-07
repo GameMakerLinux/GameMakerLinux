@@ -50,6 +50,12 @@ void ResourceItem::setId(QString id)
     m_id = id;
 }
 
+QString ResourceItem::filename() const
+{
+    QString sss;
+    return {};
+}
+
 void ResourceItem::setName(QString name)
 {
     m_name = name;

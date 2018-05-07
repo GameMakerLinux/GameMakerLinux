@@ -23,6 +23,7 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QMap>
+#include "gamesettings.h"
 
 enum class ResourceType
 {
@@ -73,13 +74,13 @@ public:
     QString id() const;
     void setId(QString id);
 
+    virtual QString filename() const;
+
     QString name() const { return m_name; }
     void setName(QString name);
     virtual QPixmap thumbnail() const;
 
     ResourceType type() const { return m_type; }
-
-    QString filename;
 
     QVector<ResourceItem*> children;
     ResourceItem* parentItem = nullptr;

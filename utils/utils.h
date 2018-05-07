@@ -34,6 +34,7 @@ public:
     // Files
     static QJsonObject readFileToJSON(QString filename);
     static QString readFile(QString filename);
+    static bool writeFile(QString filename, QJsonObject object);
     static bool writeFile(QString filename, QByteArray data);
 
     // Resources

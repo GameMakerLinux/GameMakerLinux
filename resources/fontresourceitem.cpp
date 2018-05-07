@@ -26,3 +26,9 @@ void FontResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 }
+
+
+QString FontResourceItem::filename() const
+{
+    return QString("%1/fonts/%2/%2.yy").arg(GameSettings::rootPath(), name());
+}

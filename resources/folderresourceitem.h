@@ -29,6 +29,7 @@ public:
 
     void load(QJsonObject object) override;
     QJsonObject save() override;
+    QString filename() const override;
 
     ResourceType filterType() const;
     bool isLocalised() const;

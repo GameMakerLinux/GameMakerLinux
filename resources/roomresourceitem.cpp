@@ -62,3 +62,8 @@ QVector<RoomLayer *> RoomResourceItem::layers() const
 {
     return m_layers;
 }
+
+QString RoomResourceItem::filename() const
+{
+    return QString("%1/rooms/%2/%2.yy").arg(GameSettings::rootPath(), name());
+}

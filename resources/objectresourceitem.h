@@ -32,6 +32,7 @@ public:
 
     void load(QJsonObject object) override;
     QJsonObject save() override;
+    QString filename() const override;
 
     int eventsCount() const;
     ObjectEvent * getEvent(int id) const;
@@ -46,8 +47,7 @@ public:
     void setMaskSprite(SpriteResourceItem * sprite);
 
 private:
-    // mvc = "1.0"
-    QVector<ObjectEvent*> eventsList; // replace by an object
+    QVector<ObjectEvent*> eventsList;
     QString m_maskSpriteId;
     // TODO: overriddenProperties
     QString m_parentObjectId;
@@ -68,6 +68,9 @@ private:
     bool m_solid;
     QString m_spriteId;
     bool m_visible;
+
+    // Used on save in case the object name is changed
+    QString m_oldName;
 };
 
 #endif // OBJECTRESOURCEITEM_H
