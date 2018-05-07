@@ -34,9 +34,10 @@ ResourceItem *ResourceItem::child(int index)
     return nullptr;
 }
 
-void ResourceItem::save()
+QJsonObject ResourceItem::save()
 {
-    QMessageBox::warning(nullptr, "Unimplemented", QString("It's not possible to save this kind (%1) of resources.").arg(Utils::resourceTypeToString(type())));
+    QMessageBox::warning(nullptr, "Unimplemented", QString("It's not possible to save this kind of resources: %1.").arg(Utils::resourceTypeToString(type())));
+    return {};
 }
 
 void ResourceItem::setName(QString name)

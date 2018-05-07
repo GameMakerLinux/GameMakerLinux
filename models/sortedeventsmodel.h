@@ -15,29 +15,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FOLDERRESOURCEITEM_H
-#define FOLDERRESOURCEITEM_H
+#ifndef SORTEDEVENTSMODEL_H
+#define SORTEDEVENTSMODEL_H
 
-#include "resourceitem.h"
+#include <QSortFilterProxyModel>
 
-class FolderResourceItem : public ResourceItem
+class SortedEventsModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    FolderResourceItem();
+    explicit SortedEventsModel(QObject *parent = nullptr);
 
-    void load(QJsonObject object) override;
-    QJsonObject save() override;
-
-    ResourceType filterType() const;
-    bool isLocalised() const;
-
-private:
-    ResourceType m_filterType;
-    QString m_folderName;
-    bool m_isDefaultView = false;
-    QString m_localisedFolderName;
+    // QSortFilterProxyModel interface
+protected:
+    bool lessThan(const QModelIndex & source_left, const QModelIndex & source_right) const override;
 };
 
-#endif // FOLDERRESOURCEITEM_H
+#endif // SORTEDEVENTSMODEL_H

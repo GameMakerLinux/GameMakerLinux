@@ -31,13 +31,19 @@ public:
     ObjectResourceItem();
 
     void load(QJsonObject object) override;
+    QJsonObject save() override;
 
     int eventsCount() const;
     ObjectEvent * getEvent(int id) const;
 
     ObjectResourceItem * parentObject() const;
+    void setParentObject(ObjectResourceItem * object);
+
     SpriteResourceItem * sprite() const;
+    void setSprite(SpriteResourceItem * sprite);
+
     SpriteResourceItem * maskSprite() const;
+    void setMaskSprite(SpriteResourceItem * sprite);
 
 private:
     // mvc = "1.0"

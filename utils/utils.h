@@ -22,6 +22,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <type_traits>
 
 #include "resources/resourceitem.h"
 
@@ -38,6 +39,16 @@ public:
     // Resources
     static QString resourceTypeToString(ResourceType type);
     static ResourceType resourceStringToType(QString type);
+
+    template <typename T>
+    static auto enum_cast(T && t)
+    {
+        return static_cast<std::underlying_type_t<T>>(t);
+    }
+
+    enum {
+       SortingRole = Qt::UserRole + 1
+    };
 };
 
 #endif // UTILS_H

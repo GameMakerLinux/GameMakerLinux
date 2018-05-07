@@ -46,6 +46,9 @@ private slots:
 private:
     Ui::ObjectEditor * ui;
     EventsModel eventsModel;
+    ObjectResourceItem * m_parentObject = nullptr;
+    SpriteResourceItem * m_sprite = nullptr;
+    SpriteResourceItem * m_maskSprite = nullptr;
 };
 
 #endif // OBJECTEDITOR_H

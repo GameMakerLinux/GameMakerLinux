@@ -17,7 +17,6 @@
 
 #include "folderresourceitem.h"
 #include "utils/utils.h"
-#include <QJsonDocument>
 #include <QDebug>
 
 FolderResourceItem::FolderResourceItem()
@@ -36,10 +35,8 @@ void FolderResourceItem::load(QJsonObject object)
 }
 
 
-void FolderResourceItem::save()
+QJsonObject FolderResourceItem::save()
 {
-    qDebug() << filename;
-
     QJsonObject object;
     object["id"] = id;
     object["modelName"] = Utils::resourceTypeToString(type());
@@ -57,7 +54,7 @@ void FolderResourceItem::save()
     }
     object["children"] = childrenJson;
 
-    qDebug() << QJsonDocument(object).toJson();
+    return object;
 }
 
 ResourceType FolderResourceItem::filterType() const

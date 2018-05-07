@@ -21,6 +21,7 @@
 #include "widgets/codeeditor.h"
 #include "widgets/selectitem.h"
 #include "resources/spriteresourceitem.h"
+#include "models/sortedeventsmodel.h"
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     : MainEditor { item }
@@ -38,8 +39,10 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     auto setMaskAction = ui->maskLineEdit->addAction(QIcon::fromTheme("edit-undo"), QLineEdit::TrailingPosition);
     connect(setMaskAction, &QAction::triggered, this, &ObjectEditor::chooseMask);
 
-    ui->eventsListView->setModel(&eventsModel);
-    ui->eventsListView->selectionModel()->select(eventsModel.index(0), QItemSelectionModel::ClearAndSelect);
+    auto * sortedModel = new SortedEventsModel;
+    sortedModel->setSourceModel(&eventsModel);
+    ui->eventsListView->setModel(sortedModel);
+    ui->eventsListView->selectionModel()->select(sortedModel->index(0, 0), QItemSelectionModel::ClearAndSelect);
 
     connect(&eventsModel, &EventsModel::rowsInserted, this, &ObjectEditor::onEventsAdded);
     connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);
@@ -60,10 +63,15 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
 
 void ObjectEditor::save()
 {
-    auto name = ui->nameLineEdit->text();
-    item<ObjectResourceItem>()->setName(name);
+    auto pItem = item<ObjectResourceItem>();
 
-    // EVENTS
+    // GENERAL SETTINGS
+    auto name = ui->nameLineEdit->text();
+    pItem->setName(name);
+    pItem->setSprite(m_sprite);
+    pItem->setMaskSprite(m_maskSprite);
+
+    // EVENTS (TODO: improve?)
     for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
     {
         auto editor = qobject_cast<CodeEditor*>(ui->stackedCodeEditorWidget->widget(i));
@@ -73,6 +81,11 @@ void ObjectEditor::save()
             Utils::writeFile(f, editor->getCode().toLocal8Bit());
         }
     }
+
+    // HIERARCHY
+    pItem->setParentObject(m_parentObject);
+
+    pItem->save();
 
     setDirty(false);
 }
@@ -105,9 +118,15 @@ void ObjectEditor::reset()
 
     // HIERARCHY
     if (pItem->parentObject() != nullptr)
-        ui->parentLineEdit->setText(pItem->parentObject()->name());
+    {
+        m_parentObject = pItem->parentObject();
+        ui->parentLineEdit->setText(m_parentObject->name());
+    }
     else
+    {
+        m_parentObject = nullptr;
         ui->parentLineEdit->setText({});
+    }
 
     auto objectItems = ResourceItem::findAll(ResourceType::Object);
     for (auto & childId : objectItems)

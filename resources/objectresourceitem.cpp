@@ -45,6 +45,11 @@ void ObjectResourceItem::load(QJsonObject object)
     m_spriteId = object["spriteId"].toString();
 }
 
+QJsonObject ObjectResourceItem::save()
+{
+    return {};
+}
+
 int ObjectResourceItem::eventsCount() const
 {
     return eventsList.size();
@@ -62,6 +67,14 @@ ObjectResourceItem *ObjectResourceItem::parentObject() const
     return nullptr;
 }
 
+void ObjectResourceItem::setParentObject(ObjectResourceItem * object)
+{
+    if (object)
+        m_parentObjectId = object->id;
+    else
+        m_parentObjectId = Uuid::null();
+}
+
 SpriteResourceItem *ObjectResourceItem::sprite() const
 {
     if (!Uuid::isNull(m_spriteId))
@@ -69,9 +82,25 @@ SpriteResourceItem *ObjectResourceItem::sprite() const
     return nullptr;
 }
 
+void ObjectResourceItem::setSprite(SpriteResourceItem * sprite)
+{
+    if (sprite)
+        m_spriteId = sprite->id;
+    else
+        m_spriteId = Uuid::null();
+}
+
 SpriteResourceItem *ObjectResourceItem::maskSprite() const
 {
     if (!Uuid::isNull(m_maskSpriteId))
         return qobject_cast<SpriteResourceItem*>(ResourceItem::get(m_maskSpriteId));
     return nullptr;
+}
+
+void ObjectResourceItem::setMaskSprite(SpriteResourceItem * sprite)
+{
+    if (sprite)
+        m_maskSpriteId = sprite->id;
+    else
+        m_maskSpriteId = Uuid::null();
 }

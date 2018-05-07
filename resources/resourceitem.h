@@ -68,7 +68,7 @@ class ResourceItem : public QObject
 public:
     ResourceItem* child(int index);
     virtual void load(QJsonObject object) = 0;
-    virtual void save();
+    virtual QJsonObject save();
 
     QString name() const { return m_name; }
     void setName(QString name);

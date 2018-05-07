@@ -60,6 +60,8 @@ QVariant EventsModel::data(const QModelIndex &index, int role) const
     {
     case Qt::DisplayRole:
         return ObjectEvent::getName(event->eventType(), event->eventNumber()) + (item.modified ? "*" : "");
+    case Utils::SortingRole:
+        return Utils::enum_cast(event->type()) * 1000 + event->eventNumber();
     }
 
     return QVariant();

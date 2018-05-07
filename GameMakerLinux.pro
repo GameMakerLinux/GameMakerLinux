@@ -69,7 +69,8 @@ SOURCES += \
     graphics/graphicsinstance.cpp \
     resources/dependencies/objectinstance.cpp \
     models/objectsmodel.cpp \
-    resources/dependencies/roomsettings.cpp
+    resources/dependencies/roomsettings.cpp \
+    models/sortedeventsmodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -117,7 +118,8 @@ HEADERS += \
     graphics/graphicsinstance.h \
     resources/dependencies/objectinstance.h \
     models/objectsmodel.h \
-    resources/dependencies/roomsettings.h
+    resources/dependencies/roomsettings.h \
+    models/sortedeventsmodel.h
 
 FORMS += \
         mainwindow.ui \
