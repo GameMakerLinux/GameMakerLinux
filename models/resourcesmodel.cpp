@@ -71,14 +71,13 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
                 for (const auto & value : childrenJson)
                 {
                     auto child = value.toString();
-                    children[item->id].push_back(child);
+                    children[item->id()].push_back(child);
                     allChildren.push_back(child);
                 }
 
-                // replace by "item->type() == root"?
                 if (json["isDefaultView"].toBool())
                 {
-                    rootItem = resources[item->id];
+                    rootItem = resources[item->id()];
                 }
             }
 
@@ -105,7 +104,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
             });
         }
 
-        auto c = children[item->id];
+        auto c = children[item->id()];
         for(auto & id : c)
         {
             auto res = resources[id];
@@ -305,6 +304,6 @@ QMimeData *ResourcesModel::mimeData(const QModelIndexList & indexes) const
     auto type = Utils::resourceTypeToString(pItem->type());
 
     QString mimeType(QString("application/gms2.%1").arg(type));
-    pMimeData->setData(mimeType, pItem->id.toLatin1());
+    pMimeData->setData(mimeType, pItem->id().toLatin1());
     return pMimeData;
 }

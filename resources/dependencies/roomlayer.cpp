@@ -38,7 +38,7 @@ void RoomLayer::setDepth(int d)
 
 void RoomLayer::load(QJsonObject object)
 {
-    id = object["id"].toString();
+    setId(object["id"].toString());
     setName(object["name"].toString());
     setDepth(object["depth"].toInt());
 }

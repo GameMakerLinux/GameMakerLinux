@@ -63,7 +63,7 @@ bool ObjectsModel::setData(const QModelIndex & index, const QVariant & value, in
         case Qt::CheckStateRole:
             items[index.row()].visible = value.value<Qt::CheckState>();
 
-            visibilityChanged(items[index.row()].object->id, value.value<Qt::CheckState>() == Qt::Checked);
+            visibilityChanged(items[index.row()].object->id(), value.value<Qt::CheckState>() == Qt::Checked);
             return true;
         }
     }

@@ -24,7 +24,7 @@ RoomSettings::RoomSettings()
 
 void RoomSettings::load(QJsonObject object)
 {
-    id = object["id"].toString();
+    setId(object["id"].toString());
     setName(object["name"].toString());
 
     m_height = object["Height"].toInt();

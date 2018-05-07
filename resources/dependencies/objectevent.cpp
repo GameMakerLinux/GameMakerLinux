@@ -24,20 +24,20 @@ ObjectEvent::ObjectEvent(EventType type, int number)
     , m_eventType { type }
     , m_eventNumber { number }
 {
-    id = Uuid::generate();
-    ResourceItem::registerItem(id, this);
+    setId(Uuid::generate());
+    ResourceItem::registerItem(id(), this);
 }
 
 ObjectEvent::ObjectEvent(QJsonObject object)
     : ResourceItem { ResourceType::Event }
 {
     load(object);
-    ResourceItem::registerItem(id, this);
+    ResourceItem::registerItem(id(), this);
 }
 
 void ObjectEvent::load(QJsonObject object)
 {
-    id = object["id"].toString();
+    setId(object["id"].toString());
     m_collisionObjectId = object["collisionObjectId"].toString();
     m_eventNumber = object["enumb"].toInt();
     m_eventType = static_cast<EventType>(object["eventtype"].toInt());
@@ -47,7 +47,7 @@ void ObjectEvent::load(QJsonObject object)
 QJsonObject ObjectEvent::pack()
 {
     QJsonObject json;
-    json["id"] = id;
+    json["id"] = id();
     json["modelName"] = Utils::resourceTypeToString(ResourceType::Event);
     json["mvc"] = "1.0";
     json["IsDnD"] = false;

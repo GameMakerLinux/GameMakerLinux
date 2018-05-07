@@ -86,7 +86,8 @@ void MainWindow::openProject()
 
 void MainWindow::openRoom(RoomResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
@@ -94,7 +95,7 @@ void MainWindow::openRoom(RoomResourceItem * item)
     auto editor = new RoomEditor(item);
     int pos = tabWidget->addTab(editor, item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 
@@ -106,21 +107,23 @@ void MainWindow::openRoom(RoomResourceItem * item)
 
 void MainWindow::openSprite(SpriteResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("sprite"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openScript(ScriptResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
@@ -128,126 +131,134 @@ void MainWindow::openScript(ScriptResourceItem * item)
     auto editor = new ScriptEditor(item);
     int pos = tabWidget->addTab(editor, item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openAndroidOptions(AndroidOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("android"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openAmazonFireOptions(AmazonFireOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("amazon fire"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openWindowsOptions(WindowsOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("windows"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openLinuxOptions(LinuxOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("linux"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openMacOptions(MacOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("mac"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openiOsOptions(iOSOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("ios"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openIncludedFile(IncludedFileResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("included files"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openMainOptions(MainOptionsResourceItem * item)
 {
-    if (checkTab(item->id))
+    auto id = item->id();
+    if (checkTab(id))
     {
         return;
     }
 
     int pos = tabWidget->addTab(new QLabel("main options"), item->name());
 
-    idOfOpenedTabs.push_back(item->id);
+    idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
 }
 
 void MainWindow::openObject(ObjectResourceItem * item)
 {
-    auto id = item->id;
+    auto id = item->id();
     if (checkTab(id))
     {
         return;
@@ -262,7 +273,7 @@ void MainWindow::openObject(ObjectResourceItem * item)
     tabWidget->setCurrentIndex(pos);
 
     connect(item, &ObjectResourceItem::nameChanged, [this, item]() {
-        int index = idOfOpenedTabs.indexOf(item->id);
+        int index = idOfOpenedTabs.indexOf(item->id());
         tabWidget->setTabText(index, item->name());
     });
 
@@ -271,7 +282,7 @@ void MainWindow::openObject(ObjectResourceItem * item)
 
 void MainWindow::openInstance(ObjectInstance * item)
 {
-    auto id = item->id;
+    auto id = item->id();
     if (checkTab(id))
     {
         return;
@@ -399,7 +410,7 @@ bool MainWindow::closeTab(int pos)
 void MainWindow::connectDirtiness(MainEditor * editor, ResourceItem* item)
 {
     connect(editor, &MainEditor::dirtyChanged, [this, item](bool b) {
-        int index = idOfOpenedTabs.indexOf(item->id);
+        int index = idOfOpenedTabs.indexOf(item->id());
         tabWidget->setTabText(index, item->name() + (b ? "*" : ""));
     });
 }

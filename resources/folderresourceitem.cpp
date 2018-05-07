@@ -38,10 +38,10 @@ void FolderResourceItem::load(QJsonObject object)
 QJsonObject FolderResourceItem::save()
 {
     QJsonObject object;
-    object["id"] = id;
+    object["id"] = id();
     object["modelName"] = Utils::resourceTypeToString(type());
     object["mvc"] = "1.1";
-    object["name"] = id;
+    object["name"] = id();
     object["filterType"] = Utils::resourceTypeToString(m_filterType);
     object["folderName"] = m_folderName;
     object["isDefaultView"] = m_isDefaultView;
@@ -50,7 +50,7 @@ QJsonObject FolderResourceItem::save()
     QJsonArray childrenJson;
     for (auto & child : children)
     {
-        childrenJson.append(child->id);
+        childrenJson.append(child->id());
     }
     object["children"] = childrenJson;
 

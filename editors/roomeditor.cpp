@@ -82,7 +82,7 @@ void RoomEditor::reset()
         layersModel.addLayer(layer);
 
         GraphicsLayer * gLayer = new GraphicsLayer;
-        graphicsLayers[layer->id] = gLayer;
+        graphicsLayers[layer->id()] = gLayer;
         scene.addItem(gLayer);
 
         if (layer->type() == RoomLayer::Type::Background)
@@ -147,7 +147,7 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
     if (pLayer->type() == RoomLayer::Type::Instances)
     {
         auto pInstLayer = qobject_cast<InstanceLayer*>(pLayer);
-        m_currentLayer = graphicsLayers[pInstLayer->id];
+        m_currentLayer = graphicsLayers[pInstLayer->id()];
         m_currentLayer->setCurrent(true);
 
         for (auto & inst : pInstLayer->instances())

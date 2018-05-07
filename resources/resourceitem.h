@@ -70,13 +70,15 @@ public:
     virtual void load(QJsonObject object) = 0;
     virtual QJsonObject save();
 
+    QString id() const;
+    void setId(QString id);
+
     QString name() const { return m_name; }
     void setName(QString name);
     virtual QPixmap thumbnail() const;
 
     ResourceType type() const { return m_type; }
 
-    QString id;
     QString filename;
 
     QVector<ResourceItem*> children;
@@ -102,6 +104,7 @@ protected:
     ResourceItem(ResourceType type);
 
 private:
+    QString m_id;
     QString m_name;
     ResourceType m_type;
 

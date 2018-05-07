@@ -47,7 +47,49 @@ void ObjectResourceItem::load(QJsonObject object)
 
 QJsonObject ObjectResourceItem::save()
 {
-    return {};
+    QJsonObject object;
+    object["id"] = id();
+/*
+{
+    "id": "e6955b21-1ff0-456b-8b55-4a4e7f4c0bf3",
+    "modelName": "GMObject",
+    "mvc": "1.0",
+    "name": "obj_enemy_behind_left",
+    "eventList": [
+        {
+            "id": "03bf3b5a-00ed-4df5-be63-29d48351f2f8",
+            "modelName": "GMEvent",
+            "mvc": "1.0",
+            "IsDnD": false,
+            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
+            "enumb": 73,
+            "eventtype": 8,
+            "m_owner": "e6955b21-1ff0-456b-8b55-4a4e7f4c0bf3"
+        }
+    ],
+    "maskSpriteId": "00000000-0000-0000-0000-000000000000",
+    "overriddenProperties": null,
+    "parentObjectId": "129c4145-87b0-4911-bb13-e558733d672a",
+    "persistent": false,
+    "physicsAngularDamping": 0.1,
+    "physicsDensity": 0.5,
+    "physicsFriction": 0.2,
+    "physicsGroup": 0,
+    "physicsKinematic": false,
+    "physicsLinearDamping": 0.1,
+    "physicsObject": false,
+    "physicsRestitution": 0.1,
+    "physicsSensor": false,
+    "physicsShape": 1,
+    "physicsShapePoints": null,
+    "physicsStartAwake": true,
+    "properties": null,
+    "solid": false,
+    "spriteId": "76e40821-6926-4152-8ebb-6d9a03de7e44",
+    "visible": true
+}
+*/
+    return object;
 }
 
 int ObjectResourceItem::eventsCount() const
@@ -70,7 +112,7 @@ ObjectResourceItem *ObjectResourceItem::parentObject() const
 void ObjectResourceItem::setParentObject(ObjectResourceItem * object)
 {
     if (object)
-        m_parentObjectId = object->id;
+        m_parentObjectId = object->id();
     else
         m_parentObjectId = Uuid::null();
 }
@@ -85,7 +127,7 @@ SpriteResourceItem *ObjectResourceItem::sprite() const
 void ObjectResourceItem::setSprite(SpriteResourceItem * sprite)
 {
     if (sprite)
-        m_spriteId = sprite->id;
+        m_spriteId = sprite->id();
     else
         m_spriteId = Uuid::null();
 }
@@ -100,7 +142,7 @@ SpriteResourceItem *ObjectResourceItem::maskSprite() const
 void ObjectResourceItem::setMaskSprite(SpriteResourceItem * sprite)
 {
     if (sprite)
-        m_maskSpriteId = sprite->id;
+        m_maskSpriteId = sprite->id();
     else
         m_maskSpriteId = Uuid::null();
 }

@@ -133,7 +133,7 @@ void ObjectEditor::reset()
     {
         auto pChildItem = ResourceItem::get<ObjectResourceItem>(childId);
         auto pParent = pChildItem->parentObject();
-        if (pParent && pParent->id == pItem->id)
+        if (pParent && pParent->id() == pItem->id())
             ui->childrenTextEdit->appendPlainText(pChildItem->name());
     }
 

@@ -30,8 +30,8 @@ SpriteImage *SpriteFrame::compositeImage() const
 
 void SpriteFrame::load(QJsonObject object)
 {
-    id = object["id"].toString();
-    ResourceItem::registerItem(id, this);
+    setId(object["id"].toString());
+    ResourceItem::registerItem(id(), this);
 
     setName("SpriteFrame");
 

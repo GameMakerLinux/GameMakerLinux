@@ -40,6 +40,16 @@ QJsonObject ResourceItem::save()
     return {};
 }
 
+QString ResourceItem::id() const
+{
+    return m_id;
+}
+
+void ResourceItem::setId(QString id)
+{
+    m_id = id;
+}
+
 void ResourceItem::setName(QString name)
 {
     m_name = name;
@@ -112,7 +122,7 @@ ResourceItem *ResourceItem::create(ResourceType type, QString id)
         item = new UnknownResourceItem;
     }
 
-    item->id = id;
+    item->setId(id);
     allResources[id] = item;
 
     return item;
