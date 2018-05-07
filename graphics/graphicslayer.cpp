@@ -23,7 +23,6 @@ GraphicsLayer::GraphicsLayer()
     setEnabled(false);
 }
 
-
 QRectF GraphicsLayer::boundingRect() const
 {
     return QRectF();

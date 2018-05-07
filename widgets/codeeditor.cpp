@@ -36,7 +36,9 @@ CodeEditor::CodeEditor(QWidget *parent)
 
 void CodeEditor::setCode(QString code)
 {
+    auto blocked = textEdit->blockSignals(true);
     textEdit->setText(code);
+    textEdit->blockSignals(blocked);
 }
 
 QString CodeEditor::getCode() const

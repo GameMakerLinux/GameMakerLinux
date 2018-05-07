@@ -48,6 +48,6 @@ void MainEditor::setDirty(bool b)
     if (dirty != b)
     {
         dirty = b;
-        dirtyChanged(b);
+        emit dirtyChanged(b);
     }
 }

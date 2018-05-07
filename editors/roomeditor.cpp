@@ -155,7 +155,9 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
             objectsModel.addObject(inst);
             auto idx = objectsModel.indexOf(inst);
             auto checked = m_currentLayer->isElementVisible(inst);
+            auto blocked = objectsModel.blockSignals(true);
             objectsModel.setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+            objectsModel.blockSignals(blocked);
         }
     }
 }
@@ -190,6 +192,8 @@ void RoomEditor::setInstanceVisibility(QString id, bool visible)
 {
     auto pInstance = ResourceItem::get<ObjectInstance>(id);
     m_currentLayer->setElementVisible(pInstance, visible);
+
+    setDirty();
 }
 
 void RoomEditor::showObjectsListContextMenu(const QPoint & pos)

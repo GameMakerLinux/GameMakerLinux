@@ -39,6 +39,7 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     connect(setMaskAction, &QAction::triggered, this, &ObjectEditor::chooseMask);
 
     ui->eventsListView->setModel(&eventsModel);
+    ui->eventsListView->selectionModel()->select(eventsModel.index(0), QItemSelectionModel::ClearAndSelect);
 
     connect(&eventsModel, &EventsModel::rowsInserted, this, &ObjectEditor::onEventsAdded);
     connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);

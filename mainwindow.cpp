@@ -98,6 +98,8 @@ void MainWindow::openRoom(RoomResourceItem * item)
 
     tabWidget->setCurrentIndex(pos);
 
+    connectDirtiness(editor, item);
+
     connect(editor, &RoomEditor::openObject, this, &MainWindow::openObject);
     connect(editor, &RoomEditor::openInstance, this, &MainWindow::openInstance);
 }
