@@ -48,43 +48,43 @@ void ResourcesTreeDock::onItemDoubleClicked(const QModelIndex & index)
     switch (resourceItem->type())
     {
     case ResourceType::AmazonFireOptions:
-        emit openAmazonFireOptions(static_cast<AmazonFireOptionsResourceItem*>(resourceItem));
+        emit openAmazonFireOptions(qobject_cast<AmazonFireOptionsResourceItem*>(resourceItem));
         break;
     case ResourceType::AndroidOptions:
-        emit openAndroidOptions(static_cast<AndroidOptionsResourceItem*>(resourceItem));
+        emit openAndroidOptions(qobject_cast<AndroidOptionsResourceItem*>(resourceItem));
         break;
     case ResourceType::Folder:
-        resourcesTree->setExpanded(index, resourcesTree->isExpanded(index));
+        // nothing to do
         break;
     case ResourceType::IncludedFile:
-        emit openIncludedFile(static_cast<IncludedFileResourceItem*>(resourceItem));
+        emit openIncludedFile(qobject_cast<IncludedFileResourceItem*>(resourceItem));
         break;
     case ResourceType::iOSOptions:
-        emit openiOsOptions(static_cast<iOSOptionsResourceItem*>(resourceItem));
+        emit openiOsOptions(qobject_cast<iOSOptionsResourceItem*>(resourceItem));
         break;
     case ResourceType::LinuxOptions:
-        emit openLinuxOptions(static_cast<LinuxOptionsResourceItem*>(resourceItem));
+        emit openLinuxOptions(qobject_cast<LinuxOptionsResourceItem*>(resourceItem));
         break;
     case ResourceType::MacOptions:
-        emit openMacOptions(static_cast<MacOptionsResourceItem*>(resourceItem));
+        emit openMacOptions(qobject_cast<MacOptionsResourceItem*>(resourceItem));
         break;
     case ResourceType::MainOptions:
-        emit openMainOptions(static_cast<MainOptionsResourceItem*>(resourceItem));
+        emit openMainOptions(qobject_cast<MainOptionsResourceItem*>(resourceItem));
         break;
     case ResourceType::Object:
-        emit openObject(static_cast<ObjectResourceItem*>(resourceItem));
+        emit openObject(qobject_cast<ObjectResourceItem*>(resourceItem));
         break;
     case ResourceType::Room:
-        emit openRoom(static_cast<RoomResourceItem*>(resourceItem));
+        emit openRoom(qobject_cast<RoomResourceItem*>(resourceItem));
         break;
     case ResourceType::Script:
-        emit openScript(static_cast<ScriptResourceItem*>(resourceItem));
+        emit openScript(qobject_cast<ScriptResourceItem*>(resourceItem));
         break;
     case ResourceType::Sprite:
-        emit openSprite(static_cast<SpriteResourceItem*>(resourceItem));
+        emit openSprite(qobject_cast<SpriteResourceItem*>(resourceItem));
         break;
     case ResourceType::WindowsOptions:
-        emit openWindowsOptions(static_cast<WindowsOptionsResourceItem*>(resourceItem));
+        emit openWindowsOptions(qobject_cast<WindowsOptionsResourceItem*>(resourceItem));
         break;
     default:
         qCritical() << "Unimplemented element:" << Utils::resourceTypeToString(resourceItem->type());

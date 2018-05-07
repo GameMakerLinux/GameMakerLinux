@@ -44,7 +44,7 @@ protected:
     template <typename T>
     T * item()
     {
-        return static_cast<T*>(resourceItem);
+        return qobject_cast<T*>(resourceItem);
     }
 
 protected slots:

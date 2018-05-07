@@ -44,7 +44,7 @@ void RoomResourceItem::load(QJsonObject object)
         auto layer = ResourceItem::create(layerType, id);
         layer->load(layerJson);
 
-        m_layers.append(static_cast<RoomLayer*>(layer));
+        m_layers.append(qobject_cast<RoomLayer*>(layer));
     }
 }
 

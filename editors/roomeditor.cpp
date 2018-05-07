@@ -51,6 +51,8 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
     connect(ui->objectsListView, &QListView::customContextMenuRequested, this, &RoomEditor::showObjectsListContextMenu);
     connect(&scene, &QGraphicsScene::selectionChanged, this, &RoomEditor::selectedItemChanged);
 
+    scene.setBackgroundBrush(Qt::gray);
+
     reset();
 }
 
@@ -71,7 +73,7 @@ void RoomEditor::reset()
 {
     auto pItem = item<RoomResourceItem>();
 
-    scene.setBackgroundBrush(Qt::gray);
+    scene.clear();
     auto bg = scene.addRect(0, 0, pItem->width() - 1, pItem->height() - 1, QPen(QColor(0, 0, 0)), QBrush(Qt::white));
     bg->setZValue(-999999);
 
