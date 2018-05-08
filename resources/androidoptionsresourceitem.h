@@ -28,6 +28,7 @@ public:
     AndroidOptionsResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 };
 
 #endif // ANDROIDOPTIONSRESOURCEITEM_H

@@ -26,3 +26,8 @@ void AndroidOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 }
+
+QString AndroidOptionsResourceItem::filename() const
+{
+    return "options/android/options_android.yy";
+}

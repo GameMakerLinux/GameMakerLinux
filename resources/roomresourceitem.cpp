@@ -30,7 +30,6 @@ void RoomResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 
-    // TODO: replace it with a GMRoomSettings object
     auto roomSettings = object["roomSettings"].toObject();
     m_settings.load(roomSettings);
 
@@ -40,7 +39,7 @@ void RoomResourceItem::load(QJsonObject object)
         auto layerJson = value.toObject();
 
         auto layerType = Utils::resourceStringToType(layerJson["modelName"].toString());
-        auto id = object["id"].toString();
+        auto id = layerJson["id"].toString();
         auto layer = ResourceItem::create(layerType, id);
         layer->load(layerJson);
 
@@ -65,5 +64,5 @@ QVector<RoomLayer *> RoomResourceItem::layers() const
 
 QString RoomResourceItem::filename() const
 {
-    return QString("%1/rooms/%2/%2.yy").arg(GameSettings::rootPath(), name());
+    return QString("rooms/%1/%1.yy").arg(name());
 }

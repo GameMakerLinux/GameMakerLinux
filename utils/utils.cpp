@@ -101,6 +101,7 @@ static QMap<QString, ResourceType> resourcesTypesStrings = {
     { "GMObject",           ResourceType::Object            },
     { "GMOptions",          ResourceType::Options,          },
     { "GMPath",             ResourceType::Path,             },
+    { "GMProject",          ResourceType::Project,          },
     { "GMRBackgroundLayer", ResourceType::BackgroundLayer,  },
     { "GMRInstance",        ResourceType::ObjectInstance,   },
     { "GMRInstanceLayer",   ResourceType::InstanceLayer,    },

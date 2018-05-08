@@ -26,3 +26,8 @@ void SoundResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 }
+
+QString SoundResourceItem::filename() const
+{
+    return QString("sounds/%1/%1.yy").arg(name());
+}

@@ -99,7 +99,7 @@ void MainWindow::openRoom(RoomResourceItem * item)
 
     tabWidget->setCurrentIndex(pos);
 
-    connectDirtiness(editor, item);
+    connectEditors(editor, item);
 
     connect(editor, &RoomEditor::openObject, this, &MainWindow::openObject);
     connect(editor, &RoomEditor::openInstance, this, &MainWindow::openInstance);
@@ -277,7 +277,7 @@ void MainWindow::openObject(ObjectResourceItem * item)
         tabWidget->setTabText(index, item->name());
     });
 
-    connectDirtiness(editor, item);
+    connectEditors(editor, item);
 }
 
 void MainWindow::openInstance(ObjectInstance * item)
@@ -293,6 +293,28 @@ void MainWindow::openInstance(ObjectInstance * item)
     idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
+}
+
+void MainWindow::saveProjectItem()
+{
+    // so the projectResource is not saved twice
+    if (!m_savingProject)
+    {
+        auto json = projectResource.save();
+        QString filename = QString("%1/%2").arg(GameSettings::rootPath(), projectResource.filename());
+        Utils::writeFile(filename, json);
+    }
+}
+
+void MainWindow::saveProject()
+{
+    m_savingProject = true;
+    emit doSave();
+    m_savingProject = false;
+
+    auto json = projectResource.save();
+    QString filename = QString("%1/%2").arg(GameSettings::rootPath(), projectResource.filename());
+    Utils::writeFile(filename, json);
 }
 
 bool MainWindow::closeProject()
@@ -341,41 +363,10 @@ void MainWindow::loadProject(QString filename)
         return;
     }
 
-    QMap<QString, ResourceItem*> resources;
-    auto resourcesJson = json["resources"].toArray();
-    for (const auto & value : resourcesJson)
-    {
-        auto obj = value.toObject();
-        auto data = obj["Value"].toObject();
-        auto id = obj["Key"].toString();
-        auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
+    projectResource.setName(fi.baseName());
+    projectResource.load(json);
 
-        auto type = Utils::resourceStringToType(data["resourceType"].toString());
-        auto item = ResourceItem::create(type, id);
-
-        auto json = Utils::readFileToJSON(GameSettings::rootPath() + "/" + filenameYY);
-        item->load(json);
-
-        resources[id] = item;
-    }
-
-    // main options FIX
-    {
-        auto obj = json["parentProject"].toObject()["alteredResources"].toArray().first().toObject();
-        auto data = obj["Value"].toObject();
-        auto id = obj["Key"].toString();
-        auto filenameYY = data["resourcePath"].toString().replace("\\", "/").replace("//", "/");
-        filenameYY.replace("options_main", "inherited/options_main.inherited");
-
-        auto type = Utils::resourceStringToType(data["resourceType"].toString());
-        auto item = ResourceItem::create(type, id);
-        auto json = Utils::readFileToJSON(GameSettings::rootPath() + "/" + filenameYY);
-        item->load(json);
-
-        resources[id] = item;
-    }
-
-    resourcesModel.fill(resources);
+    resourcesModel.fill(ResourceItem::all());
 
     GameSettings::setLastOpenedProject(filename);
 }
@@ -410,12 +401,14 @@ bool MainWindow::closeTab(int pos)
     return true;
 }
 
-void MainWindow::connectDirtiness(MainEditor * editor, ResourceItem* item)
+void MainWindow::connectEditors(MainEditor * editor, ResourceItem* item)
 {
     connect(editor, &MainEditor::dirtyChanged, [this, item](bool b) {
         int index = idOfOpenedTabs.indexOf(item->id());
         tabWidget->setTabText(index, item->name() + (b ? "*" : ""));
     });
+    connect(this, &MainWindow::doSave, editor, &MainEditor::save);
+    connect(editor, &MainEditor::saved, this, &MainWindow::saveProjectItem);
 }
 
 void MainWindow::closeEvent(QCloseEvent * event)

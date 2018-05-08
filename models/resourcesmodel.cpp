@@ -51,7 +51,8 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
     {
         if (item->type() == ResourceType::Folder)
         {
-            QFile f(item->filename());
+            QString filename = QString("%1/%2").arg(GameSettings::rootPath(), item->filename());
+            QFile f(filename);
             if (!f.open(QFile::ReadOnly))
             {
                 qCritical() << "Error: can't open resource" << item->filename();

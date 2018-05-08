@@ -28,6 +28,7 @@ public:
     SoundResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 };
 
 #endif // SOUNDRESOURCEITEM_H

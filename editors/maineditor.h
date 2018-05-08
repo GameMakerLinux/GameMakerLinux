@@ -37,6 +37,11 @@ public:
 
 signals:
     void dirtyChanged(bool);
+    void saved();
+
+public slots:
+    virtual void save() = 0;
+    virtual void reset() = 0;
 
 protected:
     void setWidget(QWidget * widget);
@@ -48,8 +53,6 @@ protected:
     }
 
 protected slots:
-    virtual void save() = 0;
-    virtual void reset() = 0;
     virtual void setDirty(bool b = true);
 
 private:

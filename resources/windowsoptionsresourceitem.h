@@ -28,6 +28,7 @@ public:
     WindowsOptionsResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 };
 
 #endif // WINDOWSOPTIONSRESOURCEITEM_H

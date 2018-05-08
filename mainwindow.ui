@@ -28,6 +28,10 @@
      <string>&amp;File</string>
     </property>
     <addaction name="action_Open_project"/>
+    <addaction name="action_Save_project"/>
+    <addaction name="action_Close_project"/>
+    <addaction name="separator"/>
+    <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menu_Windows">
     <property name="title">
@@ -61,6 +65,21 @@
    </property>
    <property name="text">
     <string>&amp;Resources</string>
+   </property>
+  </action>
+  <action name="action_Save_project">
+   <property name="text">
+    <string>&amp;Save project</string>
+   </property>
+  </action>
+  <action name="action_Close_project">
+   <property name="text">
+    <string>&amp;Close project</string>
+   </property>
+  </action>
+  <action name="action_Quit">
+   <property name="text">
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>

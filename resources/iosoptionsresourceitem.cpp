@@ -22,8 +22,12 @@ iOSOptionsResourceItem::iOSOptionsResourceItem()
 {
 }
 
-
 void iOSOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+}
+
+QString iOSOptionsResourceItem::filename() const
+{
+    return "options/ios/options_ios.yy";
 }

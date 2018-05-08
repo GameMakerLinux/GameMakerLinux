@@ -73,9 +73,13 @@ void ObjectEditor::save()
     pItem->setName(name);
     pItem->setSprite(m_sprite);
     pItem->setMaskSprite(m_maskSprite);
-    qDebug() << "Renamed" << oldName << "to" << name << ":";
-    qDebug() << QDir(GameSettings::rootPath() + "/objects").rename(oldName, name);
-    qDebug() << QFile(GameSettings::rootPath() + "/objects/" + name + "/" + oldName + ".yy").rename(name + ".yy");
+
+    // Rename directory/file when name changes
+    if (oldName != name)
+    {
+        QDir(GameSettings::rootPath() + "/objects").rename(oldName, name);
+        QFile(GameSettings::rootPath() + "/objects/" + name + "/" + oldName + ".yy").rename(name + ".yy");
+    }
 
     // EVENTS (TODO: improve?)
     for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
@@ -83,8 +87,8 @@ void ObjectEditor::save()
         auto editor = qobject_cast<CodeEditor*>(ui->stackedCodeEditorWidget->widget(i));
         if (editor)
         {
-            auto f = eventsModel.getFilename(i);
-            Utils::writeFile(f, editor->getCode().toLocal8Bit());
+            QString filename = QString("%1/%2").arg(GameSettings::rootPath(), eventsModel.getFilename(i));
+            Utils::writeFile(filename, editor->getCode().toLocal8Bit());
         }
     }
 
@@ -92,7 +96,10 @@ void ObjectEditor::save()
     pItem->setParentObject(m_parentObject);
 
     auto json = pItem->save();
-    Utils::writeFile(pItem->filename(), json);
+    QString filename = QString("%1/%2").arg(GameSettings::rootPath(), pItem->filename());
+    Utils::writeFile(filename, json);
+
+    emit saved();
 
     setDirty(false);
 }
@@ -188,7 +195,7 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
 
         connect(editor, &CodeEditor::dirtyChanged, this, &ObjectEditor::setDirty);
 
-        auto filename = eventsModel.getFilename(i);
+        auto filename = QString("%1/%2").arg(GameSettings::rootPath(), eventsModel.getFilename(i));
         auto code = Utils::readFile(filename);
         editor->setCode(code);
     }

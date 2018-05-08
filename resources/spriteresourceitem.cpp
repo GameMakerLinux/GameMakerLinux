@@ -54,8 +54,8 @@ QPixmap SpriteResourceItem::pixmap() const
 {
     if (m_frames.size() > 0)
     {
-        auto frameId = m_frames[0]->compositeImage()->frameId();
-        QString path = QString("%1/sprites/%2/%3.png").arg(GameSettings::rootPath(), name(), frameId);
+        auto composite = m_frames[0]->compositeImage();
+        QString path = QString("%1/%2").arg(GameSettings::rootPath(), composite->filename());
         return QPixmap(path);
     }
     return QPixmap();
@@ -64,5 +64,5 @@ QPixmap SpriteResourceItem::pixmap() const
 
 QString SpriteResourceItem::filename() const
 {
-    return QString("%1/sprites/%2/%2.yy").arg(GameSettings::rootPath(), name());
+    return QString("sprites/%1/%1.yy").arg(name());
 }

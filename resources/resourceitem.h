@@ -47,6 +47,7 @@ enum class ResourceType
     ObjectInstance,
     Options,
     Path,
+    Project,
     Room,
     RoomSettings,
     Root,
@@ -97,6 +98,7 @@ public:
 
     static ResourceItem * findFolder(ResourceType filterType);
     static QVector<QString> findAll(ResourceType type);
+    static QMap<QString, ResourceItem *> all();
 
 signals:
     void nameChanged();

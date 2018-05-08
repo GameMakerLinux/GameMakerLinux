@@ -23,7 +23,6 @@
 
 #include "resources/resourceitem.h"
 
-
 class ResourcesModel : public QAbstractItemModel
 {
     Q_OBJECT

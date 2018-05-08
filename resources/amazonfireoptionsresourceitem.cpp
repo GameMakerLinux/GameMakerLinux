@@ -22,8 +22,12 @@ AmazonFireOptionsResourceItem::AmazonFireOptionsResourceItem()
 {
 }
 
-
 void AmazonFireOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+}
+
+QString AmazonFireOptionsResourceItem::filename() const
+{
+    return "options/amazonfire/options_amazonfire.yy";
 }

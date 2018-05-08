@@ -21,6 +21,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include "resources/resourceitem.h"
+#include "resources/projectresource.h"
 #include "models/resourcesmodel.h"
 #include "docks/resourcestreedock.h"
 
@@ -36,6 +37,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+signals:
+    void doSave();
 
 private slots:
     void openProject();
@@ -53,6 +57,8 @@ private slots:
     void openObject(ObjectResourceItem* item);
     void openInstance(ObjectInstance* item);
 
+    void saveProjectItem();
+    void saveProject();
     bool closeProject();
 
 protected:
@@ -62,13 +68,15 @@ private:
     void loadProject(QString filename);
     bool checkTab(QString id);
     bool closeTab(int pos);
-    void connectDirtiness(MainEditor* editor, ResourceItem * item);
+    void connectEditors(MainEditor* editor, ResourceItem * item);
 
     Ui::MainWindow * ui;
     ResourcesModel resourcesModel;
+    ProjectResource projectResource;
     ResourcesTreeDock resourcesTreeDock;
     QTabWidget * tabWidget;
     QVector<QString> idOfOpenedTabs;
+    bool m_savingProject = false;
 };
 
 #endif // MAINWINDOW_H

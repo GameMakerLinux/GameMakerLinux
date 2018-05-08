@@ -28,6 +28,7 @@ public:
     LinuxOptionsResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 };
 
 #endif // LINUXOPTIONSRESOURCEITEM_H

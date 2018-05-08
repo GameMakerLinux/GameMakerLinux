@@ -15,19 +15,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "windowsoptionsresourceitem.h"
+#ifndef PROJECTRESOURCE_H
+#define PROJECTRESOURCE_H
 
-WindowsOptionsResourceItem::WindowsOptionsResourceItem()
-    : ResourceItem { ResourceType::WindowsOptions }
-{
-}
+#include "resourceitem.h"
 
-void WindowsOptionsResourceItem::load(QJsonObject object)
+class ProjectResource : public ResourceItem
 {
-    setName(object["name"].toString());
-}
+public:
+    ProjectResource();
 
-QString WindowsOptionsResourceItem::filename() const
-{
-    return "options/windows/options_windows.yy";
-}
+public:
+    void load(QJsonObject object) override;
+    QJsonObject save() override;
+
+    QString filename() const override;
+
+private:
+    QJsonObject m_cachedProjectFile;
+};
+
+#endif // PROJECTRESOURCE_H

@@ -58,7 +58,7 @@ QJsonObject FolderResourceItem::save()
 
 QString FolderResourceItem::filename() const
 {
-    return QString("%1/views/%2.yy").arg(GameSettings::rootPath(), id());
+    return QString("views/%1.yy").arg(id());
 }
 
 ResourceType FolderResourceItem::filterType() const

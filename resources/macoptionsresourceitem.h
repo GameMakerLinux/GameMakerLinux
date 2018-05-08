@@ -28,6 +28,7 @@ public:
     MacOptionsResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 };
 
 #endif // MACOPTIONSRESOURCEITEM_H

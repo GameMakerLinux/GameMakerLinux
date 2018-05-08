@@ -187,4 +187,9 @@ QVector<QString> ResourceItem::findAll(ResourceType type)
     return items;
 }
 
+QMap<QString, ResourceItem *> ResourceItem::all()
+{
+    return allResources;
+}
+
 QMap<QString, ResourceItem*> ResourceItem::allResources;

@@ -22,8 +22,12 @@ LinuxOptionsResourceItem::LinuxOptionsResourceItem()
 {
 }
 
-
 void LinuxOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+}
+
+QString LinuxOptionsResourceItem::filename() const
+{
+    return "options/linux/options_linux.yy";
 }

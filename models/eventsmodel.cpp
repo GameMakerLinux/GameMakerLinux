@@ -73,7 +73,7 @@ QString EventsModel::getFilename(int row) const
     auto event = item.event;
     auto pItem = ResourceItem::get(event->owner());
     QString fileName = ObjectEvent::getFileName(event->eventType(), event->eventNumber());
-    return QString("%1/objects/%2/%3.gml").arg(GameSettings::rootPath(), pItem->name(), fileName);
+    return QString("objects/%1/%2.gml").arg(pItem->name(), fileName);
 }
 
 void EventsModel::setModified(int row, bool modified)

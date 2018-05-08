@@ -157,5 +157,5 @@ void ObjectResourceItem::setMaskSprite(SpriteResourceItem * sprite)
 
 QString ObjectResourceItem::filename() const
 {
-    return QString("%1/objects/%2/%2.yy").arg(GameSettings::rootPath(), name());
+    return QString("objects/%1/%1.yy").arg(name());
 }

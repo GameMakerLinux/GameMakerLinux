@@ -27,3 +27,9 @@ void MacOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 }
+
+
+QString MacOptionsResourceItem::filename() const
+{
+    return "options/mac/options_mac.yy";
+}

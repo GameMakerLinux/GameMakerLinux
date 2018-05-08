@@ -70,7 +70,8 @@ SOURCES += \
     resources/dependencies/objectinstance.cpp \
     models/objectsmodel.cpp \
     resources/dependencies/roomsettings.cpp \
-    models/sortedeventsmodel.cpp
+    models/sortedeventsmodel.cpp \
+    resources/projectresource.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -119,7 +120,8 @@ HEADERS += \
     resources/dependencies/objectinstance.h \
     models/objectsmodel.h \
     resources/dependencies/roomsettings.h \
-    models/sortedeventsmodel.h
+    models/sortedeventsmodel.h \
+    resources/projectresource.h
 
 FORMS += \
         mainwindow.ui \

@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef RESOURCETREEDOCK_H
-#define RESOURCETREEDOCK_H
+#ifndef RESOURCESTREEDOCK_H
+#define RESOURCESTREEDOCK_H
 
 #include <QDockWidget>
 
@@ -54,4 +54,4 @@ private:
     QTreeView* resourcesTree;
 };
 
-#endif // RESOURCETREEDOCK_H
+#endif // RESOURCESTREEDOCK_H
