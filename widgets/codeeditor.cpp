@@ -53,3 +53,8 @@ void CodeEditor::setDirty(bool dirty)
         textEdit->setModified(dirty);
     }
 }
+
+void CodeEditor::setReadOnly(bool ro)
+{
+    textEdit->setReadOnly(ro);
+}

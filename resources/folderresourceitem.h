@@ -35,6 +35,7 @@ public:
     bool isLocalised() const;
 
 private:
+    QString m_viewFilename;
     ResourceType m_filterType;
     QString m_folderName;
     bool m_isDefaultView = false;

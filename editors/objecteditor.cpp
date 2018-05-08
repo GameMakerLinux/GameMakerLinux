@@ -124,10 +124,16 @@ void ObjectEditor::reset()
     // EVENTS
     eventsModel.clear();
 
-    for (int i = 0; i < pItem->eventsCount(); i++)
+    auto pCurrentItemInHierarchy = pItem;
+    while (pCurrentItemInHierarchy)
     {
-        auto event = pItem->getEvent(i);
-        eventsModel.addEvent(event);
+        for (int i = 0; i < pCurrentItemInHierarchy->eventsCount(); i++)
+        {
+            auto event = pCurrentItemInHierarchy->getEvent(i);
+            eventsModel.addEvent(event, pCurrentItemInHierarchy != pItem);
+        }
+
+        pCurrentItemInHierarchy = pCurrentItemInHierarchy->parentObject();
     }
 
     // HIERARCHY
@@ -193,7 +199,11 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
         auto editor = new CodeEditor;
         ui->stackedCodeEditorWidget->insertWidget(i, editor);
 
-        connect(editor, &CodeEditor::dirtyChanged, this, &ObjectEditor::setDirty);
+        auto inherited = eventsModel.isInherited(i);
+        if (!inherited)
+            connect(editor, &CodeEditor::dirtyChanged, this, &ObjectEditor::setDirty);
+        else
+            editor->setReadOnly(true);
 
         auto filename = QString("%1/%2").arg(GameSettings::rootPath(), eventsModel.getFilename(i));
         auto code = Utils::readFile(filename);

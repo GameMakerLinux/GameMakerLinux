@@ -26,6 +26,7 @@ FolderResourceItem::FolderResourceItem()
 
 void FolderResourceItem::load(QJsonObject object)
 {
+    m_viewFilename = object["name"].toString();
     m_filterType = Utils::resourceStringToType(object["filterType"].toString());
     m_folderName = object["folderName"].toString();
     m_isDefaultView = object["isDefaultView"].toBool();
@@ -40,7 +41,7 @@ QJsonObject FolderResourceItem::save()
     object["id"] = id();
     object["modelName"] = Utils::resourceTypeToString(type());
     object["mvc"] = "1.1";
-    object["name"] = id();
+    object["name"] = name();
     object["filterType"] = Utils::resourceTypeToString(m_filterType);
     object["folderName"] = m_folderName;
     object["isDefaultView"] = m_isDefaultView;
@@ -58,7 +59,7 @@ QJsonObject FolderResourceItem::save()
 
 QString FolderResourceItem::filename() const
 {
-    return QString("views/%1.yy").arg(id());
+    return QString("views/%1.yy").arg(m_viewFilename);
 }
 
 ResourceType FolderResourceItem::filterType() const

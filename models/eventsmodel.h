@@ -19,13 +19,13 @@
 #define EVENTSMODEL_H
 
 #include <QAbstractListModel>
-
-class ObjectEvent;
+#include "resources/dependencies/objectevent.h"
 
 struct EventItem
 {
     ObjectEvent * event = nullptr;
     bool modified = false;
+    bool inherited = false;
 };
 
 class EventsModel : public QAbstractListModel
@@ -35,7 +35,7 @@ class EventsModel : public QAbstractListModel
 public:
     explicit EventsModel(QObject *parent = nullptr);
 
-    void addEvent(ObjectEvent * event);
+    void addEvent(ObjectEvent * event, bool inherited = false);
     void clear();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -43,8 +43,10 @@ public:
 
     QString getFilename(int row) const;
     void setModified(int row, bool modified);
+    bool isInherited(int row) const;
 
 private:
+    int findEvent(ObjectEvent::EventType eventType, int eventNumber);
     QVector<EventItem> items;
 };
 

@@ -48,7 +48,7 @@ public:
     }
 
     enum {
-       SortingRole = Qt::UserRole + 1
+        SortingRole = Qt::UserRole + 1
     };
 };
 

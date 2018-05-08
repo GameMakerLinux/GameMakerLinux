@@ -19,16 +19,33 @@
 #include "resources/objectresourceitem.h"
 #include "gamesettings.h"
 #include "resources/dependencies/objectevent.h"
+#include <QColor>
 
 EventsModel::EventsModel(QObject *parent)
     : QAbstractListModel { parent }
 {
 }
 
-void EventsModel::addEvent(ObjectEvent * event)
+void EventsModel::addEvent(ObjectEvent * event, bool inherited)
 {
+    // find if an event with of the same type/number exists
+    int eventPosition = findEvent(event->eventType(), event->eventNumber());
+    if (eventPosition != -1)
+    {
+        if (!inherited)
+        {
+            // if the new one we add is not inherited, remove the existing (inherited) one
+            items.remove(eventPosition);
+        }
+        else
+        {
+            // if not inherited, don't do anything
+            return;
+        }
+    }
+
     beginInsertRows(QModelIndex(), items.size(), items.size());
-    items.push_back({ event });
+    items.push_back({ event, false, inherited });
     endInsertRows();
 }
 
@@ -60,6 +77,10 @@ QVariant EventsModel::data(const QModelIndex &index, int role) const
     {
     case Qt::DisplayRole:
         return ObjectEvent::getName(event->eventType(), event->eventNumber()) + (item.modified ? "*" : "");
+    case Qt::ForegroundRole:
+        if (item.inherited)
+            return QColor(Qt::gray);
+        break;
     case Utils::SortingRole:
         return Utils::enum_cast(event->type()) * 1000 + event->eventNumber();
     }
@@ -80,4 +101,24 @@ void EventsModel::setModified(int row, bool modified)
 {
     items[row].modified = modified;
     emit dataChanged(index(row), index(row), { Qt::DisplayRole });
+}
+
+bool EventsModel::isInherited(int row) const
+{
+    return items[row].inherited;
+}
+
+int EventsModel::findEvent(ObjectEvent::EventType eventType, int eventNumber)
+{
+    int i = 0;
+    for (auto & eventItem : items)
+    {
+        if (eventItem.event->eventType() == eventType
+            && eventItem.event->eventNumber() == eventNumber)
+        {
+            return i;
+        }
+        i++;
+    }
+    return -1;
 }

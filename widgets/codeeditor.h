@@ -31,6 +31,7 @@ public:
     QString getCode() const;
 
     void setDirty(bool dirty);
+    void setReadOnly(bool ro);
 
 signals:
     void dirtyChanged(bool);
