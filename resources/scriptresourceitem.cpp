@@ -22,8 +22,12 @@ ScriptResourceItem::ScriptResourceItem()
 {
 }
 
-
 void ScriptResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+}
+
+QString ScriptResourceItem::filename() const
+{
+    return QString("scripts/%1/%1.yy").arg(name());
 }

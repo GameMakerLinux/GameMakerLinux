@@ -31,6 +31,7 @@ bool Uuid::isNull(QString uuid)
 
 QString Uuid::generate()
 {
-    // need to remove the curly brackets
-    return QUuid::createUuid().toString();
+    QString uuid = QUuid::createUuid().toString();
+    // remove the curly brackets
+    return uuid.mid(1, uuid.length() - 2);
 }

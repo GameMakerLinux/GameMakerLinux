@@ -28,6 +28,7 @@ public:
     ScriptResourceItem();
 
     void load(QJsonObject object) override;
+    QString filename() const override;
 
     QString code;
 };

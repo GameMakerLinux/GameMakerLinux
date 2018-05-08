@@ -9,6 +9,8 @@ An attempt to have a Game Maker IDE on Linux.
 * Editing events scripts
 * Visualisation of a room backgrounds
 * Reorder the resources in the tree view via drag-and-drop (not saved)
+* Saving the project file (only the "resources" field)
+* Renaming an object
 
 ## TODO
 
