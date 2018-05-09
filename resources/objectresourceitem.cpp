@@ -155,6 +155,76 @@ void ObjectResourceItem::setMaskSprite(SpriteResourceItem * sprite)
         m_maskSpriteId = Uuid::null();
 }
 
+bool ObjectResourceItem::isKinematic() const
+{
+    return m_physicsKinematic;
+}
+
+void ObjectResourceItem::setKinematic(bool b)
+{
+    m_physicsKinematic = b;
+}
+
+bool ObjectResourceItem::isPersistent() const
+{
+    return m_persistent;
+}
+
+void ObjectResourceItem::setPersistent(bool b)
+{
+    m_persistent = b;
+}
+
+bool ObjectResourceItem::usesPhysics() const
+{
+    return m_physicsObject;
+}
+
+void ObjectResourceItem::setPhysics(bool b)
+{
+    m_physicsObject = b;
+}
+
+bool ObjectResourceItem::startsAwake() const
+{
+    return m_physicsStartAwake;
+}
+
+void ObjectResourceItem::startAwake(bool b)
+{
+    m_physicsStartAwake = b;
+}
+
+bool ObjectResourceItem::isVisible() const
+{
+    return m_visible;
+}
+
+void ObjectResourceItem::setVisible(bool b)
+{
+    m_visible = b;
+}
+
+bool ObjectResourceItem::isSolid() const
+{
+    return m_solid;
+}
+
+void ObjectResourceItem::setSolid(bool b)
+{
+    m_solid = b;
+}
+
+bool ObjectResourceItem::isSensor() const
+{
+    return m_physicsSensor;
+}
+
+void ObjectResourceItem::setSensor(bool b)
+{
+    m_physicsSensor = b;
+}
+
 QString ObjectResourceItem::filename() const
 {
     return QString("objects/%1/%1.yy").arg(name());

@@ -22,6 +22,7 @@
 #include "resources/objectresourceitem.h"
 #include "ui_objecteditor.h"
 #include "models/eventsmodel.h"
+#include "widgets/formedit.h"
 
 class ObjectEditor : public MainEditor
 {
@@ -45,6 +46,13 @@ private slots:
 
 private:
     Ui::ObjectEditor * ui;
+    FormEdit * m_density;
+    FormEdit * m_restitution;
+    FormEdit * m_collisionGroup;
+    FormEdit * m_linearDamping;
+    FormEdit * m_angularDamping;
+    FormEdit * m_friction;
+
     EventsModel eventsModel;
     ObjectResourceItem * m_parentObject = nullptr;
     SpriteResourceItem * m_sprite = nullptr;

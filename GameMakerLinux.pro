@@ -71,7 +71,9 @@ SOURCES += \
     models/objectsmodel.cpp \
     resources/dependencies/roomsettings.cpp \
     models/sortedeventsmodel.cpp \
-    resources/projectresource.cpp
+    resources/projectresource.cpp \
+    utils/flowlayout.cpp \
+    widgets/formedit.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -121,7 +123,9 @@ HEADERS += \
     models/objectsmodel.h \
     resources/dependencies/roomsettings.h \
     models/sortedeventsmodel.h \
-    resources/projectresource.h
+    resources/projectresource.h \
+    utils/flowlayout.h \
+    widgets/formedit.h
 
 FORMS += \
         mainwindow.ui \

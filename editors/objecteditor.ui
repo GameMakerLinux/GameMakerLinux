@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>725</width>
-    <height>528</height>
+    <height>618</height>
    </rect>
   </property>
   <property name="tabPosition">
@@ -126,6 +126,38 @@
             </widget>
            </item>
            <item>
+            <layout class="QHBoxLayout" name="checkboxLayout">
+             <item>
+              <widget class="QCheckBox" name="visibleCheckBox">
+               <property name="text">
+                <string>Visible</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="solidCheckBox">
+               <property name="text">
+                <string>Solid</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="persistentCheckBox">
+               <property name="text">
+                <string>Persistent</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="usesPhysicsCheckBox">
+               <property name="text">
+                <string>Uses Physics</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -189,6 +221,36 @@
      </widget>
     </item>
     <item>
+     <widget class="QGroupBox" name="physicsOptions">
+      <property name="title">
+       <string>Physics</string>
+      </property>
+      <layout class="QVBoxLayout" name="physicsVerticalLayout">
+       <item>
+        <widget class="QCheckBox" name="kinematicCheckBox">
+         <property name="text">
+          <string>Kinematic</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="sensorCheckBox">
+         <property name="text">
+          <string>Sensor</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="startAwakeCheckBox">
+         <property name="text">
+          <string>Start Awake</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -196,7 +258,7 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>40</height>
+        <height>0</height>
        </size>
       </property>
      </spacer>

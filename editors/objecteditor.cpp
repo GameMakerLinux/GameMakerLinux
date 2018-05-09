@@ -22,6 +22,7 @@
 #include "widgets/selectitem.h"
 #include "resources/spriteresourceitem.h"
 #include "models/sortedeventsmodel.h"
+#include "utils/flowlayout.h"
 #include <QDir>
 #include <QDebug>
 
@@ -34,6 +35,64 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     setWidget(tabWidget);
 
     tabWidget->setCurrentIndex(0);
+
+    // remove the widgets to put them in a FlowLayout
+    ui->checkboxLayout->removeWidget(ui->visibleCheckBox);
+    ui->checkboxLayout->removeWidget(ui->solidCheckBox);
+    ui->checkboxLayout->removeWidget(ui->persistentCheckBox);
+    ui->checkboxLayout->removeWidget(ui->usesPhysicsCheckBox);
+
+    ui->physicsOptions->layout()->removeWidget(ui->sensorCheckBox);
+    ui->physicsOptions->layout()->removeWidget(ui->startAwakeCheckBox);
+    ui->physicsOptions->layout()->removeWidget(ui->kinematicCheckBox);
+
+    auto flow = new FlowLayout;
+    ui->checkboxLayout->addLayout(flow);
+    flow->addWidget(ui->visibleCheckBox);
+    flow->addWidget(ui->solidCheckBox);
+    flow->addWidget(ui->persistentCheckBox);
+    flow->addWidget(ui->usesPhysicsCheckBox);
+
+    flow = new FlowLayout;
+    ui->physicsVerticalLayout->addLayout(flow);
+    std::vector<QString> labels {
+        "Density",
+        "Restitution",
+        "Collision Group",
+        "Linear Damping",
+        "Angular Damping",
+        "Friction"
+    };
+    std::vector<FormEdit**> edits {
+        &m_density,
+        &m_restitution,
+        &m_collisionGroup,
+        &m_linearDamping,
+        &m_angularDamping,
+        &m_friction
+    };
+    for (unsigned int i = 0; i < labels.size(); i++)
+    {
+        *(edits[i]) = new FormEdit;
+        (*(edits[i]))->setLineEditWidth(50);
+        (*(edits[i]))->setLabel(labels[i]);
+        if (edits[i] == &m_collisionGroup)
+        {
+            (*(edits[i]))->setValidator(new QIntValidator(0, 100));
+        }
+        else
+        {
+            (*(edits[i]))->setValidator(new QDoubleValidator(0.0, 100.0, 1));
+        }
+        flow->addWidget(*(edits[i]));
+    }
+
+    flow = new FlowLayout;
+    flow->addWidget(ui->sensorCheckBox);
+    flow->addWidget(ui->startAwakeCheckBox);
+    flow->addWidget(ui->kinematicCheckBox);
+    ui->physicsVerticalLayout->addLayout(flow);
+    // FlowLayout end
 
     auto setParentAction = ui->parentLineEdit->addAction(QIcon::fromTheme("edit-undo"), QLineEdit::TrailingPosition);
     connect(setParentAction, &QAction::triggered, this, &ObjectEditor::chooseParent);
@@ -156,6 +215,23 @@ void ObjectEditor::reset()
         if (pParent && pParent->id() == pItem->id())
             ui->childrenTextEdit->appendPlainText(pChildItem->name());
     }
+
+    // PHYSICS
+    ui->visibleCheckBox->setChecked(pItem->isVisible());
+    ui->solidCheckBox->setChecked(pItem->isSolid());
+    ui->persistentCheckBox->setChecked(pItem->isPersistent());
+    ui->usesPhysicsCheckBox->setChecked(pItem->usesPhysics());
+
+    m_density->setText(QString::number(pItem->getRestitution()));
+    m_restitution->setText(QString::number(pItem->getRestitution()));
+    m_collisionGroup->setText(QString::number(pItem->getGroup()));
+    m_linearDamping->setText(QString::number(pItem->getLinearDamping()));
+    m_angularDamping->setText(QString::number(pItem->getAngularDamping()));
+    m_friction->setText(QString::number(pItem->getFriction()));
+
+    ui->sensorCheckBox->setChecked(pItem->isSensor());
+    ui->startAwakeCheckBox->setChecked(pItem->startsAwake());
+    ui->kinematicCheckBox->setChecked(pItem->isKinematic());
 
     setDirty(false);
 }

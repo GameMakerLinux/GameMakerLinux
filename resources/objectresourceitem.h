@@ -46,6 +46,40 @@ public:
     SpriteResourceItem * maskSprite() const;
     void setMaskSprite(SpriteResourceItem * sprite);
 
+    bool isKinematic() const;
+    void setKinematic(bool b);
+
+    bool isPersistent() const;
+    void setPersistent(bool b);
+
+    bool usesPhysics() const;
+    void setPhysics(bool b);
+
+    bool startsAwake() const;
+    void startAwake(bool b);
+
+    bool isVisible() const;
+    void setVisible(bool b);
+
+    bool isSolid() const;
+    void setSolid(bool b);
+
+    bool isSensor() const;
+    void setSensor(bool b);
+
+#define PHYSICS_GETTER_SETTER(name, type) \
+    type get ## name () const { return m_physics ## name ; } \
+    void set ## name (type v) { m_physics ## name = v; }
+
+    PHYSICS_GETTER_SETTER(Density, double)
+    PHYSICS_GETTER_SETTER(Restitution, double)
+    PHYSICS_GETTER_SETTER(Group, int)
+    PHYSICS_GETTER_SETTER(LinearDamping, double)
+    PHYSICS_GETTER_SETTER(AngularDamping, double)
+    PHYSICS_GETTER_SETTER(Friction, double)
+
+#undef PHYSICS_GETTER_SETTER
+
 private:
     QVector<ObjectEvent*> eventsList;
     QString m_maskSpriteId;
