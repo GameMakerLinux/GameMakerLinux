@@ -63,8 +63,10 @@ void ResourceItem::setName(QString name)
     emit nameChanged();
 }
 
-QPixmap ResourceItem::thumbnail() const
+QPixmap ResourceItem::thumbnail(int width, int height) const
 {
+    Q_UNUSED(width)
+    Q_UNUSED(height)
     return QPixmap();
 }
 

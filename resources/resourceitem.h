@@ -79,7 +79,7 @@ public:
 
     QString name() const { return m_name; }
     void setName(QString name);
-    virtual QPixmap thumbnail() const;
+    virtual QPixmap thumbnail(int width = 100, int height = 100) const;
 
     ResourceType type() const { return m_type; }
 

@@ -30,7 +30,7 @@ public:
 
     void load(QJsonObject object) override;
 
-    QPixmap thumbnail() const override;
+    QPixmap thumbnail(int width = 100, int height = 100) const override;
     QPixmap pixmap() const;
 
 private:

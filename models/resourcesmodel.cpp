@@ -25,6 +25,7 @@
 #include "utils/utils.h"
 #include "resources/folderresourceitem.h"
 #include <QMimeData>
+#include <QPixmap>
 
 static int QT_FIX_DND = -1;
 
@@ -170,6 +171,11 @@ QVariant ResourcesModel::data(const QModelIndex &index, int role) const
     {
         auto ptr = static_cast<ResourceItem*>(index.internalPointer());
         return ptr->name();
+    }
+    else if (role == Qt::DecorationRole)
+    {
+        auto ptr = static_cast<ResourceItem*>(index.internalPointer());
+        return ptr->thumbnail(16, 16);
     }
 
     return QVariant();

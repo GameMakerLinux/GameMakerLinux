@@ -40,12 +40,12 @@ void SpriteResourceItem::load(QJsonObject object)
     }
 }
 
-QPixmap SpriteResourceItem::thumbnail() const
+QPixmap SpriteResourceItem::thumbnail(int width, int height) const
 {
     auto pix = pixmap();
     if (!pix.isNull())
     {
-        pix = pix.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        pix = pix.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
     return pix;
 }
