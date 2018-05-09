@@ -19,6 +19,7 @@
 #include "allresourceitems.h"
 #include "utils/uuid.h"
 #include <QMessageBox>
+#include <QDebug>
 
 ResourceItem::ResourceItem(ResourceType type)
     : m_type { type }
@@ -52,7 +53,7 @@ void ResourceItem::setId(QString id)
 
 QString ResourceItem::filename() const
 {
-    QString sss;
+    qCritical() << "Filename asked for object of type:" << Utils::resourceTypeToString(type());
     return {};
 }
 
