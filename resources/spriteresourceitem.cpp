@@ -60,3 +60,9 @@ QPixmap SpriteResourceItem::pixmap() const
     }
     return QPixmap();
 }
+
+
+QString SpriteResourceItem::filename() const
+{
+    return QString("sprites/%1/%1.yy").arg(name());
+}

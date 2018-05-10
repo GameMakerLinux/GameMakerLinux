@@ -164,6 +164,24 @@ void ObjectEditor::save()
     // HIERARCHY
     pItem->setParentObject(m_parentObject);
 
+    // PHYSICS
+    pItem->setVisible(ui->visibleCheckBox->isChecked());
+    pItem->setSolid(ui->solidCheckBox->isChecked());
+    pItem->setPersistent(ui->persistentCheckBox->isChecked());
+    pItem->setPhysics(ui->usesPhysicsCheckBox->isChecked());
+
+    pItem->setDensity(m_density->text().toDouble());
+    pItem->setRestitution(m_restitution->text().toDouble());
+    pItem->setGroup(m_collisionGroup->text().toDouble());
+    pItem->setLinearDamping(m_linearDamping->text().toDouble());
+    pItem->setAngularDamping(m_angularDamping->text().toDouble());
+    pItem->setFriction(m_friction->text().toDouble());
+
+    pItem->setSensor(ui->sensorCheckBox->isChecked());
+    pItem->startAwake(ui->startAwakeCheckBox->isChecked());
+    pItem->setKinematic(ui->kinematicCheckBox->isChecked());
+
+    // SAVE FILE
     auto json = pItem->save();
     QString filename = QString("%1/%2").arg(GameSettings::rootPath(), pItem->filename());
     Utils::writeFile(filename, json);
@@ -232,7 +250,7 @@ void ObjectEditor::reset()
     ui->persistentCheckBox->setChecked(pItem->isPersistent());
     ui->usesPhysicsCheckBox->setChecked(pItem->usesPhysics());
 
-    m_density->setText(QString::number(pItem->getRestitution()));
+    m_density->setText(QString::number(pItem->getDensity()));
     m_restitution->setText(QString::number(pItem->getRestitution()));
     m_collisionGroup->setText(QString::number(pItem->getGroup()));
     m_linearDamping->setText(QString::number(pItem->getLinearDamping()));
