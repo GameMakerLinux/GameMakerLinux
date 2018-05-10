@@ -341,9 +341,15 @@ void ObjectEditor::chooseParent()
         auto parentItem = selectParent.choice();
 
         if (parentItem)
+        {
+            m_parentObject = qobject_cast<ObjectResourceItem*>(parentItem);
             ui->parentLineEdit->setText(parentItem->name());
+        }
         else
+        {
+            m_parentObject = nullptr;
             ui->parentLineEdit->setText({});
+        }
         setDirty();
     }
 }
@@ -357,9 +363,15 @@ void ObjectEditor::chooseMask()
         auto maskItem = selectMask.choice();
 
         if (maskItem)
+        {
+            m_maskSprite = qobject_cast<SpriteResourceItem*>(maskItem);
             ui->maskLineEdit->setText(maskItem->name());
+        }
         else
+        {
+            m_maskSprite = nullptr;
             ui->maskLineEdit->setText({});
+        }
         setDirty();
     }
 }
@@ -374,11 +386,14 @@ void ObjectEditor::chooseSprite()
 
         if (spriteItem)
         {
-            auto sprite = qobject_cast<SpriteResourceItem*>(spriteItem);
-            ui->spriteViewer->setIcon(sprite->thumbnail());
+            m_sprite = qobject_cast<SpriteResourceItem*>(spriteItem);
+            ui->spriteViewer->setIcon(m_sprite->thumbnail());
         }
         else
-            ui->maskLineEdit->setText({});
+        {
+            m_sprite = nullptr;
+            ui->spriteViewer->setIcon(QIcon());
+        }
         setDirty();
     }
 }
