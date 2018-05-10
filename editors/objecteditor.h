@@ -49,6 +49,7 @@ private slots:
     void chooseParent();
     void chooseMask();
     void chooseSprite();
+    void showEventsContextMenu(const QPoint & pos);
 
 private:
     Ui::ObjectEditor * ui;

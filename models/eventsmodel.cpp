@@ -76,7 +76,14 @@ QVariant EventsModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case Qt::DisplayRole:
-        return ObjectEvent::getName(event->eventType(), event->eventNumber()) + (item.modified ? "*" : "");
+    {
+        QString name = ObjectEvent::getName(event->eventType(), event->eventNumber());
+        if (item.inherited)
+            name += " (inherited)";
+        if (item.modified)
+            name += "*";
+        return name;
+    }
     case Qt::ForegroundRole:
         if (item.inherited)
             return QColor(Qt::gray);

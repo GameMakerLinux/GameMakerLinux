@@ -23,6 +23,7 @@
 #include "resources/spriteresourceitem.h"
 #include "models/sortedeventsmodel.h"
 #include "utils/flowlayout.h"
+#include <QMenu>
 #include <QDir>
 #include <QDebug>
 
@@ -106,6 +107,7 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     sortedModel->setSourceModel(&eventsModel);
     ui->eventsListView->setModel(sortedModel);
     ui->eventsListView->selectionModel()->select(sortedModel->index(0, 0), QItemSelectionModel::ClearAndSelect);
+    ui->eventsListView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(&eventsModel, &EventsModel::rowsInserted, this, &ObjectEditor::onEventsAdded);
     connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);
@@ -121,9 +123,10 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
 
     connect(ui->spriteViewer, &QPushButton::clicked, this, &ObjectEditor::chooseSprite);
 
-    connect(ui->eventsListView, &QListView::clicked, [this](const QModelIndex & index) {
+    connect(ui->eventsListView, &QListView::pressed, [this](const QModelIndex & index) {
         ui->stackedCodeEditorWidget->setCurrentIndex(index.row());
     });
+    connect(ui->eventsListView, &QListView::customContextMenuRequested, this, &ObjectEditor::showEventsContextMenu);
 
     connect(ui->nameLineEdit, &QLineEdit::textEdited, [this](QString) {
         this->setDirty();
@@ -182,6 +185,7 @@ void ObjectEditor::save()
     pItem->setParentObject(m_parentObject);
     if (previousParent != m_parentObject)
     {
+        // update children when an object has it's parent changed
         if (previousParent)
             emit childrenChanged(previousParent);
         if (m_parentObject)
@@ -415,4 +419,25 @@ void ObjectEditor::chooseSprite()
         }
         setDirty();
     }
+}
+
+void ObjectEditor::showEventsContextMenu(const QPoint & pos)
+{
+    auto index = ui->eventsListView->indexAt(pos);
+    QMenu menu;
+    menu.addAction("Add new event");
+    if (index.isValid())
+    {
+        bool inherited = eventsModel.isInherited(index.row());
+        if (inherited)
+        {
+            menu.addAction("Override event");
+        }
+        else
+        {
+            menu.addAction("Change event");
+            menu.addAction("Delete event");
+        }
+    }
+    menu.exec(ui->eventsListView->mapToGlobal(pos));
 }
