@@ -180,8 +180,13 @@ void ObjectEditor::save()
     // HIERARCHY
     auto previousParent = pItem->parentObject();
     pItem->setParentObject(m_parentObject);
-    emit childrenChanged(previousParent);
-    emit childrenChanged(pItem->parentObject());
+    if (previousParent != m_parentObject)
+    {
+        if (previousParent)
+            emit childrenChanged(previousParent);
+        if (m_parentObject)
+            emit childrenChanged(pItem->parentObject());
+    }
 
     // PHYSICS
     pItem->setVisible(ui->visibleCheckBox->isChecked());
