@@ -66,7 +66,11 @@ void FormEdit::checkLineEditContents()
     }
     else
     {
-        m_cachedValue = m_lineEdit->text();
+        if (m_cachedValue != m_lineEdit->text())
+        {
+            m_cachedValue = m_lineEdit->text();
+            emit editingFinished();
+        }
     }
 }
 

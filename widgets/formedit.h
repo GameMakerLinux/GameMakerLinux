@@ -37,6 +37,9 @@ public:
 
     bool eventFilter(QObject * watched, QEvent * event) override;
 
+signals:
+    void editingFinished();
+
 private:
     void checkLineEditContents();
 

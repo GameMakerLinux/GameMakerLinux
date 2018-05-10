@@ -28,7 +28,7 @@ ScriptEditor::ScriptEditor(ScriptResourceItem * item)
     codeEditor = new CodeEditor;
     setWidget(codeEditor);
 
-    connect(codeEditor, &CodeEditor::dirtyChanged, this, &ScriptEditor::setDirty);
+    connect(codeEditor, &CodeEditor::dirtyChanged, this, qOverload<bool>(&ScriptEditor::setDirty));
 
     reset();
 }

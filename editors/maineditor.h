@@ -53,7 +53,8 @@ protected:
     }
 
 protected slots:
-    virtual void setDirty(bool b = true);
+    virtual void setDirty(bool b);
+    void setDirty() { setDirty(true); }
 
 private:
     Ui::MainEditor * ui;

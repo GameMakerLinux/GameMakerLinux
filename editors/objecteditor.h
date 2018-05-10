@@ -30,11 +30,12 @@ class ObjectEditor : public MainEditor
 
 public:
     ObjectEditor(ObjectResourceItem* item);
+    using MainEditor::setDirty;
 
 protected slots:
     void save() override;
     void reset() override;
-    void setDirty(bool dirty = true) override;
+    void setDirty(bool dirty) override;
 
 private slots:
     void onEventsAdded(const QModelIndex &parent, int first, int last);

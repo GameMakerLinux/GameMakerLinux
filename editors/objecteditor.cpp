@@ -85,6 +85,8 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
             (*(edits[i]))->setValidator(new QDoubleValidator(0.0, 100.0, 1));
         }
         flow->addWidget(*(edits[i]));
+
+        connect(*(edits[i]), &FormEdit::editingFinished, this, qOverload<>(&ObjectEditor::setDirty));
     }
 
     flow = new FlowLayout;
@@ -108,6 +110,14 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     connect(&eventsModel, &EventsModel::rowsInserted, this, &ObjectEditor::onEventsAdded);
     connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);
     connect(&eventsModel, &EventsModel::modelReset, this, &ObjectEditor::onEventsCleared);
+
+    connect(ui->visibleCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
+    connect(ui->solidCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
+    connect(ui->persistentCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
+    connect(ui->usesPhysicsCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
+    connect(ui->sensorCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
+    connect(ui->startAwakeCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
+    connect(ui->kinematicCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
 
     connect(ui->spriteViewer, &QPushButton::clicked, this, &ObjectEditor::chooseSprite);
 
@@ -277,7 +287,7 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
 
         auto inherited = eventsModel.isInherited(i);
         if (!inherited)
-            connect(editor, &CodeEditor::dirtyChanged, this, &ObjectEditor::setDirty);
+            connect(editor, &CodeEditor::dirtyChanged, this, qOverload<bool>(&ObjectEditor::setDirty));
         else
             editor->setReadOnly(true);
 
