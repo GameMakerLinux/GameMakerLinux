@@ -32,6 +32,11 @@ public:
     ObjectEditor(ObjectResourceItem* item);
     using MainEditor::setDirty;
 
+    void refreshChildren();
+
+signals:
+    void childrenChanged(ObjectResourceItem* item);
+
 protected slots:
     void save() override;
     void reset() override;

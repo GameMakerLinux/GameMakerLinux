@@ -132,6 +132,22 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     reset();
 }
 
+void ObjectEditor::refreshChildren()
+{
+    auto pItem = item<ObjectResourceItem>();
+
+    ui->childrenTextEdit->clear();
+
+    auto objectItems = ResourceItem::findAll(ResourceType::Object);
+    for (auto & childId : objectItems)
+    {
+        auto pChildItem = ResourceItem::get<ObjectResourceItem>(childId);
+        auto pParent = pChildItem->parentObject();
+        if (pParent && pParent->id() == pItem->id())
+            ui->childrenTextEdit->appendPlainText(pChildItem->name());
+    }
+}
+
 void ObjectEditor::save()
 {
     auto pItem = item<ObjectResourceItem>();
@@ -162,7 +178,10 @@ void ObjectEditor::save()
     }
 
     // HIERARCHY
+    auto previousParent = pItem->parentObject();
     pItem->setParentObject(m_parentObject);
+    emit childrenChanged(previousParent);
+    emit childrenChanged(pItem->parentObject());
 
     // PHYSICS
     pItem->setVisible(ui->visibleCheckBox->isChecked());
@@ -235,14 +254,7 @@ void ObjectEditor::reset()
         ui->parentLineEdit->setText({});
     }
 
-    auto objectItems = ResourceItem::findAll(ResourceType::Object);
-    for (auto & childId : objectItems)
-    {
-        auto pChildItem = ResourceItem::get<ObjectResourceItem>(childId);
-        auto pParent = pChildItem->parentObject();
-        if (pParent && pParent->id() == pItem->id())
-            ui->childrenTextEdit->appendPlainText(pChildItem->name());
-    }
+    refreshChildren();
 
     // PHYSICS
     ui->visibleCheckBox->setChecked(pItem->isVisible());
@@ -339,18 +351,20 @@ void ObjectEditor::chooseParent()
     if (selectParent.exec())
     {
         auto parentItem = selectParent.choice();
-
-        if (parentItem)
+        if (m_parentObject != parentItem)
         {
-            m_parentObject = qobject_cast<ObjectResourceItem*>(parentItem);
-            ui->parentLineEdit->setText(parentItem->name());
+            if (parentItem)
+            {
+                m_parentObject = qobject_cast<ObjectResourceItem*>(parentItem);
+                ui->parentLineEdit->setText(parentItem->name());
+            }
+            else
+            {
+                m_parentObject = nullptr;
+                ui->parentLineEdit->setText({});
+            }
+            setDirty();
         }
-        else
-        {
-            m_parentObject = nullptr;
-            ui->parentLineEdit->setText({});
-        }
-        setDirty();
     }
 }
 

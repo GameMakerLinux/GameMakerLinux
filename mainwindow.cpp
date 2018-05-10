@@ -87,7 +87,7 @@ void MainWindow::openProject()
 void MainWindow::openRoom(RoomResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -108,7 +108,7 @@ void MainWindow::openRoom(RoomResourceItem * item)
 void MainWindow::openSprite(SpriteResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -123,7 +123,7 @@ void MainWindow::openSprite(SpriteResourceItem * item)
 void MainWindow::openScript(ScriptResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -139,7 +139,7 @@ void MainWindow::openScript(ScriptResourceItem * item)
 void MainWindow::openAndroidOptions(AndroidOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -154,7 +154,7 @@ void MainWindow::openAndroidOptions(AndroidOptionsResourceItem * item)
 void MainWindow::openAmazonFireOptions(AmazonFireOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -169,7 +169,7 @@ void MainWindow::openAmazonFireOptions(AmazonFireOptionsResourceItem * item)
 void MainWindow::openWindowsOptions(WindowsOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -184,7 +184,7 @@ void MainWindow::openWindowsOptions(WindowsOptionsResourceItem * item)
 void MainWindow::openLinuxOptions(LinuxOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -199,7 +199,7 @@ void MainWindow::openLinuxOptions(LinuxOptionsResourceItem * item)
 void MainWindow::openMacOptions(MacOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -214,7 +214,7 @@ void MainWindow::openMacOptions(MacOptionsResourceItem * item)
 void MainWindow::openiOsOptions(iOSOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -229,7 +229,7 @@ void MainWindow::openiOsOptions(iOSOptionsResourceItem * item)
 void MainWindow::openIncludedFile(IncludedFileResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -244,7 +244,7 @@ void MainWindow::openIncludedFile(IncludedFileResourceItem * item)
 void MainWindow::openMainOptions(MainOptionsResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -259,12 +259,13 @@ void MainWindow::openMainOptions(MainOptionsResourceItem * item)
 void MainWindow::openObject(ObjectResourceItem * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
 
     auto editor = new ObjectEditor(item);
+    connect(editor, &ObjectEditor::childrenChanged, this, &MainWindow::updateChildren);
 
     int pos = tabWidget->addTab(editor, item->name());
 
@@ -283,7 +284,7 @@ void MainWindow::openObject(ObjectResourceItem * item)
 void MainWindow::openInstance(ObjectInstance * item)
 {
     auto id = item->id();
-    if (checkTab(id))
+    if (moveToTab(id))
     {
         return;
     }
@@ -347,6 +348,17 @@ bool MainWindow::closeProject()
     return true;
 }
 
+void MainWindow::updateChildren(ObjectResourceItem * item)
+{
+    auto id = item->id();
+    if (idOfOpenedTabs.contains(id))
+    {
+        int pos = idOfOpenedTabs.indexOf(id);
+        auto editor = qobject_cast<ObjectEditor*>(tabWidget->widget(pos));
+        editor->refreshChildren();
+    }
+}
+
 void MainWindow::loadProject(QString filename)
 {
     if (!closeProject())
@@ -371,7 +383,7 @@ void MainWindow::loadProject(QString filename)
     GameSettings::setLastOpenedProject(filename);
 }
 
-bool MainWindow::checkTab(QString id)
+bool MainWindow::moveToTab(QString id)
 {
     if (idOfOpenedTabs.contains(id))
     {

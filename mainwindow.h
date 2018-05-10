@@ -61,12 +61,14 @@ private slots:
     void saveProject();
     bool closeProject();
 
+    void updateChildren(ObjectResourceItem* item);
+
 protected:
     void closeEvent(QCloseEvent * event) override;
 
 private:
     void loadProject(QString filename);
-    bool checkTab(QString id);
+    bool moveToTab(QString id);
     bool closeTab(int pos);
     void connectEditors(MainEditor* editor, ResourceItem * item);
 
