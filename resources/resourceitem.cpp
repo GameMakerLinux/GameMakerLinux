@@ -54,7 +54,7 @@ void ResourceItem::setId(QString id)
 QString ResourceItem::filename() const
 {
     qCritical() << "Filename asked for object of type:" << Utils::resourceTypeToString(type());
-    return {};
+    throw 42;
 }
 
 void ResourceItem::setName(QString name)

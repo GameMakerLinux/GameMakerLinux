@@ -28,7 +28,7 @@ QJsonObject Utils::readFileToJSON(QString filename)
     QFile f(filename);
     if (!f.open(QFile::ReadOnly))
     {
-        qCritical() << "Can't open file" << filename;
+        qCritical() << __PRETTY_FUNCTION__ << "Can't open file" << filename;
         return {};
     }
 
@@ -50,7 +50,7 @@ QString Utils::readFile(QString filename)
     QFile f(filename);
     if (!f.open(QFile::ReadOnly))
     {
-        qCritical() << "Can't open file" << filename;
+        qCritical() << __PRETTY_FUNCTION__ << "Can't open file" << filename;
         return {};
     }
 
@@ -71,7 +71,7 @@ bool Utils::writeFile(QString filename, QByteArray data)
     QFile f(filename);
     if (!f.open(QFile::WriteOnly))
     {
-        qCritical() << "Can't open file" << filename;
+        qCritical() << __PRETTY_FUNCTION__ << "Can't open file" << filename;
         return false;
     }
 

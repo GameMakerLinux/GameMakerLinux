@@ -34,7 +34,7 @@ public:
     QColor colour() const;
 
 private:
-    SpriteResourceItem * m_sprite = nullptr;
+    QString m_spriteId;
     QColor m_colour = Qt::black;
 };
 

@@ -29,11 +29,7 @@ void BackgroundLayer::load(QJsonObject object)
 {
     RoomLayer::load(object);
 
-    auto spriteId = object["spriteId"].toString();
-    if (!Uuid::isNull(spriteId))
-    {
-        m_sprite = ResourceItem::get<SpriteResourceItem>(spriteId);
-    }
+    m_spriteId = object["spriteId"].toString();
 
     auto colourJson = object["colour"].toObject();
     auto colourValue = colourJson["Value"].toVariant().toUInt();
@@ -46,7 +42,11 @@ void BackgroundLayer::load(QJsonObject object)
 
 SpriteResourceItem *BackgroundLayer::sprite() const
 {
-    return m_sprite;
+    if (!Uuid::isNull(m_spriteId))
+    {
+        return ResourceItem::get<SpriteResourceItem>(m_spriteId);
+    }
+    return nullptr;
 }
 
 QColor BackgroundLayer::colour() const
