@@ -36,6 +36,7 @@ public:
     explicit EventsModel(QObject *parent = nullptr);
 
     void addEvent(ObjectEvent * event, bool inherited = false);
+    void deleteEvent(ObjectEvent * event);
     void clear();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -44,6 +45,7 @@ public:
     QString getFilename(int row) const;
     void setModified(int row, bool modified);
     bool isInherited(int row) const;
+    ObjectEvent * event(int row) const;
 
 private:
     int findEvent(ObjectEvent::EventType eventType, int eventNumber);

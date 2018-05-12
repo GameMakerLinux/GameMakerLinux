@@ -23,6 +23,7 @@
 #include "ui_objecteditor.h"
 #include "models/eventsmodel.h"
 #include "widgets/formedit.h"
+#include <QMenu>
 
 class ObjectEditor : public MainEditor
 {
@@ -50,8 +51,16 @@ private slots:
     void chooseMask();
     void chooseSprite();
     void showEventsContextMenu(const QPoint & pos);
+    void addEvent();
+    void overrideEvent();
+    void changeEvent();
+    void deleteEvent();
 
 private:
+    static void createEventsMenu();
+    static QMenu * getEventsMenu();
+    static QMenu eventsMenu;
+
     Ui::ObjectEditor * ui;
     FormEdit * m_density;
     FormEdit * m_restitution;

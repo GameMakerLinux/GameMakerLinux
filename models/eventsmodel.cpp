@@ -49,6 +49,21 @@ void EventsModel::addEvent(ObjectEvent * event, bool inherited)
     endInsertRows();
 }
 
+void EventsModel::deleteEvent(ObjectEvent * event)
+{
+    int eventPosition = findEvent(event->eventType(), event->eventNumber());
+    if (eventPosition != -1)
+    {
+        auto eventData = items[eventPosition];
+        if (eventData.event == event && eventData.inherited == false)
+        {
+            beginRemoveRows(QModelIndex(), eventPosition, eventPosition);
+            items.removeAt(eventPosition);
+            endRemoveRows();
+        }
+    }
+}
+
 void EventsModel::clear()
 {
     beginResetModel();
@@ -113,6 +128,11 @@ void EventsModel::setModified(int row, bool modified)
 bool EventsModel::isInherited(int row) const
 {
     return items[row].inherited;
+}
+
+ObjectEvent *EventsModel::event(int row) const
+{
+    return items[row].event;
 }
 
 int EventsModel::findEvent(ObjectEvent::EventType eventType, int eventNumber)

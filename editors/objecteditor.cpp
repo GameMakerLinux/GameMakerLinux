@@ -23,9 +23,14 @@
 #include "resources/spriteresourceitem.h"
 #include "models/sortedeventsmodel.h"
 #include "utils/flowlayout.h"
-#include <QMenu>
 #include <QDir>
 #include <QDebug>
+
+struct EventTypeAndNumber {
+    ObjectEvent::EventType type;
+    int number = 0;
+};
+Q_DECLARE_METATYPE(EventTypeAndNumber)
 
 ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     : MainEditor { item }
@@ -133,6 +138,8 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     });
 
     reset();
+
+    createEventsMenu();
 }
 
 void ObjectEditor::refreshChildren()
@@ -425,19 +432,76 @@ void ObjectEditor::showEventsContextMenu(const QPoint & pos)
 {
     auto index = ui->eventsListView->indexAt(pos);
     QMenu menu;
-    menu.addAction("Add new event");
+    menu.addAction("Add new event", this, &ObjectEditor::addEvent);
     if (index.isValid())
     {
-        bool inherited = eventsModel.isInherited(index.row());
+        int row = index.row();
+        bool inherited = eventsModel.isInherited(row);
+        auto event = eventsModel.event(row);
         if (inherited)
         {
-            menu.addAction("Override event");
+            auto act = menu.addAction("Override event", this, &ObjectEditor::overrideEvent);
+            act->setData(QVariant::fromValue(event));
         }
         else
         {
-            menu.addAction("Change event");
-            menu.addAction("Delete event");
+            auto act = menu.addAction("Change event", this, &ObjectEditor::changeEvent);
+            act->setData(QVariant::fromValue(event));
+            act = menu.addAction("Delete event", this, &ObjectEditor::deleteEvent);
+            act->setData(QVariant::fromValue(event));
         }
     }
     menu.exec(ui->eventsListView->mapToGlobal(pos));
+}
+
+void ObjectEditor::addEvent()
+{
+    auto menu = getEventsMenu();
+    menu->exec(QCursor::pos());
+}
+
+void ObjectEditor::overrideEvent()
+{
+    auto action = qobject_cast<QAction*>(sender());
+    auto event = action->data().value<ObjectEvent*>();
+    Q_UNUSED(event)
+}
+
+void ObjectEditor::changeEvent()
+{
+    auto action = qobject_cast<QAction*>(sender());
+    auto event = action->data().value<ObjectEvent*>();
+    Q_UNUSED(event)
+}
+
+void ObjectEditor::deleteEvent()
+{
+    auto action = qobject_cast<QAction*>(sender());
+    auto event = action->data().value<ObjectEvent*>();
+
+    eventsModel.deleteEvent(event);
+}
+
+void ObjectEditor::createEventsMenu()
+{
+}
+
+QMenu * ObjectEditor::getEventsMenu()
+{
+    static bool init = false;
+    static QMenu eventsMenu;
+    if (!init)
+    {
+        auto act = eventsMenu.addAction("Create");
+        act->setData(QVariant::fromValue(EventTypeAndNumber { ObjectEvent::CreateEvent }));
+        act = eventsMenu.addAction("Step");
+        act->setData(QVariant::fromValue(EventTypeAndNumber { ObjectEvent::StepEvent }));
+        act = eventsMenu.addAction("Begin Step");
+        act->setData(QVariant::fromValue(EventTypeAndNumber { ObjectEvent::StepEvent, 1 }));
+        act = eventsMenu.addAction("End Step");
+        act->setData(QVariant::fromValue(EventTypeAndNumber { ObjectEvent::StepEvent, 2 }));
+
+        init = true;
+    }
+    return &eventsMenu;
 }
