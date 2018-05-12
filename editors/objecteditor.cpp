@@ -255,7 +255,7 @@ void ObjectEditor::reset()
             eventsModel.addEvent(event, pCurrentItemInHierarchy != pItem);
         }
 
-        pCurrentItemInHierarchy = pCurrentItemInHierarchy->parentObject();
+        pCurrentItemInHierarchy = nullptr; //pCurrentItemInHierarchy->parentObject();
     }
 
     // HIERARCHY
