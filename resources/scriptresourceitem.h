@@ -30,6 +30,8 @@ public:
     void load(QJsonObject object) override;
     QString filename() const override;
 
+    QString scriptFilename() const;
+
     QString code;
 };
 

@@ -37,7 +37,7 @@ void ScriptEditor::save()
 {
     auto name = item<ScriptResourceItem>()->name();
 
-    QString path = QString("%1/%2").arg(GameSettings::rootPath(), item<ScriptResourceItem>()->filename());
+    QString path = QString("%1/%2").arg(GameSettings::rootPath(), item<ScriptResourceItem>()->scriptFilename());
     QFile f(path);
     if (!f.open(QFile::WriteOnly))
     {
@@ -55,7 +55,7 @@ void ScriptEditor::reset()
 {
     auto name = item<ScriptResourceItem>()->name();
 
-    QString path = QString("%1/%2").arg(GameSettings::rootPath(), item<ScriptResourceItem>()->filename());
+    QString path = QString("%1/%2").arg(GameSettings::rootPath(), item<ScriptResourceItem>()->scriptFilename());
 
     QFile f(path);
     if (!f.open(QFile::ReadOnly))

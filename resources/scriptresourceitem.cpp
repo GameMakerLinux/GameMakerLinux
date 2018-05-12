@@ -31,3 +31,8 @@ QString ScriptResourceItem::filename() const
 {
     return QString("scripts/%1/%1.yy").arg(name());
 }
+
+QString ScriptResourceItem::scriptFilename() const
+{
+    return QString("scripts/%1/%1.gml").arg(name());
+}
