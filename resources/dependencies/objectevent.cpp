@@ -74,6 +74,11 @@ QString ObjectEvent::owner() const
     return m_owner;
 }
 
+void ObjectEvent::setOwner(QString id)
+{
+    m_owner = id;
+}
+
 static QString eventsTypeFileNames[] = {
     "Create",
     "Destroy",

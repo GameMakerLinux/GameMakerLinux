@@ -55,6 +55,7 @@ public:
     EventType eventType() const;
     int eventNumber() const;
     QString owner() const;
+    void setOwner(QString id);
 
     static QString getName(EventType eventType, int eventNumber);
     static QString getFileName(EventType eventType, int eventNumber);

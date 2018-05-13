@@ -55,6 +55,7 @@ private slots:
     void overrideEvent();
     void changeEvent();
     void deleteEvent();
+    void menuTriggered(QAction * action);
 
 private:
     static void createEventsMenu();
@@ -73,6 +74,14 @@ private:
     ObjectResourceItem * m_parentObject = nullptr;
     SpriteResourceItem * m_sprite = nullptr;
     SpriteResourceItem * m_maskSprite = nullptr;
+
+    enum class MenuTriggeredType {
+        Nothing,
+        Create,
+        Change,
+    };
+
+    MenuTriggeredType menuTriggeredType = MenuTriggeredType::Nothing;
 };
 
 #endif // OBJECTEDITOR_H

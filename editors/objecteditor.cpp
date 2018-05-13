@@ -187,6 +187,13 @@ void ObjectEditor::save()
         }
     }
 
+    pItem->clearEvents();
+    for (int i = 0; i < eventsModel.rowCount(); i++)
+    {
+        auto ev = eventsModel.event(i);
+        pItem->addEvent(ev);
+    }
+
     // HIERARCHY
     auto previousParent = pItem->parentObject();
     pItem->setParentObject(m_parentObject);
@@ -456,8 +463,11 @@ void ObjectEditor::showEventsContextMenu(const QPoint & pos)
 
 void ObjectEditor::addEvent()
 {
+    menuTriggeredType = MenuTriggeredType::Create;
     auto menu = getEventsMenu();
+    connect(menu, &QMenu::triggered, this, &ObjectEditor::menuTriggered);
     menu->exec(QCursor::pos());
+    menuTriggeredType = MenuTriggeredType::Nothing;
 }
 
 void ObjectEditor::overrideEvent()
@@ -480,6 +490,18 @@ void ObjectEditor::deleteEvent()
     auto event = action->data().value<ObjectEvent*>();
 
     eventsModel.deleteEvent(event);
+}
+
+void ObjectEditor::menuTriggered(QAction * action)
+{
+    if (menuTriggeredType == MenuTriggeredType::Nothing)
+        return;
+
+    auto pItem = item<ObjectResourceItem>();
+    auto eventTypeAndNumber = action->data().value<EventTypeAndNumber>();
+    auto newEvent = new ObjectEvent(eventTypeAndNumber.type, eventTypeAndNumber.number);
+    newEvent->setOwner(pItem->id());
+    eventsModel.addEvent(newEvent);
 }
 
 void ObjectEditor::createEventsMenu()

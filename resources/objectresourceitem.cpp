@@ -110,7 +110,17 @@ ObjectEvent * ObjectResourceItem::getEvent(int id) const
     return eventsList[id];
 }
 
-ObjectResourceItem *ObjectResourceItem::parentObject() const
+void ObjectResourceItem::addEvent(ObjectEvent * event)
+{
+    eventsList.push_back(event);
+}
+
+void ObjectResourceItem::clearEvents()
+{
+    eventsList.clear();
+}
+
+ObjectResourceItem * ObjectResourceItem::parentObject() const
 {
     if (!Uuid::isNull(m_parentObjectId))
         return qobject_cast<ObjectResourceItem*>(ResourceItem::get(m_parentObjectId));

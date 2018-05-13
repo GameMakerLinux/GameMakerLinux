@@ -36,6 +36,8 @@ public:
 
     int eventsCount() const;
     ObjectEvent * getEvent(int id) const;
+    void addEvent(ObjectEvent * event);
+    void clearEvents();
 
     ObjectResourceItem * parentObject() const;
     void setParentObject(ObjectResourceItem * object);

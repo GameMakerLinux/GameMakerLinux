@@ -20,6 +20,7 @@
 #include "gamesettings.h"
 #include "resources/dependencies/objectevent.h"
 #include <QColor>
+#include <QFile>
 
 EventsModel::EventsModel(QObject *parent)
     : QAbstractListModel { parent }
@@ -32,14 +33,15 @@ void EventsModel::addEvent(ObjectEvent * event, bool inherited)
     int eventPosition = findEvent(event->eventType(), event->eventNumber());
     if (eventPosition != -1)
     {
-        if (!inherited)
+        if (!inherited && items[eventPosition].inherited)
         {
-            // if the new one we add is not inherited, remove the existing (inherited) one
+            // if the new one we add is not inherited, remove the existing inherited one
             items.remove(eventPosition);
         }
         else
         {
-            // if not inherited, don't do anything
+            // if not inherited or trying to add
+            // an existing event, don't do anything
             return;
         }
     }
@@ -57,9 +59,14 @@ void EventsModel::deleteEvent(ObjectEvent * event)
         auto eventData = items[eventPosition];
         if (eventData.event == event && eventData.inherited == false)
         {
+            auto filename = getFilename(eventPosition);
+
             beginRemoveRows(QModelIndex(), eventPosition, eventPosition);
             items.removeAt(eventPosition);
             endRemoveRows();
+
+            QString fullPath = QString("%1/%2").arg(GameSettings::rootPath(), filename);
+            QFile(fullPath).remove();
         }
     }
 }
