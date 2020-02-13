@@ -23,34 +23,32 @@
 CodeEditor::CodeEditor(QWidget *parent)
     : QWidget { parent }
 {
-    textEdit = new QsciScintilla;
-    textEdit->setAutoIndent(true);
-    textEdit->setLexer(new GMLHighlighter);
+    textEdit = new Qutepart::Qutepart;
 
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(textEdit);
 
-    connect(textEdit, &QsciScintilla::modificationChanged, this, &CodeEditor::dirtyChanged);
+    connect(textEdit, &Qutepart::Qutepart::modificationChanged, this, &CodeEditor::dirtyChanged);
 }
 
 void CodeEditor::setCode(QString code)
 {
     auto blocked = textEdit->blockSignals(true);
-    textEdit->setText(code);
+    textEdit->setPlainText(code);
     textEdit->blockSignals(blocked);
 }
 
 QString CodeEditor::getCode() const
 {
-    return textEdit->text();
+    return textEdit->toPlainText();
 }
 
 void CodeEditor::setDirty(bool dirty)
 {
-    if (textEdit->isModified() != dirty)
+    if (textEdit->document()->isModified() != dirty)
     {
-        textEdit->setModified(dirty);
+        textEdit->document()->setModified(dirty);
     }
 }
 

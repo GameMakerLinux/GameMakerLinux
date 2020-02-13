@@ -66,7 +66,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
                 if (item->type() == ResourceType::Folder)
                 {
                     auto childrenJson = json["children"].toArray();
-                    for (const auto & value : childrenJson)
+                    for (auto value : childrenJson)
                     {
                         auto child = value.toString();
                         children[item->id()].push_back(child);

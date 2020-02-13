@@ -17,11 +17,11 @@
 
 #ifndef GMLHIGHLIGHTER_H
 #define GMLHIGHLIGHTER_H
-
+/*
 #include <Qsci/qscilexercustom.h>
 #include <Qsci/qscilexerjavascript.h>
-
-class GMLHighlighter : public QsciLexerJavaScript
+*/
+class GMLHighlighter //: public QsciLexerJavaScript
 {
 public:
     GMLHighlighter();

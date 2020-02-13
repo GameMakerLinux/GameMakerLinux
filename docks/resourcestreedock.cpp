@@ -16,11 +16,12 @@
 */
 
 #include "resourcestreedock.h"
-#include <QVBoxLayout>
-#include <QTreeView>
 #include "models/resourcesmodel.h"
 #include "resources/allresourceitems.h"
 #include "utils/utils.h"
+#include <QVBoxLayout>
+#include <QTreeView>
+#include <QMenu>
 #include <QDebug>
 
 ResourcesTreeDock::ResourcesTreeDock()
@@ -31,8 +32,10 @@ ResourcesTreeDock::ResourcesTreeDock()
     resourcesTree->setDropIndicatorShown(true);
     resourcesTree->setDragDropMode(QAbstractItemView::InternalMove);
     resourcesTree->setFocusPolicy(Qt::NoFocus);
+    resourcesTree->setContextMenuPolicy(Qt::CustomContextMenu);
     setWidget(resourcesTree);
 
+    connect(resourcesTree, &QTreeView::customContextMenuRequested, this, &ResourcesTreeDock::onContextMenuRequested);
     connect(resourcesTree, &QTreeView::doubleClicked, this, &ResourcesTreeDock::onItemDoubleClicked);
 }
 
@@ -89,4 +92,95 @@ void ResourcesTreeDock::onItemDoubleClicked(const QModelIndex & index)
     default:
         qCritical() << "Unimplemented element:" << Utils::resourceTypeToString(resourceItem->type());
     }
+}
+
+void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
+{
+    auto modelIndex = resourcesTree->indexAt(pos);
+    if (modelIndex.isValid())
+    {
+        QMenu contextMenu(this);
+
+        auto item = static_cast<ResourceItem*>(modelIndex.internalPointer());
+        switch (item->type())
+        {
+        case ResourceType::AmazonFireOptions:
+            break;
+        case ResourceType::AndroidOptions:
+            break;
+        case ResourceType::BackgroundLayer:
+            break;
+        case ResourceType::Config:
+            break;
+        case ResourceType::Event:
+            break;
+        case ResourceType::Extension:
+            break;
+        case ResourceType::Folder:
+            addItemAction(contextMenu, static_cast<FolderResourceItem*>(item));
+            break;
+        case ResourceType::Font:
+            break;
+        case ResourceType::ImageLayer:
+            break;
+        case ResourceType::IncludedFile:
+            break;
+        case ResourceType::InstanceLayer:
+            break;
+        case ResourceType::iOSOptions:
+            break;
+        case ResourceType::LinuxOptions:
+            break;
+        case ResourceType::Notes:
+            break;
+        case ResourceType::MacOptions:
+            break;
+        case ResourceType::MainOptions:
+            break;
+        case ResourceType::Object:
+            break;
+        case ResourceType::Options:
+            break;
+        case ResourceType::ObjectInstance:
+            break;
+        case ResourceType::Path:
+            break;
+        case ResourceType::Project:
+            break;
+        case ResourceType::Room:
+            break;
+        case ResourceType::Root:
+            break;
+        case ResourceType::RoomSettings:
+            break;
+        case ResourceType::Sound:
+            break;
+        case ResourceType::Script:
+            break;
+        case ResourceType::Shader:
+            break;
+        case ResourceType::Sprite:
+            break;
+        case ResourceType::SpriteFrame:
+            break;
+        case ResourceType::SpriteImage:
+            break;
+        case ResourceType::TileSet:
+            break;
+        case ResourceType::Timeline:
+            break;
+        case ResourceType::Unknown:
+            break;
+        case ResourceType::WindowsOptions:
+            break;
+        }
+
+        if (contextMenu.actions().count())
+            contextMenu.exec(resourcesTree->mapToGlobal(pos));
+    }
+}
+
+void ResourcesTreeDock::addItemAction(QMenu * menu, FolderResourceItem * folder)
+{
+    menu->addAction(QString("Add a '%1'").arg(folder->name()));
 }

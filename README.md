@@ -33,8 +33,8 @@ An attempt to have a Game Maker IDE on Linux.
 
 ### Prerequisites
 
-* You need to build and install [QScintilla](https://riverbankcomputing.com/software/qscintilla/intro)
-* You need a C++14 compiler
+* You need to build and install [Qutepart](https://github.com/andreikop/qutepart)
+* You need a C++17 compiler
 
 ### Build
 

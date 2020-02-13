@@ -22,6 +22,7 @@
 
 #include "resources/resourceitem.h"
 
+class QMenu;
 class QTreeView;
 class ResourcesModel;
 class ResourcesTreeDock : public QDockWidget
@@ -49,9 +50,13 @@ signals:
 
 private slots:
     void onItemDoubleClicked(const QModelIndex & index);
+    void onContextMenuRequested(const QPoint & pos);
 
 private:
     QTreeView* resourcesTree;
+
+    // context menu handling
+    void addItemAction(QMenu * menu, FolderResourceItem * folder);
 };
 
 #endif // RESOURCESTREEDOCK_H

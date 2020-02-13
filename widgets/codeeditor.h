@@ -19,7 +19,7 @@
 #define CODEEDITOR_H
 
 #include <QWidget>
-#include <Qsci/qsciscintilla.h>
+#include <qutepart/qutepart.h>
 
 class CodeEditor : public QWidget
 {
@@ -37,7 +37,7 @@ signals:
     void dirtyChanged(bool);
 
 private:
-    QsciScintilla * textEdit;
+    Qutepart::Qutepart * textEdit;
 };
 
 #endif // CODEEDITOR_H

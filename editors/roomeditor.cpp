@@ -74,6 +74,7 @@ void RoomEditor::reset()
     auto pItem = item<RoomResourceItem>();
 
     scene.clear();
+    layersModel.clear();
     auto bg = scene.addRect(0, 0, pItem->width() - 1, pItem->height() - 1, QPen(QColor(0, 0, 0)), QBrush(Qt::white));
     bg->setZValue(-999999);
 
@@ -118,6 +119,8 @@ void RoomEditor::reset()
             gLayer->setZValue(1000);
         }
     }
+
+    setDirty(false);
 }
 
 void RoomEditor::setLayerVisibility(QString id, bool visible)

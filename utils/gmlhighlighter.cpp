@@ -19,7 +19,6 @@
 #include <QDebug>
 #include <set>
 #include <string>
-#include <Qsci/qsciscintilla.h>
 #include <QStringView>
 
 static std::set<std::string> keywords = {
