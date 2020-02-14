@@ -28,9 +28,7 @@ ScriptEditor::ScriptEditor(ScriptResourceItem * item)
     codeEditor = new CodeEditor;
     setWidget(codeEditor);
 
-    connect(codeEditor, &CodeEditor::dirtyChanged, this, qOverload<bool>(&ScriptEditor::setDirty));
-
-    reset();
+    codeEditor->setCode(item->code);
 }
 
 void ScriptEditor::save()
@@ -47,25 +45,4 @@ void ScriptEditor::save()
 
     f.write(codeEditor->getCode().toLocal8Bit());
     f.close();
-
-    codeEditor->setDirty(false);
-}
-
-void ScriptEditor::reset()
-{
-    auto name = item<ScriptResourceItem>()->name();
-
-    QString path = QString("%1/%2").arg(GameSettings::rootPath(), item<ScriptResourceItem>()->scriptFilename());
-
-    QFile f(path);
-    if (!f.open(QFile::ReadOnly))
-    {
-        qCritical() << "Can't open file" << path << "in read only mode";
-        return;
-    }
-
-    codeEditor->setCode(f.readAll());
-    f.close();
-
-    codeEditor->setDirty(false);
 }

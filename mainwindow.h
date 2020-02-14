@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    ~MainWindow() override;
 
 signals:
     void doSave();
@@ -70,7 +70,6 @@ private:
     void loadProject(QString filename);
     bool moveToTab(QString id);
     bool closeTab(int pos);
-    void connectEditors(MainEditor* editor, ResourceItem * item);
 
     Ui::MainWindow * ui;
     ResourcesModel resourcesModel;

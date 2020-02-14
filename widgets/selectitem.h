@@ -26,7 +26,7 @@ class QListView;
 class SelectItem : public QDialog
 {
 public:
-    SelectItem(ResourceItem * rootElement, ResourceItem * excludedElement = nullptr);
+    SelectItem(QString title, ResourceItem * rootElement, ResourceItem * excludedElement = nullptr);
 
     ResourceItem * choice() const;
 

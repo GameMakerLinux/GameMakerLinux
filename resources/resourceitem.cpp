@@ -145,7 +145,7 @@ void ResourceItem::registerItem(QString id, ResourceItem * item)
     }
 }
 
-ResourceItem *ResourceItem::get(QString id)
+ResourceItem * ResourceItem::get(QString id)
 {
     Q_ASSERT(!Uuid::isNull(id));
     if (allResources.contains(id))
@@ -194,5 +194,3 @@ QMap<QString, ResourceItem *> ResourceItem::all()
 {
     return allResources;
 }
-
-QMap<QString, ResourceItem*> ResourceItem::allResources;

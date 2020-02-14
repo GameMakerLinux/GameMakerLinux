@@ -17,13 +17,6 @@
    <item>
     <widget class="QWidget" name="editorWidget" native="true"/>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Reset</set>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>

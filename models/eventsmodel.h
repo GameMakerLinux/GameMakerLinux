@@ -46,6 +46,7 @@ public:
     void setModified(int row, bool modified);
     bool isInherited(int row) const;
     ObjectEvent * event(int row) const;
+    using QAbstractListModel::event;
 
 private:
     int findEvent(ObjectEvent::EventType eventType, int eventNumber);

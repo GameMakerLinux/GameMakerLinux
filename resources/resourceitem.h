@@ -111,7 +111,7 @@ private:
     QString m_name;
     ResourceType m_type;
 
-    static QMap<QString, ResourceItem*> allResources;
+    static inline QMap<QString, ResourceItem*> allResources;
 };
 
 class SpriteResourceItem;

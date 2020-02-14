@@ -117,7 +117,7 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
         case ResourceType::Extension:
             break;
         case ResourceType::Folder:
-            addItemAction(contextMenu, static_cast<FolderResourceItem*>(item));
+            addItemAction(&contextMenu, static_cast<FolderResourceItem*>(item));
             break;
         case ResourceType::Font:
             break;
@@ -182,5 +182,12 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
 
 void ResourcesTreeDock::addItemAction(QMenu * menu, FolderResourceItem * folder)
 {
-    menu->addAction(QString("Add a '%1'").arg(folder->name()));
+    switch (folder->filterType())
+    {
+    case ResourceType::Sprite:
+        menu->addAction(QString("Add a '%1'").arg(folder->name()));
+        break;
+    default:
+        ;
+    }
 }

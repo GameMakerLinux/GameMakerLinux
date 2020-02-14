@@ -33,15 +33,11 @@ public:
     explicit MainEditor(ResourceItem * resourceItem, QWidget *parent = 0);
     virtual ~MainEditor();
 
-    bool isDirty() const { return dirty; }
-
 signals:
-    void dirtyChanged(bool);
     void saved();
 
 public slots:
     virtual void save() = 0;
-    virtual void reset() = 0;
 
 protected:
     void setWidget(QWidget * widget);
@@ -51,10 +47,6 @@ protected:
     {
         return qobject_cast<T*>(resourceItem);
     }
-
-protected slots:
-    virtual void setDirty(bool b);
-    void setDirty() { setDirty(true); }
 
 private:
     Ui::MainEditor * ui;

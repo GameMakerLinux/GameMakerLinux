@@ -91,8 +91,6 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
             (*(edits[i]))->setValidator(new QDoubleValidator(0.0, 100.0, 1));
         }
         flow->addWidget(*(edits[i]));
-
-        connect(*(edits[i]), &FormEdit::editingFinished, this, qOverload<>(&ObjectEditor::setDirty));
     }
 
     flow = new FlowLayout;
@@ -118,14 +116,6 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     connect(&eventsModel, &EventsModel::rowsRemoved, this, &ObjectEditor::onEventsRemoved);
     connect(&eventsModel, &EventsModel::modelReset, this, &ObjectEditor::onEventsCleared);
 
-    connect(ui->visibleCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-    connect(ui->solidCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-    connect(ui->persistentCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-    connect(ui->usesPhysicsCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-    connect(ui->sensorCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-    connect(ui->startAwakeCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-    connect(ui->kinematicCheckBox, &QCheckBox::released, this, qOverload<>(&ObjectEditor::setDirty));
-
     connect(ui->spriteViewer, &QPushButton::clicked, this, &ObjectEditor::chooseSprite);
 
     connect(ui->eventsListView, &QListView::pressed, [this](const QModelIndex & index) {
@@ -133,11 +123,26 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     });
     connect(ui->eventsListView, &QListView::customContextMenuRequested, this, &ObjectEditor::showEventsContextMenu);
 
-    connect(ui->nameLineEdit, &QLineEdit::textEdited, [this](QString) {
-        this->setDirty();
+    connect(ui->nameLineEdit, &QLineEdit::textChanged, [item](QString text) {
+        item->setName(text);
+    });
+    connect(ui->maskLineEdit, &QLineEdit::textChanged, [this, item](QString) {
+        item->setMaskSprite(m_maskSprite);
+    });
+    connect(ui->visibleCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->setVisible(toggled);
+    });
+    connect(ui->solidCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->setSolid(toggled);
+    });
+    connect(ui->persistentCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->setPersistent(toggled);
+    });
+    connect(ui->usesPhysicsCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->setPhysics(toggled);
     });
 
-    reset();
+    load();
 
     createEventsMenu();
 }
@@ -214,7 +219,7 @@ void ObjectEditor::save()
 
     pItem->setDensity(m_density->text().toDouble());
     pItem->setRestitution(m_restitution->text().toDouble());
-    pItem->setGroup(m_collisionGroup->text().toDouble());
+    pItem->setGroup(m_collisionGroup->text().toInt());
     pItem->setLinearDamping(m_linearDamping->text().toDouble());
     pItem->setAngularDamping(m_angularDamping->text().toDouble());
     pItem->setFriction(m_friction->text().toDouble());
@@ -229,11 +234,9 @@ void ObjectEditor::save()
     Utils::writeFile(filename, json);
 
     emit saved();
-
-    setDirty(false);
 }
 
-void ObjectEditor::reset()
+void ObjectEditor::load()
 {
     auto pItem = item<ObjectResourceItem>();
 
@@ -295,39 +298,6 @@ void ObjectEditor::reset()
     ui->sensorCheckBox->setChecked(pItem->isSensor());
     ui->startAwakeCheckBox->setChecked(pItem->startsAwake());
     ui->kinematicCheckBox->setChecked(pItem->isKinematic());
-
-    setDirty(false);
-}
-
-void ObjectEditor::setDirty(bool dirty)
-{
-    if (isDirty() == dirty) return;
-
-    if (dirty == false)
-    {
-        for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
-        {
-            auto editor = qobject_cast<CodeEditor*>(ui->stackedCodeEditorWidget->widget(i));
-            if (editor)
-            {
-                editor->setDirty(dirty);
-                eventsModel.setModified(i, false);
-            }
-        }
-    }
-    else
-    {
-        for (int i = 0; i < ui->stackedCodeEditorWidget->count(); i++)
-        {
-            auto widget = ui->stackedCodeEditorWidget->widget(i);
-            if (widget == sender())
-            {
-                eventsModel.setModified(i, true);
-            }
-        }
-    }
-
-    MainEditor::setDirty(dirty);
 }
 
 void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last)
@@ -339,9 +309,7 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
         ui->stackedCodeEditorWidget->insertWidget(i, editor);
 
         auto inherited = eventsModel.isInherited(i);
-        if (!inherited)
-            connect(editor, &CodeEditor::dirtyChanged, this, qOverload<bool>(&ObjectEditor::setDirty));
-        else
+        if (inherited)
             editor->setReadOnly(true);
 
         auto filename = QString("%1/%2").arg(GameSettings::rootPath(), eventsModel.getFilename(i));
@@ -370,7 +338,7 @@ void ObjectEditor::onEventsCleared()
 void ObjectEditor::chooseParent()
 {
     ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Object);
-    SelectItem selectParent(pItem, item<ObjectResourceItem>());
+    SelectItem selectParent("Select parent", pItem, item<ObjectResourceItem>());
     if (selectParent.exec())
     {
         auto parentItem = selectParent.choice();
@@ -386,7 +354,6 @@ void ObjectEditor::chooseParent()
                 m_parentObject = nullptr;
                 ui->parentLineEdit->setText({});
             }
-            setDirty();
         }
     }
 }
@@ -394,7 +361,7 @@ void ObjectEditor::chooseParent()
 void ObjectEditor::chooseMask()
 {
     ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Sprite);
-    SelectItem selectMask(pItem);
+    SelectItem selectMask("Select sprite mask", pItem);
     if (selectMask.exec())
     {
         auto maskItem = selectMask.choice();
@@ -409,14 +376,13 @@ void ObjectEditor::chooseMask()
             m_maskSprite = nullptr;
             ui->maskLineEdit->setText({});
         }
-        setDirty();
     }
 }
 
 void ObjectEditor::chooseSprite()
 {
     ResourceItem * pItem = ResourceItem::findFolder(ResourceType::Sprite);
-    SelectItem selectMask(pItem);
+    SelectItem selectMask("Select sprite", pItem);
     if (selectMask.exec())
     {
         auto spriteItem = selectMask.choice();
@@ -431,7 +397,6 @@ void ObjectEditor::chooseSprite()
             m_sprite = nullptr;
             ui->spriteViewer->setIcon(QIcon());
         }
-        setDirty();
     }
 }
 
@@ -452,7 +417,7 @@ void ObjectEditor::showEventsContextMenu(const QPoint & pos)
         }
         else
         {
-            auto act = menu.addAction("Change event", this, &ObjectEditor::changeEvent);
+            auto act = menu.addAction("Change event", this, qOverload<>(&ObjectEditor::changeEvent));
             act->setData(QVariant::fromValue(event));
             act = menu.addAction("Delete event", this, &ObjectEditor::deleteEvent);
             act->setData(QVariant::fromValue(event));

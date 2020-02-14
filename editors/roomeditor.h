@@ -40,7 +40,6 @@ signals:
 
 protected slots:
     void save() override;
-    void reset() override;
 
 private slots:
     void setLayerVisibility(QString id, bool visible);
@@ -51,6 +50,8 @@ private slots:
     void showObjectsListContextMenu(const QPoint & pos);
 
 private:
+    void load();
+
     Ui::RoomEditor *ui;
     LayersModel layersModel;
     ObjectsModel objectsModel;

@@ -28,8 +28,6 @@ CodeEditor::CodeEditor(QWidget *parent)
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(textEdit);
-
-    connect(textEdit, &Qutepart::Qutepart::modificationChanged, this, &CodeEditor::dirtyChanged);
 }
 
 void CodeEditor::setCode(QString code)
@@ -42,14 +40,6 @@ void CodeEditor::setCode(QString code)
 QString CodeEditor::getCode() const
 {
     return textEdit->toPlainText();
-}
-
-void CodeEditor::setDirty(bool dirty)
-{
-    if (textEdit->document()->isModified() != dirty)
-    {
-        textEdit->document()->setModified(dirty);
-    }
 }
 
 void CodeEditor::setReadOnly(bool ro)

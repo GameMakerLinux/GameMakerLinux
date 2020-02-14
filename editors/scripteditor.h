@@ -29,7 +29,6 @@ public:
 
 protected slots:
     void save() override;
-    void reset() override;
 
 private:
     CodeEditor * codeEditor;

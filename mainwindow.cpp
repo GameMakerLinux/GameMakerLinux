@@ -99,8 +99,6 @@ void MainWindow::openRoom(RoomResourceItem * item)
 
     tabWidget->setCurrentIndex(pos);
 
-    connectEditors(editor, item);
-
     connect(editor, &RoomEditor::openObject, this, &MainWindow::openObject);
     connect(editor, &RoomEditor::openInstance, this, &MainWindow::openInstance);
 }
@@ -277,8 +275,6 @@ void MainWindow::openObject(ObjectResourceItem * item)
         int index = idOfOpenedTabs.indexOf(item->id());
         tabWidget->setTabText(index, item->name());
     });
-
-    connectEditors(editor, item);
 }
 
 void MainWindow::openInstance(ObjectInstance * item)
@@ -321,16 +317,6 @@ void MainWindow::saveProject()
 bool MainWindow::closeProject()
 {
     bool isDirty = false;
-    for (int i = 0; i < tabWidget->count(); i++)
-    {
-        auto editor = qobject_cast<MainEditor*>(tabWidget->widget(i));
-        if (editor && editor->isDirty())
-        {
-            isDirty = true;
-            break;
-        }
-    }
-
     if (isDirty)
     {
         auto choice = QMessageBox::information(this, "Unsaved changes", "Do you want to close this project without saving?", QMessageBox::Yes, QMessageBox::No);
@@ -397,30 +383,10 @@ bool MainWindow::moveToTab(QString id)
 
 bool MainWindow::closeTab(int pos)
 {
-    auto editor = qobject_cast<MainEditor*>(tabWidget->widget(pos));
-    if (editor && editor->isDirty())
-    {
-        auto btn = QMessageBox::warning(this, "Unsaved changes", "You have unsaved changes, do you really want to close this editor?", QMessageBox::Yes, QMessageBox::No);
-        if (btn == QMessageBox::No)
-        {
-            return false;
-        }
-    }
-
     idOfOpenedTabs.remove(pos);
     tabWidget->removeTab(pos);
 
     return true;
-}
-
-void MainWindow::connectEditors(MainEditor * editor, ResourceItem* item)
-{
-    connect(editor, &MainEditor::dirtyChanged, [this, item](bool b) {
-        int index = idOfOpenedTabs.indexOf(item->id());
-        tabWidget->setTabText(index, item->name() + (b ? "*" : ""));
-    });
-    connect(this, &MainWindow::doSave, editor, &MainEditor::save);
-    connect(editor, &MainEditor::saved, this, &MainWindow::saveProjectItem);
 }
 
 void MainWindow::closeEvent(QCloseEvent * event)

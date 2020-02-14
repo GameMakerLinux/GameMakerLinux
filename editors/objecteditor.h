@@ -31,7 +31,6 @@ class ObjectEditor : public MainEditor
 
 public:
     ObjectEditor(ObjectResourceItem* item);
-    using MainEditor::setDirty;
 
     void refreshChildren();
 
@@ -40,8 +39,6 @@ signals:
 
 protected slots:
     void save() override;
-    void reset() override;
-    void setDirty(bool dirty) override;
 
 private slots:
     void onEventsAdded(const QModelIndex &parent, int first, int last);
@@ -57,10 +54,14 @@ private slots:
     void deleteEvent();
     void menuTriggered(QAction * action);
 
+protected:
+    using MainEditor::changeEvent;
+
 private:
     static void createEventsMenu();
     static QMenu * getEventsMenu();
     static QMenu eventsMenu;
+    void load();
 
     Ui::ObjectEditor * ui;
     FormEdit * m_density;

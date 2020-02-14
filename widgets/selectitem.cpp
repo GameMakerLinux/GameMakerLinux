@@ -22,10 +22,10 @@
 #include "resources/resourceitem.h"
 #include <QDebug>
 
-SelectItem::SelectItem(ResourceItem * rootElement, ResourceItem * excludedElement)
+SelectItem::SelectItem(QString title, ResourceItem * rootElement, ResourceItem * excludedElement)
     : model { rootElement }
 {
-    setWindowTitle("Select parent");
+    setWindowTitle(title);
 
     model.excludeItem(excludedElement);
 

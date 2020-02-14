@@ -30,11 +30,7 @@ public:
     void setCode(QString code);
     QString getCode() const;
 
-    void setDirty(bool dirty);
     void setReadOnly(bool ro);
-
-signals:
-    void dirtyChanged(bool);
 
 private:
     Qutepart::Qutepart * textEdit;

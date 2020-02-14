@@ -53,7 +53,7 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     scene.setBackgroundBrush(Qt::gray);
 
-    reset();
+    load();
 }
 
 RoomEditor::~RoomEditor()
@@ -65,11 +65,9 @@ void RoomEditor::save()
 {
     auto pItem = item<RoomResourceItem>();
     pItem->save();
-
-    setDirty(false);
 }
 
-void RoomEditor::reset()
+void RoomEditor::load()
 {
     auto pItem = item<RoomResourceItem>();
 
@@ -119,16 +117,12 @@ void RoomEditor::reset()
             gLayer->setZValue(1000);
         }
     }
-
-    setDirty(false);
 }
 
 void RoomEditor::setLayerVisibility(QString id, bool visible)
 {
     graphicsLayers[id]->setVisible(visible);
     ui->layersListView->update();
-
-    setDirty();
 }
 
 void RoomEditor::updateObjectsList(const QModelIndex & index)
@@ -195,8 +189,6 @@ void RoomEditor::setInstanceVisibility(QString id, bool visible)
 {
     auto pInstance = ResourceItem::get<ObjectInstance>(id);
     m_currentLayer->setElementVisible(pInstance, visible);
-
-    setDirty();
 }
 
 void RoomEditor::showObjectsListContextMenu(const QPoint & pos)

@@ -28,9 +28,6 @@ MainEditor::MainEditor(ResourceItem * resourceItem, QWidget *parent)
 
     targetLayout = new QVBoxLayout(ui->editorWidget);
     targetLayout->setMargin(0);
-
-    connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &MainEditor::save);
-    connect(ui->buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &MainEditor::reset);
 }
 
 MainEditor::~MainEditor()
@@ -41,13 +38,4 @@ MainEditor::~MainEditor()
 void MainEditor::setWidget(QWidget * widget)
 {
     targetLayout->addWidget(widget);
-}
-
-void MainEditor::setDirty(bool b)
-{
-    if (dirty != b)
-    {
-        dirty = b;
-        emit dirtyChanged(b);
-    }
 }
