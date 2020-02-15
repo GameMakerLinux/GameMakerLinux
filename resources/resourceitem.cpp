@@ -91,6 +91,9 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
     case ResourceType::Font:
         item = new FontResourceItem;
         break;
+    case ResourceType::HTML5Options:
+        item = new HTML5OptionsResourceItem;
+        break;
     case ResourceType::IncludedFile:
         item = new IncludedFileResourceItem;
         break;
@@ -123,6 +126,9 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
         break;
     case ResourceType::Sprite:
         item = new SpriteResourceItem;
+        break;
+    case ResourceType::tvOSOptions:
+        item = new tvOSOptionsResourceItem;
         break;
     case ResourceType::WindowsOptions:
         item = new WindowsOptionsResourceItem;

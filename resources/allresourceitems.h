@@ -35,6 +35,8 @@
 #include "soundresourceitem.h"
 #include "fontresourceitem.h"
 #include "windowsuapoptionsresourceitem.h"
+#include "tvosoptionsresourceitem.h"
+#include "html5optionsresourceitem.h"
 #include "dependencies/instancelayer.h"
 #include "dependencies/backgroundlayer.h"
 #include "dependencies/objectinstance.h"

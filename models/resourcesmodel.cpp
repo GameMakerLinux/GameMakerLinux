@@ -143,7 +143,7 @@ QModelIndex ResourcesModel::parent(const QModelIndex &index) const
     auto parentPtr = ptr->parentItem;
     if (parentPtr == rootItem)
         return QModelIndex();
-    return createIndex(parentPtr->children.indexOf(ptr), 0, parentPtr);
+    return createIndex(parentPtr->parentItem->children.indexOf(parentPtr), 0, parentPtr);
 }
 
 int ResourcesModel::rowCount(const QModelIndex &parent) const

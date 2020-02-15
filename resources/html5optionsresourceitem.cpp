@@ -15,19 +15,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "windowsuapoptionsresourceitem.h"
+#include "html5optionsresourceitem.h"
 
-WindowsUAPOptionsResourceItem::WindowsUAPOptionsResourceItem()
-    : ResourceItem { ResourceType::WindowsUAPOptions }
+HTML5OptionsResourceItem::HTML5OptionsResourceItem()
+    : ResourceItem { ResourceType::HTML5Options }
 {
 }
 
-void WindowsUAPOptionsResourceItem::load(QJsonObject object)
+void HTML5OptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 }
 
-QString WindowsUAPOptionsResourceItem::filename() const
+QString HTML5OptionsResourceItem::filename() const
 {
-    return "options/windowsuap/options_windowsuap.yy";
+    return "options/html5/options_html5.yy";
 }

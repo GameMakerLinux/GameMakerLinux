@@ -1,5 +1,5 @@
 /*
-    Copyright (C) Alexander Roper
+    Copyright (C)  Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,19 +15,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "windowsuapoptionsresourceitem.h"
+#include "tvosoptionsresourceitem.h"
 
-WindowsUAPOptionsResourceItem::WindowsUAPOptionsResourceItem()
-    : ResourceItem { ResourceType::WindowsUAPOptions }
+tvOSOptionsResourceItem::tvOSOptionsResourceItem()
+    : ResourceItem { ResourceType::tvOSOptions }
 {
 }
 
-void WindowsUAPOptionsResourceItem::load(QJsonObject object)
+void tvOSOptionsResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
 }
 
-QString WindowsUAPOptionsResourceItem::filename() const
+QString tvOSOptionsResourceItem::filename() const
 {
-    return "options/windowsuap/options_windowsuap.yy";
+    return "options/tvos/options_tvos.yy";
 }

@@ -14,8 +14,10 @@ SOURCES += \
     models/resourcesmodel.cpp \
     docks/resourcestreedock.cpp \
     gamesettings.cpp \
+    resources/html5optionsresourceitem.cpp \
     resources/spriteresourceitem.cpp \
     resources/resourceitem.cpp \
+    resources/tvosoptionsresourceitem.cpp \
     resources/unknownresourceitem.cpp \
     resources/folderresourceitem.cpp \
     resources/objectresourceitem.cpp \
@@ -65,8 +67,10 @@ HEADERS += \
     models/resourcesmodel.h \
     docks/resourcestreedock.h \
     gamesettings.h \
+    resources/html5optionsresourceitem.h \
     resources/spriteresourceitem.h \
     resources/resourceitem.h \
+    resources/tvosoptionsresourceitem.h \
     resources/unknownresourceitem.h \
     resources/folderresourceitem.h \
     resources/objectresourceitem.h \
