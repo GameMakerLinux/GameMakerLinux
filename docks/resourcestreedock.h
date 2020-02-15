@@ -57,8 +57,8 @@ private:
     ResourcesModel * resModel;
 
     // context menu handling
-    void addItemAction(QMenu * menu, ResourceType type);
-    void deleteItemAction(QMenu * menu, ResourceType type);
+    void addItemAction(QMenu * menu, ResourceType type, QModelIndex index);
+    void deleteItemAction(QMenu * menu, ResourceType type, QModelIndex index);
 };
 
 #endif // RESOURCESTREEDOCK_H

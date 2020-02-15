@@ -32,7 +32,7 @@ public:
 
     void clear();
     void fill(QMap<QString, ResourceItem *> resources);
-    void addItem(ResourceItem * item);
+    void addItem(ResourceItem * item, QModelIndex parentIndex);
 
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &index) const override;

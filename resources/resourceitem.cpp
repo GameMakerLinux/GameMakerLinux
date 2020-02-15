@@ -194,3 +194,38 @@ QMap<QString, ResourceItem *> ResourceItem::all()
 {
     return allResources;
 }
+
+QString ResourceItem::generateName(ResourceType type)
+{
+    auto items = findAll(type);
+    int id = 0;
+
+    QString typeName;
+    QString generatedName;
+
+    switch (type)
+    {
+    case ResourceType::Sprite:
+        typeName = "sprite";
+        break;
+    default:
+        Q_ASSERT(false);
+    }
+
+    while (true)
+    {
+        generatedName = QString("%1%2").arg(typeName).arg(id);
+        auto b = std::find_if(items.begin(), items.end(), [&generatedName](QString id) {
+            return allResources[id]->name() == generatedName;
+        });
+
+        id++;
+
+        if (b == items.end())
+        {
+            break;
+        }
+    }
+
+    return generatedName;
+}

@@ -114,22 +114,14 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
     endResetModel();
 }
 
-void ResourcesModel::addItem(ResourceItem * item)
+void ResourcesModel::addItem(ResourceItem * item, QModelIndex parentIndex)
 {
-    for (auto & child : rootItem->children)
-    {
-        if (child->type() == ResourceType::Folder && qobject_cast<FolderResourceItem*>(child)->filterType() == item->type())
-        {
-            int row = rootItem->children.indexOf(child);
-            QModelIndex parentIndex = index(row, 0);
-            int size = child->children.size();
-
-            beginInsertRows(parentIndex, size, size);
-            child->children.push_back(item);
-            item->parentItem = child;
-            endInsertRows();
-        }
-    }
+    auto parentItem = static_cast<ResourceItem*>(parentIndex.internalPointer());
+    int size = parentItem->children.size();
+    beginInsertRows(parentIndex, size, size);
+    parentItem->children.push_back(item);
+    item->parentItem = parentItem;
+    endInsertRows();
 }
 
 QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent) const

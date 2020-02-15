@@ -99,6 +99,7 @@ public:
     static ResourceItem * findFolder(ResourceType filterType);
     static QVector<QString> findAll(ResourceType type);
     static QMap<QString, ResourceItem *> all();
+    static QString generateName(ResourceType type);
 
 signals:
     void nameChanged();
