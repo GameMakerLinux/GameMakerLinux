@@ -35,6 +35,7 @@ enum class ResourceType
     Extension,
     Folder,
     Font,
+    HTML5Options,
     ImageLayer,
     IncludedFile,
     InstanceLayer,
@@ -59,7 +60,9 @@ enum class ResourceType
     SpriteImage,
     TileSet,
     Timeline,
+    tvOSOptions,
     WindowsOptions,
+    WindowsUAPOptions,
     Unknown
 };
 

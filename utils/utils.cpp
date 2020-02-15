@@ -91,6 +91,7 @@ static QMap<QString, ResourceType> resourcesTypesStrings = {
     { "GMExtension",        ResourceType::Extension,        },
     { "GMFolder",           ResourceType::Folder            },
     { "GMFont",             ResourceType::Font              },
+    { "GMHtml5Options",     ResourceType::HTML5Options      },
     { "GMImageLayer",       ResourceType::ImageLayer,       },
     { "GMIncludedFile",     ResourceType::IncludedFile,     },
     { "GMiOSOptions",       ResourceType::iOSOptions,       },
@@ -115,7 +116,9 @@ static QMap<QString, ResourceType> resourcesTypesStrings = {
     { "GMSpriteImage",      ResourceType::SpriteImage,      },
     { "GMTileSet",          ResourceType::TileSet,          },
     { "GMTimeline",         ResourceType::Timeline,         },
+    { "GMtvOSOptions",      ResourceType::tvOSOptions,      },
     { "GMWindowsOptions",   ResourceType::WindowsOptions,   },
+    { "GMWindowsUAPOptions",ResourceType::WindowsUAPOptions,},
     { "root",               ResourceType::Root,             },
 };
 
