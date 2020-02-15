@@ -56,6 +56,8 @@ public:
     int eventNumber() const;
     QString owner() const;
     void setOwner(QString id);
+    QString code() const;
+    void setCode(QString code);
 
     static QString getName(EventType eventType, int eventNumber);
     static QString getFileName(EventType eventType, int eventNumber);
@@ -64,6 +66,7 @@ private:
     QString m_collisionObjectId = Uuid::null();
     EventType m_eventType;
     int m_eventNumber = 0;
+    QString m_code;
     QString m_owner = Uuid::null();
 };
 

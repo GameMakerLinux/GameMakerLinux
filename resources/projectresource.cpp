@@ -32,7 +32,7 @@ void ProjectResource::load(QJsonObject object)
     setId(object["id"].toString());
 
     auto resourcesJson = object["resources"].toArray();
-    for (const auto & value : resourcesJson)
+    for (auto value : resourcesJson)
     {
         auto obj = value.toObject();
         auto data = obj["Value"].toObject();

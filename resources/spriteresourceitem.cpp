@@ -32,7 +32,7 @@ void SpriteResourceItem::load(QJsonObject object)
     setName(object["name"].toString());
 
     auto frames = object["frames"].toArray();
-    for (const auto & frameJson : frames)
+    for (auto frameJson : frames)
     {
         auto frame = new SpriteFrame;
         frame->load(frameJson.toObject());
@@ -46,6 +46,11 @@ QPixmap SpriteResourceItem::thumbnail(int width, int height) const
     if (!pix.isNull())
     {
         pix = pix.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+    else
+    {
+        pix = QPixmap(width, height);
+        pix.fill(Qt::transparent);
     }
     return pix;
 }

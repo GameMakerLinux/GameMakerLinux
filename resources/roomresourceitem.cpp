@@ -34,7 +34,7 @@ void RoomResourceItem::load(QJsonObject object)
     m_settings.load(roomSettings);
 
     auto layers = object["layers"].toArray();
-    for (const auto & value : layers)
+    for (auto value : layers)
     {
         auto layerJson = value.toObject();
 

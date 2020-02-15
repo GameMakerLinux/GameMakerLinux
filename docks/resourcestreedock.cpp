@@ -42,6 +42,7 @@ ResourcesTreeDock::ResourcesTreeDock()
 void ResourcesTreeDock::setModel(ResourcesModel * model)
 {
     resourcesTree->setModel(model);
+    resModel = model;
 }
 
 void ResourcesTreeDock::onItemDoubleClicked(const QModelIndex & index)
@@ -102,6 +103,9 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
         QMenu contextMenu(this);
 
         auto item = static_cast<ResourceItem*>(modelIndex.internalPointer());
+
+        addItemAction(&contextMenu, item->type());
+        deleteItemAction(&contextMenu, item->type());
         switch (item->type())
         {
         case ResourceType::AmazonFireOptions:
@@ -117,7 +121,7 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
         case ResourceType::Extension:
             break;
         case ResourceType::Folder:
-            addItemAction(&contextMenu, static_cast<FolderResourceItem*>(item));
+            addItemAction(&contextMenu, static_cast<FolderResourceItem*>(item)->filterType());
             break;
         case ResourceType::Font:
             break;
@@ -180,12 +184,28 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
     }
 }
 
-void ResourcesTreeDock::addItemAction(QMenu * menu, FolderResourceItem * folder)
+void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type)
 {
-    switch (folder->filterType())
+    switch (type)
     {
     case ResourceType::Sprite:
-        menu->addAction(QString("Add a '%1'").arg(folder->name()));
+        menu->addAction("Add a sprite", [this, type]() {
+            auto res = ResourceItem::create(type, Uuid::generate());
+            res->setName("sprite");
+            resModel->addItem(res);
+        });
+        break;
+    default:
+        ;
+    }
+}
+
+void ResourcesTreeDock::deleteItemAction(QMenu * menu, ResourceType type)
+{
+    switch (type)
+    {
+    case ResourceType::Sprite:
+        menu->addAction("Delete");
         break;
     default:
         ;

@@ -45,8 +45,7 @@ public:
     QString getFilename(int row) const;
     void setModified(int row, bool modified);
     bool isInherited(int row) const;
-    ObjectEvent * event(int row) const;
-    using QAbstractListModel::event;
+    ObjectEvent * getEvent(int row) const;
 
 private:
     int findEvent(ObjectEvent::EventType eventType, int eventNumber);

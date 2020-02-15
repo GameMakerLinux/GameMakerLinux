@@ -227,7 +227,7 @@ void ObjectEditor::save()
     pItem->clearEvents();
     for (int i = 0; i < eventsModel.rowCount(); i++)
     {
-        auto ev = eventsModel.event(i);
+        auto ev = eventsModel.getEvent(i);
         pItem->addEvent(ev);
     }
 
@@ -347,6 +347,11 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
         }
         else
         {
+            auto item = eventsModel.getEvent(i);
+            editor->setCode(item->code());
+            connect(editor, &CodeEditor::textChanged, [editor, item]() {
+                item->setCode(editor->getCode());
+            });
         }
     }
 }
@@ -444,7 +449,7 @@ void ObjectEditor::showEventsContextMenu(const QPoint & pos)
     {
         int row = index.row();
         bool inherited = eventsModel.isInherited(row);
-        auto event = eventsModel.event(row);
+        auto event = eventsModel.getEvent(row);
         if (inherited)
         {
             auto act = menu.addAction("Override event", this, &ObjectEditor::overrideEvent);
@@ -458,7 +463,7 @@ void ObjectEditor::showEventsContextMenu(const QPoint & pos)
             act->setData(QVariant::fromValue(event));
         }
     }
-    menu.exec(ui->eventsListView->mapToGlobal(pos));
+    menu.exec(QCursor::pos());
 }
 
 void ObjectEditor::addEvent()
@@ -501,6 +506,7 @@ void ObjectEditor::menuTriggered(QAction * action)
     auto eventTypeAndNumber = action->data().value<EventTypeAndNumber>();
     auto newEvent = new ObjectEvent(eventTypeAndNumber.type, eventTypeAndNumber.number);
     newEvent->setOwner(pItem->id());
+    item<ObjectResourceItem>()->addEvent(newEvent);
     eventsModel.addEvent(newEvent);
 }
 

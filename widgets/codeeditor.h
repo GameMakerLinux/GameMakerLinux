@@ -32,6 +32,9 @@ public:
 
     void setReadOnly(bool ro);
 
+signals:
+    void textChanged();
+
 private:
     Qutepart::Qutepart * textEdit;
 };

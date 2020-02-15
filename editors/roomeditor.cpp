@@ -205,5 +205,5 @@ void RoomEditor::showObjectsListContextMenu(const QPoint & pos)
     menu.addAction("Edit object", [this, inst]() {
         emit openObject(inst->object());
     });
-    menu.exec(ui->objectsListView->mapToGlobal(pos));
+    menu.exec(QCursor::pos());
 }

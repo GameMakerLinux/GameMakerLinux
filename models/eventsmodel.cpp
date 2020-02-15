@@ -137,7 +137,7 @@ bool EventsModel::isInherited(int row) const
     return items[row].inherited;
 }
 
-ObjectEvent *EventsModel::event(int row) const
+ObjectEvent * EventsModel::getEvent(int row) const
 {
     return items[row].event;
 }

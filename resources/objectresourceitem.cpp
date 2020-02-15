@@ -33,7 +33,7 @@ void ObjectResourceItem::load(QJsonObject object)
     setName(object["name"].toString());
 
     auto evList = object["eventList"].toArray();
-    for (const auto & value : evList)
+    for (auto value : evList)
     {
         auto json = value.toObject();
         auto event = new ObjectEvent(json);

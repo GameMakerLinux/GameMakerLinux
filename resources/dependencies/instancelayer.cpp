@@ -29,7 +29,7 @@ void InstanceLayer::load(QJsonObject object)
     RoomLayer::load(object);
 
     auto instancesJson = object["instances"].toArray();
-    for (const auto & value : instancesJson)
+    for (auto value : instancesJson)
     {
         auto data = value.toObject();
         auto instance = new ObjectInstance();

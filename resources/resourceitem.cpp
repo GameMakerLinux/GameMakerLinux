@@ -70,7 +70,7 @@ QPixmap ResourceItem::thumbnail(int width, int height) const
     return QPixmap();
 }
 
-ResourceItem *ResourceItem::create(ResourceType type, QString id)
+ResourceItem * ResourceItem::create(ResourceType type, QString id)
 {
     ResourceItem * item = nullptr;
 

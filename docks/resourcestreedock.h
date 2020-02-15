@@ -53,10 +53,12 @@ private slots:
     void onContextMenuRequested(const QPoint & pos);
 
 private:
-    QTreeView* resourcesTree;
+    QTreeView * resourcesTree;
+    ResourcesModel * resModel;
 
     // context menu handling
-    void addItemAction(QMenu * menu, FolderResourceItem * folder);
+    void addItemAction(QMenu * menu, ResourceType type);
+    void deleteItemAction(QMenu * menu, ResourceType type);
 };
 
 #endif // RESOURCESTREEDOCK_H

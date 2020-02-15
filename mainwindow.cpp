@@ -111,7 +111,9 @@ void MainWindow::openSprite(SpriteResourceItem * item)
         return;
     }
 
-    int pos = tabWidget->addTab(new QLabel("sprite"), item->name());
+    auto label = new QLabel;
+    label->setPixmap(item->pixmap());
+    int pos = tabWidget->addTab(label, item->name());
 
     idOfOpenedTabs.push_back(id);
 

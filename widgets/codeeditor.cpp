@@ -24,6 +24,7 @@ CodeEditor::CodeEditor(QWidget *parent)
     : QWidget { parent }
 {
     textEdit = new Qutepart::Qutepart;
+    connect(textEdit, &Qutepart::Qutepart::textChanged, this, &CodeEditor::textChanged);
 
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setMargin(0);
