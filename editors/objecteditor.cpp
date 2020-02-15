@@ -141,6 +141,38 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     connect(ui->usesPhysicsCheckBox, &QCheckBox::toggled, [item](bool toggled) {
         item->setPhysics(toggled);
     });
+    connect(ui->parentLineEdit, &QLineEdit::textChanged, [this, item](QString) {
+        item->setParentObject(m_parentObject);
+    });
+
+    connect(m_density, &FormEdit::editingFinished, [this, item]() {
+        item->setDensity(m_density->text().toDouble());
+    });
+    connect(m_restitution, &FormEdit::editingFinished, [this, item]() {
+        item->setRestitution(m_restitution->text().toDouble());
+    });
+    connect(m_collisionGroup, &FormEdit::editingFinished, [this, item]() {
+        item->setGroup(m_collisionGroup->text().toInt());
+    });
+    connect(m_linearDamping, &FormEdit::editingFinished, [this, item]() {
+        item->setLinearDamping(m_linearDamping->text().toDouble());
+    });
+    connect(m_angularDamping, &FormEdit::editingFinished, [this, item]() {
+        item->setAngularDamping(m_angularDamping->text().toDouble());
+    });
+    connect(m_friction, &FormEdit::editingFinished, [this, item]() {
+        item->setFriction(m_friction->text().toDouble());
+    });
+
+    connect(ui->kinematicCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->setKinematic(toggled);
+    });
+    connect(ui->sensorCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->setSensor(toggled);
+    });
+    connect(ui->startAwakeCheckBox, &QCheckBox::toggled, [item](bool toggled) {
+        item->startAwake(toggled);
+    });
 
     load();
 
@@ -310,11 +342,12 @@ void ObjectEditor::onEventsAdded(const QModelIndex & parent, int first, int last
 
         auto inherited = eventsModel.isInherited(i);
         if (inherited)
+        {
             editor->setReadOnly(true);
-
-        auto filename = QString("%1/%2").arg(GameSettings::rootPath(), eventsModel.getFilename(i));
-        auto code = Utils::readFile(filename);
-        editor->setCode(code);
+        }
+        else
+        {
+        }
     }
 }
 
@@ -397,6 +430,8 @@ void ObjectEditor::chooseSprite()
             m_sprite = nullptr;
             ui->spriteViewer->setIcon(QIcon());
         }
+
+        item<ObjectResourceItem>()->setSprite(m_sprite);
     }
 }
 

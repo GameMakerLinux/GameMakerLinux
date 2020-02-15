@@ -176,7 +176,7 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
         }
 
         if (contextMenu.actions().count())
-            contextMenu.exec(resourcesTree->mapToGlobal(pos));
+            contextMenu.exec(QCursor::pos());
     }
 }
 
