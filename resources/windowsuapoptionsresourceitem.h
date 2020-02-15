@@ -1,5 +1,5 @@
 /*
-    Copyright (C) Alexander Roper
+    Copyright (C)  Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,20 +15,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MACOPTIONSRESOURCEITEM_H
-#define MACOPTIONSRESOURCEITEM_H
+#ifndef WINDOWSUAPOPTIONSRESOURCEITEM_H
+#define WINDOWSUAPOPTIONSRESOURCEITEM_H
 
 #include "resourceitem.h"
 
-class MacOptionsResourceItem : public ResourceItem
+class WindowsUAPOptionsResourceItem : public ResourceItem
 {
-    Q_OBJECT
-
 public:
-    MacOptionsResourceItem();
+    WindowsUAPOptionsResourceItem();
 
     void load(QJsonObject object) override;
     QString filename() const override;
 };
 
-#endif // MACOPTIONSRESOURCEITEM_H
+#endif // WINDOWSUAPOPTIONSRESOURCEITEM_H

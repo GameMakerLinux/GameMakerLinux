@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Alexander Roper
+    Copyright (C) Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // CONNECT
     connect(ui->action_Open_project, &QAction::triggered, this, &MainWindow::openProject);
+    connect(ui->action_Close_project, &QAction::triggered, this, &MainWindow::closeProject);
     connect(ui->action_Resources, &QAction::toggled, &resourcesTreeDock, &ResourcesTreeDock::setVisible);
 
     connect(&resourcesTreeDock, &ResourcesTreeDock::openAmazonFireOptions, this, &MainWindow::openAmazonFireOptions);

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Alexander Roper
+    Copyright (C) Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ ResourcesTreeDock::ResourcesTreeDock()
     resourcesTree->setDragDropMode(QAbstractItemView::InternalMove);
     resourcesTree->setFocusPolicy(Qt::NoFocus);
     resourcesTree->setContextMenuPolicy(Qt::CustomContextMenu);
+    resourcesTree->setAlternatingRowColors(true);
     setWidget(resourcesTree);
 
     connect(resourcesTree, &QTreeView::customContextMenuRequested, this, &ResourcesTreeDock::onContextMenuRequested);
@@ -125,6 +126,8 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
             break;
         case ResourceType::Font:
             break;
+        case ResourceType::HTML5Options:
+            break;
         case ResourceType::ImageLayer:
             break;
         case ResourceType::IncludedFile:
@@ -173,9 +176,13 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
             break;
         case ResourceType::Timeline:
             break;
+        case ResourceType::tvOSOptions:
+            break;
         case ResourceType::Unknown:
             break;
         case ResourceType::WindowsOptions:
+            break;
+        case ResourceType::WindowsUAPOptions:
             break;
         }
 
@@ -186,14 +193,18 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
 
 void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type, QModelIndex index)
 {
+    auto lambda = [this, type, index]() {
+        auto res = ResourceItem::create(type, Uuid::generate());
+        res->setName(ResourceItem::generateName(type));
+        resModel->addItem(res, index);
+    };
     switch (type)
     {
+    case ResourceType::Object:
+        menu->addAction("Create object", lambda);
+        break;
     case ResourceType::Sprite:
-        menu->addAction("Create sprite", [this, type, index]() {
-            auto res = ResourceItem::create(type, Uuid::generate());
-            res->setName(ResourceItem::generateName(type));
-            resModel->addItem(res, index);
-        });
+        menu->addAction("Create sprite", lambda);
         break;
     default:
         ;
@@ -202,6 +213,7 @@ void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type, QModelInd
 
 void ResourcesTreeDock::deleteItemAction(QMenu * menu, ResourceType type, QModelIndex index)
 {
+    (void)index;
     switch (type)
     {
     case ResourceType::Sprite:

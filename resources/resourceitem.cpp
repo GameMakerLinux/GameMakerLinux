@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Alexander Roper
+    Copyright (C) Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -82,6 +82,9 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
     case ResourceType::AndroidOptions:
         item = new AndroidOptionsResourceItem;
         break;
+    case ResourceType::BackgroundLayer:
+        item = new BackgroundLayer;
+        break;
     case ResourceType::Folder:
         item = new FolderResourceItem;
         break;
@@ -93,6 +96,9 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
         break;
     case ResourceType::iOSOptions:
         item = new iOSOptionsResourceItem;
+        break;
+    case ResourceType::InstanceLayer:
+        item = new InstanceLayer;
         break;
     case ResourceType::LinuxOptions:
         item = new LinuxOptionsResourceItem;
@@ -121,11 +127,8 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
     case ResourceType::WindowsOptions:
         item = new WindowsOptionsResourceItem;
         break;
-    case ResourceType::InstanceLayer:
-        item = new InstanceLayer;
-        break;
-    case ResourceType::BackgroundLayer:
-        item = new BackgroundLayer;
+    case ResourceType::WindowsUAPOptions:
+        item = new WindowsUAPOptionsResourceItem;
         break;
     default:
         item = new UnknownResourceItem;
@@ -205,6 +208,9 @@ QString ResourceItem::generateName(ResourceType type)
 
     switch (type)
     {
+    case ResourceType::Object:
+        typeName = "object";
+        break;
     case ResourceType::Sprite:
         typeName = "sprite";
         break;

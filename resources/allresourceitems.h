@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Alexander Roper
+    Copyright (C) Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 #include "includedfileresourceitem.h"
 #include "soundresourceitem.h"
 #include "fontresourceitem.h"
+#include "windowsuapoptionsresourceitem.h"
 #include "dependencies/instancelayer.h"
 #include "dependencies/backgroundlayer.h"
 #include "dependencies/objectinstance.h"

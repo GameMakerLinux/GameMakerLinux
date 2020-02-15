@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Alexander Roper
+    Copyright (C) Alexander Roper
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include "resources/folderresourceitem.h"
 #include <QMimeData>
 #include <QPixmap>
+#include <QFont>
 
 static int QT_FIX_DND = -1;
 
@@ -177,15 +178,26 @@ QVariant ResourcesModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    auto ptr = static_cast<ResourceItem*>(index.internalPointer());
     if (role == Qt::DisplayRole)
     {
-        auto ptr = static_cast<ResourceItem*>(index.internalPointer());
         return ptr->name();
     }
     else if (role == Qt::DecorationRole)
     {
-        auto ptr = static_cast<ResourceItem*>(index.internalPointer());
         return ptr->thumbnail(16, 16);
+    }
+    else if (ptr->type() == ResourceType::Folder && !index.parent().isValid())
+    {
+        switch (role)
+        {
+        case Qt::FontRole:
+        {
+            QFont f;
+            f.setBold(true);
+            return f;
+        }
+        }
     }
 
     return QVariant();
