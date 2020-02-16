@@ -16,6 +16,7 @@
 */
 
 #include "scriptresourceitem.h"
+#include "utils/utils.h"
 
 ScriptResourceItem::ScriptResourceItem()
     : ResourceItem { ResourceType::Script }
@@ -25,6 +26,9 @@ ScriptResourceItem::ScriptResourceItem()
 void ScriptResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+
+    auto filepath = QString("%1/%2").arg(GameSettings::rootPath(), scriptFilename());
+    setCode(Utils::readFile(filepath));
 }
 
 QString ScriptResourceItem::filename() const
@@ -35,4 +39,14 @@ QString ScriptResourceItem::filename() const
 QString ScriptResourceItem::scriptFilename() const
 {
     return QString("scripts/%1/%1.gml").arg(name());
+}
+
+QString ScriptResourceItem::code() const
+{
+    return m_code;
+}
+
+void ScriptResourceItem::setCode(QString code)
+{
+    m_code = code;
 }

@@ -32,7 +32,11 @@ public:
 
     QString scriptFilename() const;
 
-    QString code;
+    QString code() const;
+    void setCode(QString code);
+
+private:
+    QString m_code;
 };
 
 #endif // SCRIPTRESOURCEITEM_H

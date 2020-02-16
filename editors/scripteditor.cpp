@@ -28,7 +28,10 @@ ScriptEditor::ScriptEditor(ScriptResourceItem * item)
     codeEditor = new CodeEditor;
     setWidget(codeEditor);
 
-    codeEditor->setCode(item->code);
+    codeEditor->setCode(item->code());
+    connect(codeEditor, &CodeEditor::textChanged, [this, item]() {
+        item->setCode(codeEditor->getCode());
+    });
 }
 
 void ScriptEditor::save()
