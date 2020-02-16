@@ -48,6 +48,8 @@ signals:
     void openMainOptions(MainOptionsResourceItem* item);
     void openObject(ObjectResourceItem* item);
 
+    void itemRemoved(QString id);
+
 private slots:
     void onItemDoubleClicked(const QModelIndex & index);
     void onContextMenuRequested(const QPoint & pos);

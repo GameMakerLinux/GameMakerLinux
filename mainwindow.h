@@ -56,6 +56,7 @@ private slots:
     void openMainOptions(MainOptionsResourceItem* item);
     void openObject(ObjectResourceItem* item);
     void openInstance(ObjectInstance* item);
+    void removeTab(QString id);
 
     void saveProjectItem();
     void saveProject();

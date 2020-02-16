@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&resourcesTreeDock, &ResourcesTreeDock::openScript, this, &MainWindow::openScript);
     connect(&resourcesTreeDock, &ResourcesTreeDock::openSprite, this, &MainWindow::openSprite);
     connect(&resourcesTreeDock, &ResourcesTreeDock::openWindowsOptions, this, &MainWindow::openWindowsOptions);
+    connect(&resourcesTreeDock, &ResourcesTreeDock::itemRemoved, this, &MainWindow::removeTab);
     connect(&resourcesTreeDock, &ResourcesTreeDock::visibilityChanged, ui->action_Resources, &QAction::setChecked);
 
     connect(tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
@@ -293,6 +294,11 @@ void MainWindow::openInstance(ObjectInstance * item)
     idOfOpenedTabs.push_back(id);
 
     tabWidget->setCurrentIndex(pos);
+}
+
+void MainWindow::removeTab(QString id)
+{
+    closeTab(idOfOpenedTabs.indexOf(id));
 }
 
 void MainWindow::saveProjectItem()

@@ -225,8 +225,11 @@ void ResourcesTreeDock::deleteItemAction(QMenu * menu, ResourceType type, QModel
             break;
         }
         [[fallthrough]];
+    case ResourceType::Object:
+    case ResourceType::Script:
     case ResourceType::Sprite:
-        menu->addAction(QString("Delete '%1'").arg(item->name()), [this, index]() {
+        menu->addAction(QString("Delete '%1'").arg(item->name()), [this, item, index]() {
+            emit this->itemRemoved(item->id());
             resModel->removeItem(index);
         });
         break;
