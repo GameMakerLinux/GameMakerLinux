@@ -265,11 +265,11 @@ Qt::ItemFlags ResourcesModel::flags(const QModelIndex & index) const
             if (pFolderItem->filterType() == ResourceType::Root
                 || pFolderItem->filterType() == ResourceType::Config)
             {
-                return Qt::ItemIsDropEnabled | defaultFlags;
+                return /*Qt::ItemIsDropEnabled |*/ defaultFlags;
             }
             else
             {
-                return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+                return /*Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled |*/ defaultFlags;
             }
         }
     }

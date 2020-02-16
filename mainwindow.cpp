@@ -298,7 +298,9 @@ void MainWindow::openInstance(ObjectInstance * item)
 
 void MainWindow::removeTab(QString id)
 {
-    closeTab(idOfOpenedTabs.indexOf(id));
+    int tab = idOfOpenedTabs.indexOf(id);
+    if (tab != -1)
+        closeTab(tab);
 }
 
 void MainWindow::saveProjectItem()
