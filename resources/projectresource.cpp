@@ -47,6 +47,7 @@ void ProjectResource::load(QJsonObject object)
     }
 
     // main options FIX
+    // need to understand how file works
     {
         auto obj = object["parentProject"].toObject()["alteredResources"].toArray().first().toObject();
         auto data = obj["Value"].toObject();
@@ -56,7 +57,11 @@ void ProjectResource::load(QJsonObject object)
 
         auto type = Utils::resourceStringToType(data["resourceType"].toString());
         auto item = ResourceItem::create(type, id);
+#if 0
         auto json = Utils::readFileToJSON(GameSettings::rootPath() + "/" + filenameYY);
+#else
+        QJsonObject json;
+#endif
         item->load(json);
     }
 }

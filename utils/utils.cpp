@@ -38,7 +38,7 @@ QJsonObject Utils::readFileToJSON(QString filename)
 
     if (error.error != QJsonParseError::NoError)
     {
-        qCritical() << "JSON error:" << error.errorString();
+        qCritical() << "File:" << filename << "=> JSON error:" << error.errorString();
         return {};
     }
 
