@@ -210,6 +210,16 @@ void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type, QModelInd
     default:
         ;
     }
+
+    if (type != ResourceType::Folder)
+    {
+        menu->addAction("Create folder", [this, type, index]() {
+            auto res = ResourceItem::create(ResourceType::Folder, Uuid::generate());
+            qobject_cast<FolderResourceItem*>(res)->setFilter(type);
+            res->setName(ResourceItem::generateName(ResourceType::Folder));
+            resModel->addItem(res, index);
+        });
+    }
 }
 
 void ResourcesTreeDock::deleteItemAction(QMenu * menu, ResourceType type, QModelIndex index)

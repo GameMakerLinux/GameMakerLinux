@@ -62,6 +62,11 @@ QString FolderResourceItem::filename() const
     return QString("views/%1.yy").arg(m_viewFilename);
 }
 
+void FolderResourceItem::setFilter(ResourceType type)
+{
+    m_filterType = type;
+}
+
 ResourceType FolderResourceItem::filterType() const
 {
     return m_filterType;

@@ -226,6 +226,9 @@ QString ResourceItem::generateName(ResourceType type)
 
     switch (type)
     {
+    case ResourceType::Folder:
+        typeName = "folder";
+        break;
     case ResourceType::Object:
         typeName = "object";
         break;

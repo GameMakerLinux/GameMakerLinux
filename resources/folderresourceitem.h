@@ -31,12 +31,13 @@ public:
     QJsonObject save() override;
     QString filename() const override;
 
+    void setFilter(ResourceType type);
     ResourceType filterType() const;
     bool isLocalised() const;
 
 private:
     QString m_viewFilename;
-    ResourceType m_filterType;
+    ResourceType m_filterType = ResourceType::Unknown;
     QString m_folderName;
     bool m_isDefaultView = false;
     QString m_localisedFolderName;
