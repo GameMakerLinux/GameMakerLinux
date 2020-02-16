@@ -94,12 +94,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
 
         if (item->parentItem != nullptr)
         {
-            connect(item, &ResourceItem::nameChanged, [this, item]() {
-                ResourceItem * parent = item->parentItem;
-                int row = parent->children.indexOf(item);
-                auto idx = createIndex(row, 0, item);
-                emit dataChanged(idx, idx, {Qt::DisplayRole});
-            });
+            connect(item, &ResourceItem::nameChanged, this, &ResourcesModel::nameChanged);
         }
 
         auto c = children[item->id()];
@@ -119,16 +114,12 @@ void ResourcesModel::addItem(ResourceItem * item, QModelIndex parentIndex)
 {
     auto parentItem = static_cast<ResourceItem*>(parentIndex.internalPointer());
     int size = parentItem->children.size();
+
     beginInsertRows(parentIndex, size, size);
     parentItem->children.push_back(item);
     item->parentItem = parentItem;
 
-    connect(item, &ResourceItem::nameChanged, [this, item]() {
-        ResourceItem * parent = item->parentItem;
-        int row = parent->children.indexOf(item);
-        auto idx = createIndex(row, 0, item);
-        emit dataChanged(idx, idx, {Qt::DisplayRole});
-    });
+    connect(item, &ResourceItem::nameChanged, this, &ResourcesModel::nameChanged);
 
     endInsertRows();
 }
@@ -313,6 +304,18 @@ bool ResourcesModel::dropMimeData(const QMimeData * data, Qt::DropAction action,
     QT_FIX_DND = row;
 
     return true;
+}
+
+void ResourcesModel::nameChanged()
+{
+    auto item = qobject_cast<ResourceItem*>(sender());
+    if (item)
+    {
+        auto parent = item->parentItem;
+        auto row = parent->children.indexOf(item);
+        auto idx = createIndex(row, 0, item);
+        emit dataChanged(idx, idx, {Qt::DisplayRole});
+    }
 }
 
 QStringList ResourcesModel::mimeTypes() const
