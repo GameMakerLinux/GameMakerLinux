@@ -95,7 +95,7 @@ void ResourcesModel::fill(QMap<QString, ResourceItem*> resources)
         if (item->parentItem != nullptr)
         {
             connect(item, &ResourceItem::nameChanged, [this, item]() {
-                ResourceItem* parent = item->parentItem;
+                ResourceItem * parent = item->parentItem;
                 int row = parent->children.indexOf(item);
                 auto idx = createIndex(row, 0, item);
                 emit dataChanged(idx, idx, {Qt::DisplayRole});
@@ -122,6 +122,14 @@ void ResourcesModel::addItem(ResourceItem * item, QModelIndex parentIndex)
     beginInsertRows(parentIndex, size, size);
     parentItem->children.push_back(item);
     item->parentItem = parentItem;
+
+    connect(item, &ResourceItem::nameChanged, [this, item]() {
+        ResourceItem * parent = item->parentItem;
+        int row = parent->children.indexOf(item);
+        auto idx = createIndex(row, 0, item);
+        emit dataChanged(idx, idx, {Qt::DisplayRole});
+    });
+
     endInsertRows();
 }
 

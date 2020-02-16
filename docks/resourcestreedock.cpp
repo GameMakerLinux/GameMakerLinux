@@ -204,8 +204,6 @@ void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type, QModelInd
         menu->addAction("Create object", lambda);
         break;
     case ResourceType::Sprite:
-        qDebug() << index << index.parent();
-        qDebug() << static_cast<SpriteResourceItem*>(index.internalPointer())->name() << static_cast<SpriteResourceItem*>(index.parent().internalPointer())->name();
         menu->addAction("Create sprite", lambda);
         break;
     default:
