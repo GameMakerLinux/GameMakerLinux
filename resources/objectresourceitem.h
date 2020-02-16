@@ -87,26 +87,23 @@ private:
     QString m_maskSpriteId;
     // TODO: overriddenProperties
     QString m_parentObjectId;
-    bool m_persistent;
-    double m_physicsAngularDamping;
-    double m_physicsDensity;
-    double m_physicsFriction;
-    int m_physicsGroup;
-    bool m_physicsKinematic;
-    double m_physicsLinearDamping;
-    bool m_physicsObject;
-    double m_physicsRestitution;
-    bool m_physicsSensor;
-    int m_physicsShape;
+    bool m_persistent = false;
+    double m_physicsAngularDamping = 0;
+    double m_physicsDensity = 0;
+    double m_physicsFriction = 0;
+    int m_physicsGroup = 0;
+    bool m_physicsKinematic = false;
+    double m_physicsLinearDamping = 0;
+    bool m_physicsObject = false;
+    double m_physicsRestitution = 0;
+    bool m_physicsSensor = false;
+    int m_physicsShape = 0;
     // TODO: physicsShapePoints
-    bool m_physicsStartAwake;
+    bool m_physicsStartAwake = false;
     // TODO: properties
-    bool m_solid;
+    bool m_solid = false;
     QString m_spriteId;
-    bool m_visible;
-
-    // Used on save in case the object name is changed
-    QString m_oldName;
+    bool m_visible = true;
 };
 
 #endif // OBJECTRESOURCEITEM_H

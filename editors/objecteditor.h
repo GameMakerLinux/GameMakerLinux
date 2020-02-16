@@ -31,6 +31,7 @@ class ObjectEditor : public MainEditor
 
 public:
     ObjectEditor(ObjectResourceItem* item);
+    ~ObjectEditor() override;
 
     void refreshChildren();
 

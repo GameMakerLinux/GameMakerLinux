@@ -204,22 +204,22 @@ void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type, QModelInd
     case ResourceType::Object:
         menu->addAction("Create object", lambda);
         break;
+    case ResourceType::Script:
+        menu->addAction("Create script", lambda);
+        break;
     case ResourceType::Sprite:
         menu->addAction("Create sprite", lambda);
         break;
     default:
-        ;
+        return;
     }
 
-    if (type != ResourceType::Folder)
-    {
-        menu->addAction("Create folder", [this, type, index]() {
-            auto res = ResourceItem::create(ResourceType::Folder, Uuid::generate());
-            qobject_cast<FolderResourceItem*>(res)->setFilter(type);
-            res->setName(ResourceItem::generateName(ResourceType::Folder));
-            resModel->addItem(res, index);
-        });
-    }
+    menu->addAction("Create folder", [this, type, index]() {
+        auto res = ResourceItem::create(ResourceType::Folder, Uuid::generate());
+        qobject_cast<FolderResourceItem*>(res)->setFilter(type);
+        res->setName(ResourceItem::generateName(ResourceType::Folder));
+        resModel->addItem(res, index);
+    });
 }
 
 void ResourcesTreeDock::deleteItemAction(QMenu * menu, ResourceType type, QModelIndex index)

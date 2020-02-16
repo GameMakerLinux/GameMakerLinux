@@ -79,7 +79,7 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     };
     for (unsigned int i = 0; i < labels.size(); i++)
     {
-        *(edits[i]) = new FormEdit;
+        *(edits[i]) = new FormEdit(this);
         (*(edits[i]))->setLineEditWidth(50);
         (*(edits[i]))->setLabel(labels[i]);
         if (edits[i] == &m_collisionGroup)
@@ -177,6 +177,11 @@ ObjectEditor::ObjectEditor(ObjectResourceItem* item)
     load();
 
     createEventsMenu();
+}
+
+ObjectEditor::~ObjectEditor()
+{
+    delete ui;
 }
 
 void ObjectEditor::refreshChildren()
