@@ -71,7 +71,7 @@ class ResourceItem : public QObject
     Q_OBJECT
 
 public:
-    ResourceItem* child(int index);
+    ResourceItem * child(int index);
     virtual void load(QJsonObject object) = 0;
     virtual QJsonObject save();
 
@@ -89,9 +89,10 @@ public:
     QVector<ResourceItem*> children;
     ResourceItem* parentItem = nullptr;
 
-    static ResourceItem* create(ResourceType type, QString id);
+    static ResourceItem * create(ResourceType type, QString id);
+    static void remove(QString id);
     static void registerItem(QString id, ResourceItem * item);
-    static ResourceItem* get(QString id);
+    static ResourceItem * get(QString id);
     template <typename T>
     static T* get(QString id)
     {

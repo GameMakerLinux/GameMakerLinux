@@ -105,8 +105,6 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
 
         auto item = static_cast<ResourceItem*>(modelIndex.internalPointer());
 
-        addItemAction(&contextMenu, item->type(), modelIndex.parent());
-        deleteItemAction(&contextMenu, item->type(), modelIndex.parent());
         switch (item->type())
         {
         case ResourceType::AmazonFireOptions:
@@ -186,6 +184,9 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
             break;
         }
 
+        addItemAction(&contextMenu, item->type(), modelIndex.parent());
+        deleteItemAction(&contextMenu, item->type(), modelIndex);
+
         if (contextMenu.actions().count())
             contextMenu.exec(QCursor::pos());
     }
@@ -213,11 +214,21 @@ void ResourcesTreeDock::addItemAction(QMenu * menu, ResourceType type, QModelInd
 
 void ResourcesTreeDock::deleteItemAction(QMenu * menu, ResourceType type, QModelIndex index)
 {
-    (void)index;
+    auto item = static_cast<ResourceItem*>(index.internalPointer());
+
     switch (type)
     {
+    case ResourceType::Folder:
+        if (!index.parent().isValid())
+        {
+            // don't delete root folders
+            break;
+        }
+        [[fallthrough]];
     case ResourceType::Sprite:
-        menu->addAction("Delete");
+        menu->addAction(QString("Delete '%1'").arg(item->name()), [this, index]() {
+            resModel->removeItem(index);
+        });
         break;
     default:
         ;

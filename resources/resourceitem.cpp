@@ -146,6 +146,18 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
     return item;
 }
 
+void ResourceItem::remove(QString id)
+{
+    auto & children = allResources[id]->children;
+    for (auto & child : children)
+    {
+        remove(child->id());
+    }
+
+    delete allResources[id];
+    allResources.remove(id);
+}
+
 void ResourceItem::registerItem(QString id, ResourceItem * item)
 {
     if (!Uuid::isNull(id))

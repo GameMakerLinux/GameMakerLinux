@@ -124,6 +124,16 @@ void ResourcesModel::addItem(ResourceItem * item, QModelIndex parentIndex)
     endInsertRows();
 }
 
+void ResourcesModel::removeItem(QModelIndex index)
+{
+    auto item = static_cast<ResourceItem*>(index.internalPointer());
+
+    beginRemoveRows(index.parent(), index.row(), index.row());
+    item->parentItem->children.remove(index.row());
+    ResourceItem::remove(item->id());
+    endRemoveRows();
+}
+
 QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent) const
 {
     ResourceItem* ptr = nullptr;
@@ -139,6 +149,8 @@ QModelIndex ResourcesModel::index(int row, int column, const QModelIndex &parent
 QModelIndex ResourcesModel::parent(const QModelIndex &index) const
 {
     auto ptr = static_cast<ResourceItem*>(index.internalPointer());
+    if (ptr == nullptr)
+        return QModelIndex();
     auto parentPtr = ptr->parentItem;
     if (parentPtr == rootItem)
         return QModelIndex();
