@@ -27,9 +27,11 @@ class ObjectInstance : public ResourceItem
 
 public:
     ObjectInstance();
+    ObjectInstance(ObjectResourceItem * item);
 
     void load(QJsonObject object) override;
     QPoint position() const;
+    void setPosition(int x, int y);
     ObjectResourceItem * object();
 
 private:

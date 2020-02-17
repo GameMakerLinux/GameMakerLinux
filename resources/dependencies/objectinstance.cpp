@@ -18,10 +18,23 @@
 #include "objectinstance.h"
 #include "utils/uuid.h"
 #include "resources/objectresourceitem.h"
+#include <experimental/random>
 
 ObjectInstance::ObjectInstance()
     : ResourceItem { ResourceType::ObjectInstance }
 {
+}
+
+ObjectInstance::ObjectInstance(ObjectResourceItem * item)
+    : ObjectInstance()
+{
+    setId(Uuid::generate());
+    ResourceItem::registerItem(id(), this);
+
+    auto num = std::experimental::randint(0x00'00'00'00u, 0xFF'FF'FF'FFu);
+    setName(QString("inst_") + QString("%1").arg(num, 8, 16, QChar('0')).toUpper());
+
+    m_objId = item->id();
 }
 
 void ObjectInstance::load(QJsonObject object)
@@ -31,8 +44,7 @@ void ObjectInstance::load(QJsonObject object)
 
     setName(object["name"].toString());
 
-    m_position.setX(object["x"].toInt());
-    m_position.setY(object["y"].toInt());
+    setPosition(object["x"].toInt(), object["y"].toInt());
 
     m_objId = object["objId"].toString();
 }
@@ -40,6 +52,12 @@ void ObjectInstance::load(QJsonObject object)
 QPoint ObjectInstance::position() const
 {
     return m_position;
+}
+
+void ObjectInstance::setPosition(int x, int y)
+{
+    m_position.setX(x);
+    m_position.setY(y);
 }
 
 ObjectResourceItem *ObjectInstance::object()

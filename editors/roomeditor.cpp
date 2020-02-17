@@ -29,6 +29,8 @@
 #include "resources/dependencies/objectinstance.h"
 #include "resources/objectresourceitem.h"
 #include <QMenu>
+#include <QDragEnterEvent>
+#include <QMimeData>
 
 RoomEditor::RoomEditor(RoomResourceItem* item)
     : MainEditor { item }
@@ -43,6 +45,8 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
     ui->layersListView->setModel(&layersModel);
     ui->objectsListView->setModel(&objectsModel);
     ui->roomView->setScene(&scene);
+    ui->roomView->viewport()->setAcceptDrops(true);
+    ui->roomView->viewport()->installEventFilter(this);
 
     connect(&layersModel, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
     connect(&objectsModel, &ObjectsModel::visibilityChanged, this, &RoomEditor::setInstanceVisibility);
@@ -54,6 +58,9 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
     scene.setBackgroundBrush(Qt::gray);
 
     load();
+
+    ui->layersListView->setCurrentIndex(layersModel.index(0, 0));
+    ui->layersListView->pressed(layersModel.index(0, 0));
 }
 
 RoomEditor::~RoomEditor()
@@ -107,10 +114,7 @@ void RoomEditor::load()
             auto instLayer = qobject_cast<InstanceLayer*>(layer);
             for (auto & instance : instLayer->instances())
             {
-                auto instItem = new GraphicsInstance(instance);
-                instItem->setParentItem(gLayer);
-                connect(instItem, &GraphicsInstance::openObject, this, &RoomEditor::openObject);
-                connect(instItem, &GraphicsInstance::openInstance, this, &RoomEditor::openInstance);
+                createInstance(instance, gLayer);
             }
             gLayer->setCurrent(false);
             //so the instances are always visible
@@ -206,4 +210,65 @@ void RoomEditor::showObjectsListContextMenu(const QPoint & pos)
         emit openObject(inst->object());
     });
     menu.exec(QCursor::pos());
+}
+
+
+bool RoomEditor::eventFilter(QObject * watched, QEvent * event)
+{
+    if (watched == ui->roomView->viewport())
+    {
+        if (event->type() == QEvent::DragEnter || event->type() == QEvent::DragMove)
+        {
+            auto dragEvent = static_cast<QDragEnterEvent*>(event);
+            if (dragEvent->mimeData()->hasFormat("application/gms2.GMObject"))
+            {
+                auto id = dragEvent->mimeData()->data("application/gms2.GMObject");
+                if (acceptObjectOnCurrentLayer(id))
+                {
+                    dragEvent->acceptProposedAction();
+                }
+            }
+            return true;
+        }
+        else if (event->type() == QEvent::Drop)
+        {
+            auto dropEvent = static_cast<QDropEvent*>(event);
+            auto id = dropEvent->mimeData()->data("application/gms2.GMObject");
+            auto objItem = ResourceItem::get<ObjectResourceItem>(id);
+            auto gInst = createInstance(objItem);
+            gInst->setPos(ui->roomView->mapToScene(dropEvent->pos()));
+            return true;
+        }
+    }
+    return false;
+}
+
+bool RoomEditor::acceptObjectOnCurrentLayer(QString id)
+{
+    auto item = ResourceItem::get(id);
+    auto modelIndex = ui->layersListView->selectionModel()->currentIndex();
+    auto layer = layersModel.layer(modelIndex.row());
+    return layer->acceptObject(item);
+}
+
+GraphicsInstance * RoomEditor::createInstance(ObjectResourceItem * item)
+{
+    auto objInst = new ObjectInstance(item);
+    auto modelIndex = ui->layersListView->selectionModel()->currentIndex();
+    auto layer = static_cast<InstanceLayer*>(layersModel.layer(modelIndex.row()));
+    layer->addInstance(objInst);
+    objectsModel.addObject(objInst);
+
+    auto gLayer = graphicsLayers[layer->id()];
+    return createInstance(objInst, gLayer);
+}
+
+GraphicsInstance * RoomEditor::createInstance(ObjectInstance * instance, GraphicsLayer * layer)
+{
+    auto instItem = new GraphicsInstance(instance);
+    instItem->setParentItem(layer);
+    connect(instItem, &GraphicsInstance::openObject, this, &RoomEditor::openObject);
+    connect(instItem, &GraphicsInstance::openInstance, this, &RoomEditor::openInstance);
+
+    return instItem;
 }

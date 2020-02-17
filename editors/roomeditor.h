@@ -25,6 +25,7 @@
 #include "models/objectsmodel.h"
 
 class GraphicsLayer;
+class GraphicsInstance;
 class ObjectResourceItem;
 class RoomEditor : public MainEditor
 {
@@ -32,7 +33,9 @@ class RoomEditor : public MainEditor
 
 public:
     explicit RoomEditor(RoomResourceItem* item);
-    ~RoomEditor();
+    ~RoomEditor() override;
+
+    bool eventFilter(QObject * watched, QEvent * event) override;
 
 signals:
     void openObject(ObjectResourceItem * item);
@@ -51,6 +54,9 @@ private slots:
 
 private:
     void load();
+    bool acceptObjectOnCurrentLayer(QString id);
+    GraphicsInstance * createInstance(ObjectResourceItem * item);
+    GraphicsInstance * createInstance(ObjectInstance * instance, GraphicsLayer * layer);
 
     Ui::RoomEditor *ui;
     LayersModel layersModel;

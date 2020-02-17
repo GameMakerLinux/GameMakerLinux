@@ -30,6 +30,7 @@ ResourcesTreeDock::ResourcesTreeDock()
 
     resourcesTree = new QTreeView;
     resourcesTree->setDropIndicatorShown(true);
+    resourcesTree->setDragEnabled(true);
     resourcesTree->setDragDropMode(QAbstractItemView::InternalMove);
     resourcesTree->setFocusPolicy(Qt::NoFocus);
     resourcesTree->setContextMenuPolicy(Qt::CustomContextMenu);

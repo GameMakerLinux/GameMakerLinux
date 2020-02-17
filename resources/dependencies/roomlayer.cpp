@@ -31,6 +31,15 @@ int RoomLayer::depth() const
     return m_depth;
 }
 
+bool RoomLayer::acceptObject(ResourceItem * item)
+{
+    if (type() == Type::Instances)
+    {
+        return item->type() == ResourceType::Object;
+    }
+    return false;
+}
+
 void RoomLayer::setDepth(int d)
 {
     m_depth = d;

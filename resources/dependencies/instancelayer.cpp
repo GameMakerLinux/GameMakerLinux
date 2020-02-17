@@ -38,6 +38,11 @@ void InstanceLayer::load(QJsonObject object)
     }
 }
 
+void InstanceLayer::addInstance(ObjectInstance * instance)
+{
+    m_instances.push_back(instance);
+}
+
 QVector<ObjectInstance *> InstanceLayer::instances() const
 {
     return m_instances;

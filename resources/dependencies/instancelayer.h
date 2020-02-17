@@ -28,6 +28,8 @@ public:
     InstanceLayer();
 
     void load(QJsonObject object);
+    void addInstance(ObjectInstance * instance);
+
     QVector<ObjectInstance*> instances() const;
 
 private:

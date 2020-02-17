@@ -38,6 +38,7 @@ public:
     Type type() const;
 
     int depth() const;
+    bool acceptObject(ResourceItem * item);
 
 protected:
     void setDepth(int d);

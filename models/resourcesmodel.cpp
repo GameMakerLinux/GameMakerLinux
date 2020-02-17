@@ -221,7 +221,7 @@ Qt::DropActions ResourcesModel::supportedDropActions() const
 
 Qt::DropActions ResourcesModel::supportedDragActions() const
 {
-    return Qt::MoveAction;
+    return Qt::MoveAction | Qt::CopyAction;
 }
 
 bool ResourcesModel::removeRows(int row, int count, const QModelIndex & parent)
@@ -267,9 +267,9 @@ Qt::ItemFlags ResourcesModel::flags(const QModelIndex & index) const
             {
                 return /*Qt::ItemIsDropEnabled |*/ defaultFlags;
             }
-            else
+            else if (pItem->type() != ResourceType::Folder)
             {
-                return /*Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled |*/ defaultFlags;
+                return Qt::ItemIsDragEnabled |/* Qt::ItemIsDropEnabled |*/ defaultFlags;
             }
         }
     }
@@ -341,7 +341,7 @@ QStringList ResourcesModel::mimeTypes() const
     return types;
 }
 
-QMimeData *ResourcesModel::mimeData(const QModelIndexList & indexes) const
+QMimeData * ResourcesModel::mimeData(const QModelIndexList & indexes) const
 {
     if (indexes.size() != 1) return nullptr;
 
@@ -351,6 +351,6 @@ QMimeData *ResourcesModel::mimeData(const QModelIndexList & indexes) const
     auto type = Utils::resourceTypeToString(pItem->type());
 
     QString mimeType(QString("application/gms2.%1").arg(type));
-    pMimeData->setData(mimeType, pItem->id().toLatin1());
+    pMimeData->setData(mimeType, pItem->id().toLocal8Bit());
     return pMimeData;
 }
