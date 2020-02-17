@@ -19,6 +19,7 @@
 #include "utils/uuid.h"
 #include "resources/objectresourceitem.h"
 #include <experimental/random>
+#include <QDebug>
 
 ObjectInstance::ObjectInstance()
     : ResourceItem { ResourceType::ObjectInstance }
@@ -60,9 +61,15 @@ void ObjectInstance::setPosition(int x, int y)
     m_position.setY(y);
 }
 
-ObjectResourceItem *ObjectInstance::object()
+void ObjectInstance::setPosition(QPointF p)
+{
+    setPosition(static_cast<int>(p.x()), static_cast<int>(p.y()));
+}
+
+ObjectResourceItem * ObjectInstance::object()
 {
     if (!Uuid::isNull(m_objId))
         return ResourceItem::get<ObjectResourceItem>(m_objId);
+    qWarning() << "Instance" << name() << "hasn't an object.";
     return nullptr;
 }

@@ -28,7 +28,7 @@ GraphicsInstance::GraphicsInstance(ObjectInstance * instance)
     : QGraphicsPixmapItem { QIcon::fromTheme("help-about").pixmap(16, 16) }
     , m_objectInstance { instance }
 {
-    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
 
     setPos(m_objectInstance->position());
     setToolTip(m_objectInstance->name());
@@ -52,4 +52,15 @@ void GraphicsInstance::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
         emit openObject(this->objectInstance()->object());
     });
     menu.exec(event->screenPos());
+}
+
+QVariant GraphicsInstance::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant & value)
+{
+    if (change == QGraphicsItem::ItemPositionHasChanged)
+    {
+        auto p = value.toPointF();
+        m_objectInstance->setPosition(p);
+    }
+
+    return QGraphicsPixmapItem::itemChange(change, value);
 }

@@ -32,6 +32,7 @@ public:
     void load(QJsonObject object) override;
     QPoint position() const;
     void setPosition(int x, int y);
+    void setPosition(QPointF p);
     ObjectResourceItem * object();
 
 private:

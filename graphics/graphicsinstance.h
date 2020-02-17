@@ -38,6 +38,7 @@ signals:
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
     ObjectInstance * m_objectInstance = nullptr;
