@@ -27,16 +27,16 @@ class ItemModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit ItemModel(ResourceItem * item, QObject *parent = nullptr);
+    explicit ItemModel(ResourceItem * item, QObject * parent = nullptr);
 
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
+    QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex & index) const override;
     Qt::ItemFlags flags(const QModelIndex & index) const override;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex & parent = QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
     void excludeItem(ResourceItem * itemToExclude);
 
