@@ -16,6 +16,9 @@
 */
 
 #include "tilelayer.h"
+#include "resources/tilesetresourceitem.h"
+#include "utils/uuid.h"
+#include <QPixmap>
 
 TileLayer::TileLayer()
     : RoomLayer { ResourceType::TileLayer }
@@ -25,4 +28,16 @@ TileLayer::TileLayer()
 void TileLayer::load(QJsonObject object)
 {
     RoomLayer::load(object);
+
+    auto tilesetId = object["tilesetId"].toString();
+
+    if (!Uuid::isNull(tilesetId))
+    {
+        tilesetItem = ResourceItem::get<TileSetResourceItem>(tilesetId);
+    }
+}
+
+QPixmap TileLayer::render() const
+{
+    return QPixmap();
 }

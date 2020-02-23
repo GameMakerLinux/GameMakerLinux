@@ -20,12 +20,20 @@
 
 #include "roomlayer.h"
 
+class TileSetResourceItem;
 class TileLayer : public RoomLayer
 {
+    Q_OBJECT
+
 public:
     TileLayer();
 
     void load(QJsonObject object);
+
+    QPixmap render() const;
+
+private:
+    TileSetResourceItem * tilesetItem = nullptr;
 };
 
 #endif // TILELAYER_H

@@ -24,6 +24,7 @@
 #include "resources/dependencies/roomlayer.h"
 #include "resources/dependencies/backgroundlayer.h"
 #include "resources/dependencies/instancelayer.h"
+#include "resources/dependencies/tilelayer.h"
 #include "resources/dependencies/folderlayer.h"
 #include "graphics/graphicsinstance.h"
 #include "resources/dependencies/objectinstance.h"
@@ -124,6 +125,16 @@ void RoomEditor::load()
             gLayer->setCurrent(false);
             //so the instances are always visible
             gLayer->setZValue(1000);
+        }
+        else if (layer->type() == RoomLayer::Type::Tiles)
+        {
+            auto tileLayer = qobject_cast<TileLayer*>(layer);
+            auto depth = layer->depth();
+            gLayer->setZValue(-depth);
+
+            auto pix = tileLayer->render();
+            auto pixItem = scene.addPixmap(pix);
+            pixItem->setParentItem(gLayer);
         }
     }
 }

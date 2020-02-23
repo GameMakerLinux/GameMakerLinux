@@ -19,13 +19,19 @@
 #define TILESETRESOURCEITEM_H
 
 #include "resourceitem.h"
+#include <QSize>
 
 class TileSetResourceItem : public ResourceItem
 {
+    Q_OBJECT
+
 public:
     TileSetResourceItem();
 
     void load(QJsonObject object) override;
+
+private:
+    QSize tileSize;
 };
 
 #endif // TILESETRESOURCEITEM_H
