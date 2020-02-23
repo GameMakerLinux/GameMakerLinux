@@ -71,6 +71,9 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
         {
         case Qt::CheckStateRole:
             setCheckedState(item, value.value<Qt::CheckState>());
+            auto topLeft = LayersModel::index(0, 0, QModelIndex());
+            auto bottomRight = LayersModel::index(rootItem->children.count() - 1, 0, QModelIndex());
+            emit dataChanged(topLeft, bottomRight, { Qt::CheckStateRole });
             return true;
         }
     }

@@ -40,7 +40,7 @@ void BackgroundLayer::load(QJsonObject object)
     m_colour = QColor(r, g, b, a);
 }
 
-SpriteResourceItem *BackgroundLayer::sprite() const
+SpriteResourceItem * BackgroundLayer::sprite() const
 {
     if (!Uuid::isNull(m_spriteId))
     {
