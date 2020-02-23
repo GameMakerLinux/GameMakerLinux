@@ -18,7 +18,6 @@
 #include "codeeditor.h"
 #include <QVBoxLayout>
 #include "utils/gmlhighlighter.h"
-#include <QDebug>
 
 CodeEditor::CodeEditor(QWidget *parent)
     : QWidget { parent }

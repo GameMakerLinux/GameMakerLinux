@@ -17,7 +17,6 @@
 
 #include "folderresourceitem.h"
 #include "utils/utils.h"
-#include <QDebug>
 
 FolderResourceItem::FolderResourceItem()
     : ResourceItem { ResourceType::Folder }

@@ -19,7 +19,6 @@
 #include "resources/dependencies/objectinstance.h"
 #include <QIcon>
 #include <QStyleOptionGraphicsItem>
-#include <QDebug>
 #include <QPainter>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>

@@ -24,7 +24,6 @@
 #include "models/sortedeventsmodel.h"
 #include "utils/flowlayout.h"
 #include <QDir>
-#include <QDebug>
 
 struct EventTypeAndNumber {
     ObjectEvent::EventType type;

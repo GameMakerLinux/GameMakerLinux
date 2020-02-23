@@ -20,7 +20,6 @@
 #include <QDialogButtonBox>
 #include <QListView>
 #include "resources/resourceitem.h"
-#include <QDebug>
 
 SelectItem::SelectItem(QString title, ResourceItem * rootElement, ResourceItem * excludedElement)
     : model { rootElement }

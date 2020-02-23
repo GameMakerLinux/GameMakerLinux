@@ -19,7 +19,6 @@
 #include "resources/dependencies/instancelayer.h"
 #include "resources/dependencies/folderlayer.h"
 #include "resources/roomresourceitem.h"
-#include <QDebug>
 
 LayersModel::LayersModel(QObject * parent)
     : QAbstractItemModel { parent }
@@ -105,7 +104,6 @@ void LayersModel::addLayersToParent(LayerItem * parentItem, QVector<RoomLayer *>
         item->layer = layer;
 
         parentItem->add(item);
-        qDebug() << "add" << item << "to" << parentItem << " / " << (int)layer->type();
 
         if (layer->type() == RoomLayer::Type::Folder)
         {

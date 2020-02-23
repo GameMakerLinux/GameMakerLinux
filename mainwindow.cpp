@@ -19,7 +19,6 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "utils/utils.h"
-#include <QDebug>
 #include <QAction>
 #include "gamesettings.h"
 #include <QLabel>
