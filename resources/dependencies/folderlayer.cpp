@@ -31,3 +31,8 @@ void FolderLayer::addSubLayer(RoomLayer * layer)
 {
     m_subLayers.push_back(layer);
 }
+
+QVector<RoomLayer *> FolderLayer::subLayers() const
+{
+    return m_subLayers;
+}

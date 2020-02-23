@@ -36,10 +36,12 @@ public:
     int width() const;
 
     QVector<RoomLayer *> layers() const;
+    QVector<RoomLayer *> rootLayers() const;
 
 private:
     void loadSubLayers(FolderLayer * parentLayer, QJsonArray layers);
     QVector<RoomLayer *> m_layers;
+    QVector<RoomLayer *> m_rootLayers;
     RoomSettings m_settings;
 };
 

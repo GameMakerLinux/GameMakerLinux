@@ -30,6 +30,7 @@ public:
     void load(QJsonObject object);
 
     void addSubLayer(RoomLayer * layer);
+    QVector<RoomLayer *> subLayers() const;
 
 private:
     QVector<RoomLayer *> m_subLayers;

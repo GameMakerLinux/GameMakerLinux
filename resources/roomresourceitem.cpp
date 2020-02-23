@@ -53,6 +53,11 @@ QVector<RoomLayer *> RoomResourceItem::layers() const
     return m_layers;
 }
 
+QVector<RoomLayer *> RoomResourceItem::rootLayers() const
+{
+    return m_rootLayers;
+}
+
 void RoomResourceItem::loadSubLayers(FolderLayer * parentLayer, QJsonArray layers)
 {
     for (auto value : layers)
@@ -71,6 +76,10 @@ void RoomResourceItem::loadSubLayers(FolderLayer * parentLayer, QJsonArray layer
         if (parentLayer)
         {
             parentLayer->addSubLayer(roomLayer);
+        }
+        else
+        {
+            m_rootLayers.append(roomLayer);
         }
 
         if (layerType == ResourceType::FolderLayer)

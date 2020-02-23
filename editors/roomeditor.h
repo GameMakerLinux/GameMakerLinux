@@ -45,7 +45,7 @@ protected slots:
     void save() override;
 
 private slots:
-    void setLayerVisibility(QString id, bool visible);
+    void setLayerVisibility(RoomLayer * layer, bool visible);
     void updateObjectsList(const QModelIndex & index);
     void selectedItemChanged();
     void updateSelectedItem(const QModelIndex & index);
@@ -58,7 +58,7 @@ private:
     GraphicsInstance * createInstance(ObjectResourceItem * item);
     GraphicsInstance * createInstance(ObjectInstance * instance, GraphicsLayer * layer);
 
-    Ui::RoomEditor *ui;
+    Ui::RoomEditor * ui;
     LayersModel layersModel;
     ObjectsModel objectsModel;
     QGraphicsScene scene;

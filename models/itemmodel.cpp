@@ -26,7 +26,7 @@ ItemModel::ItemModel(ResourceItem * item, QObject *parent)
 
 QModelIndex ItemModel::index(int row, int column, const QModelIndex &parent) const
 {
-    ResourceItem* ptr = nullptr;
+    ResourceItem * ptr = nullptr;
     if (!parent.isValid())
         ptr = rootItem;
     else

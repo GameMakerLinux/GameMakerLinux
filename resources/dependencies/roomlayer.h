@@ -29,6 +29,7 @@ public:
         Folder,
         Instances,
         Background,
+        Tiles,
         Unknown
     };
 

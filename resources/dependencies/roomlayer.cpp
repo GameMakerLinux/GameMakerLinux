@@ -24,6 +24,12 @@ RoomLayer::RoomLayer(ResourceType type)
         m_type = Type::Background;
     else if (type == ResourceType::InstanceLayer)
         m_type = Type::Instances;
+    else if (type == ResourceType::FolderLayer)
+        m_type = Type::Folder;
+    else if (type == ResourceType::TileLayer)
+        m_type = Type::Tiles;
+    else
+        Q_ASSERT(false);
 }
 
 int RoomLayer::depth() const

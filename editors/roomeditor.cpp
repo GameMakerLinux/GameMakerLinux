@@ -25,6 +25,7 @@
 #include "resources/dependencies/roomlayer.h"
 #include "resources/dependencies/backgroundlayer.h"
 #include "resources/dependencies/instancelayer.h"
+#include "resources/dependencies/folderlayer.h"
 #include "graphics/graphicsinstance.h"
 #include "resources/dependencies/objectinstance.h"
 #include "resources/objectresourceitem.h"
@@ -42,7 +43,7 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     ui->splitter->setSizes({ 50, 300 });
 
-    ui->layersListView->setModel(&layersModel);
+    ui->layersTreeView->setModel(&layersModel);
     ui->objectsListView->setModel(&objectsModel);
     ui->roomView->setScene(&scene);
     ui->roomView->viewport()->setAcceptDrops(true);
@@ -50,7 +51,7 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     connect(&layersModel, &LayersModel::visibilityChanged, this, &RoomEditor::setLayerVisibility);
     connect(&objectsModel, &ObjectsModel::visibilityChanged, this, &RoomEditor::setInstanceVisibility);
-    connect(ui->layersListView, &QListView::pressed, this, &RoomEditor::updateObjectsList);
+    connect(ui->layersTreeView, &QListView::pressed, this, &RoomEditor::updateObjectsList);
     connect(ui->objectsListView, &QListView::pressed, this, &RoomEditor::updateSelectedItem);
     connect(ui->objectsListView, &QListView::customContextMenuRequested, this, &RoomEditor::showObjectsListContextMenu);
     connect(&scene, &QGraphicsScene::selectionChanged, this, &RoomEditor::selectedItemChanged);
@@ -59,8 +60,8 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     load();
 
-    ui->layersListView->setCurrentIndex(layersModel.index(0, 0));
-    ui->layersListView->pressed(layersModel.index(0, 0));
+    ui->layersTreeView->setCurrentIndex(layersModel.index(0, 0, QModelIndex()));
+    ui->layersTreeView->pressed(layersModel.index(0, 0, QModelIndex()));
 }
 
 RoomEditor::~RoomEditor()
@@ -79,13 +80,18 @@ void RoomEditor::load()
     auto pItem = item<RoomResourceItem>();
 
     scene.clear();
-    layersModel.clear();
     auto bg = scene.addRect(0, 0, pItem->width() - 1, pItem->height() - 1, QPen(QColor(0, 0, 0)), QBrush(Qt::white));
     bg->setZValue(-999999);
 
+    layersModel.load(pItem);
+
     for (auto & layer : pItem->layers())
     {
-        layersModel.addLayer(layer);
+        // folders don't render anything.
+        if (layer->type() == RoomLayer::Type::Folder)
+        {
+            continue;
+        }
 
         GraphicsLayer * gLayer = new GraphicsLayer;
         graphicsLayers[layer->id()] = gLayer;
@@ -123,10 +129,22 @@ void RoomEditor::load()
     }
 }
 
-void RoomEditor::setLayerVisibility(QString id, bool visible)
+void RoomEditor::setLayerVisibility(RoomLayer * layer, bool visible)
 {
-    graphicsLayers[id]->setVisible(visible);
-    ui->layersListView->update();
+    if (layer->type() == RoomLayer::Type::Folder)
+    {
+        auto folderLayer = qobject_cast<FolderLayer*>(layer);
+        for (auto & child : folderLayer->subLayers())
+        {
+            setLayerVisibility(child, visible);
+        }
+    }
+    else
+    {
+        graphicsLayers[layer->id()]->setVisible(visible);
+    }
+
+    ui->layersTreeView->update();
 }
 
 void RoomEditor::updateObjectsList(const QModelIndex & index)
@@ -144,7 +162,7 @@ void RoomEditor::updateObjectsList(const QModelIndex & index)
 
     objectsModel.clear();
 
-    auto pLayer = layersModel.layer(index.row());
+    auto pLayer = static_cast<LayerItem*>(index.internalPointer())->layer;
     if (pLayer->type() == RoomLayer::Type::Instances)
     {
         auto pInstLayer = qobject_cast<InstanceLayer*>(pLayer);
@@ -246,16 +264,17 @@ bool RoomEditor::eventFilter(QObject * watched, QEvent * event)
 bool RoomEditor::acceptObjectOnCurrentLayer(QString id)
 {
     auto item = ResourceItem::get(id);
-    auto modelIndex = ui->layersListView->selectionModel()->currentIndex();
-    auto layer = layersModel.layer(modelIndex.row());
+    auto modelIndex = ui->layersTreeView->selectionModel()->currentIndex();
+    auto layer = static_cast<LayerItem*>(modelIndex.internalPointer())->layer;
     return layer->acceptObject(item);
 }
 
 GraphicsInstance * RoomEditor::createInstance(ObjectResourceItem * item)
 {
     auto objInst = new ObjectInstance(item);
-    auto modelIndex = ui->layersListView->selectionModel()->currentIndex();
-    auto layer = static_cast<InstanceLayer*>(layersModel.layer(modelIndex.row()));
+    auto modelIndex = ui->layersTreeView->selectionModel()->currentIndex();
+    auto layerItem = static_cast<LayerItem*>(modelIndex.internalPointer())->layer;
+    auto layer = static_cast<InstanceLayer*>(layerItem);
     layer->addInstance(objInst);
     objectsModel.addObject(objInst);
 

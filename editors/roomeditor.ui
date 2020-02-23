@@ -53,7 +53,7 @@
          <x>0</x>
          <y>0</y>
          <width>300</width>
-         <height>496</height>
+         <height>498</height>
         </rect>
        </property>
        <attribute name="label">
@@ -83,7 +83,7 @@
              <x>0</x>
              <y>0</y>
              <width>298</width>
-             <height>494</height>
+             <height>496</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -95,10 +95,13 @@
              </widget>
             </item>
             <item>
-             <widget class="QListView" name="layersListView">
+             <widget class="QTreeView" name="layersTreeView">
               <property name="focusPolicy">
                <enum>Qt::NoFocus</enum>
               </property>
+              <attribute name="headerVisible">
+               <bool>false</bool>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -130,7 +133,7 @@
          <x>0</x>
          <y>0</y>
          <width>300</width>
-         <height>496</height>
+         <height>498</height>
         </rect>
        </property>
        <attribute name="label">
@@ -160,7 +163,7 @@
              <x>0</x>
              <y>0</y>
              <width>298</width>
-             <height>494</height>
+             <height>496</height>
             </rect>
            </property>
           </widget>

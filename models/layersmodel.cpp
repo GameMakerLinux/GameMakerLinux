@@ -17,32 +17,47 @@
 
 #include "layersmodel.h"
 #include "resources/dependencies/instancelayer.h"
+#include "resources/dependencies/folderlayer.h"
+#include "resources/roomresourceitem.h"
+#include <QDebug>
 
-LayersModel::LayersModel(QObject *parent)
-    : QAbstractListModel { parent }
+LayersModel::LayersModel(QObject * parent)
+    : QAbstractItemModel { parent }
 {
 }
 
-int LayersModel::rowCount(const QModelIndex &parent) const
+void LayersModel::load(RoomResourceItem * item)
 {
-    if (parent.isValid())
-        return 0;
+    clear();
 
-    return items.size();
+    rootItem.reset(new LayerItem);
+    addLayersToParent(rootItem.get(), item->rootLayers());
 }
 
-QVariant LayersModel::data(const QModelIndex &index, int role) const
+int LayersModel::rowCount(const QModelIndex & parent) const
+{
+    if (!parent.isValid())
+    {
+        if (rootItem == nullptr) return 0;
+        return rootItem->children.size();
+    }
+
+    auto ptr = static_cast<LayerItem*>(parent.internalPointer());
+    return ptr->children.size();
+}
+
+QVariant LayersModel::data(const QModelIndex & index, int role) const
 {
     if (!index.isValid())
         return QVariant();
 
-    auto & item = items[index.row()];
+    auto item = static_cast<LayerItem*>(index.internalPointer());
     switch (role)
     {
     case Qt::DisplayRole:
-        return item.layer->name();
+        return item->layer->name();
     case Qt::CheckStateRole:
-        return item.visible;
+        return item->visible;
     }
 
     return QVariant();
@@ -52,12 +67,11 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
 {
     if (index.isValid())
     {
+        auto item = static_cast<LayerItem*>(index.internalPointer());
         switch (role)
         {
         case Qt::CheckStateRole:
-            items[index.row()].visible = value.value<Qt::CheckState>();
-
-            visibilityChanged(items[index.row()].layer->id(), value.value<Qt::CheckState>() == Qt::Checked);
+            setCheckedState(item, value.value<Qt::CheckState>());
             return true;
         }
     }
@@ -65,27 +79,71 @@ bool LayersModel::setData(const QModelIndex & index, const QVariant & value, int
     return false;
 }
 
-void LayersModel::addLayer(RoomLayer * layer)
-{
-    beginInsertRows(QModelIndex(), items.size(), items.size());
-    items.append({ layer });
-    endInsertRows();
-}
-
-RoomLayer * LayersModel::layer(int row) const
-{
-    return items[row].layer;
-}
-
 void LayersModel::clear()
 {
     beginResetModel();
-    items.clear();
+    rootItem.reset();
     endResetModel();
+}
+
+void LayersModel::setCheckedState(LayerItem * item, Qt::CheckState state)
+{
+    item->visible = state;
+    visibilityChanged(item->layer, state == Qt::Checked);
+
+    for (auto & c : item->children)
+    {
+        setCheckedState(c, state);
+    }
+}
+
+void LayersModel::addLayersToParent(LayerItem * parentItem, QVector<RoomLayer *> layers)
+{
+    for (auto & layer : layers)
+    {
+        auto item = new LayerItem;
+        item->layer = layer;
+
+        parentItem->add(item);
+        qDebug() << "add" << item << "to" << parentItem << " / " << (int)layer->type();
+
+        if (layer->type() == RoomLayer::Type::Folder)
+        {
+            auto folderLayer = qobject_cast<FolderLayer*>(layer);
+            addLayersToParent(item, folderLayer->subLayers());
+        }
+    }
 }
 
 Qt::ItemFlags LayersModel::flags(const QModelIndex & index) const
 {
-    auto f = QAbstractListModel::flags(index);
+    auto f = QAbstractItemModel::flags(index);
     return f | Qt::ItemIsUserCheckable;
+}
+
+
+QModelIndex LayersModel::index(int row, int column, const QModelIndex & parent) const
+{
+    LayerItem * ptr = nullptr;
+    if (!parent.isValid())
+        ptr = rootItem.get();
+    else
+        ptr = static_cast<LayerItem*>(parent.internalPointer());
+    auto childPtr = ptr->child(row);
+    return createIndex(row, column, childPtr);
+}
+
+QModelIndex LayersModel::parent(const QModelIndex & child) const
+{
+    auto ptr = static_cast<LayerItem*>(child.internalPointer());
+    auto parentPtr = ptr->parent;
+    if (parentPtr == rootItem.get())
+        return QModelIndex();
+    return createIndex(parentPtr->children.indexOf(ptr), 0, parentPtr);
+}
+
+int LayersModel::columnCount(const QModelIndex & parent) const
+{
+    Q_UNUSED(parent)
+    return 1;
 }

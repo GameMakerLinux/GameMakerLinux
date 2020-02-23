@@ -18,39 +18,63 @@
 #ifndef LAYERSMODEL_H
 #define LAYERSMODEL_H
 
-#include <QAbstractListModel>
+#include <QAbstractItemModel>
 
 class RoomLayer;
 struct LayerItem
 {
-    RoomLayer * layer;
+    ~LayerItem()
+    {
+        qDeleteAll(children);
+    }
+
+    RoomLayer * layer = nullptr;
+    LayerItem * parent = nullptr;
     Qt::CheckState visible = Qt::Checked;
     bool locked = false; // unused
+    QVector<LayerItem*> children;
+
+    void add(LayerItem * item)
+    {
+        item->parent = this;
+        children.push_back(item);
+    }
+
+    LayerItem * child(int row)
+    {
+        return children.at(row);
+    }
 };
 
-class LayersModel : public QAbstractListModel
+class RoomResourceItem;
+class LayersModel : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
     explicit LayersModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    void load(RoomResourceItem * item);
+
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
     Qt::ItemFlags flags(const QModelIndex & index) const override;
+    QModelIndex index(int row, int column, const QModelIndex & parent) const override;
+    QModelIndex parent(const QModelIndex & child) const override;
+    int columnCount(const QModelIndex & parent) const override;
 
     bool setData(const QModelIndex & index, const QVariant & value, int role) override;
-
-    void addLayer(RoomLayer * layer);
-    RoomLayer * layer(int row) const;
 
     void clear();
 
 signals:
-    void visibilityChanged(QString id, bool visible);
+    void visibilityChanged(RoomLayer * layer, bool visible);
 
 private:
-    QVector<LayerItem> items;
+    void setCheckedState(LayerItem * item, Qt::CheckState state);
+    void addLayersToParent(LayerItem * parentItem, QVector<RoomLayer*> layers);
+
+    QScopedPointer<LayerItem> rootItem;
 };
 
 #endif // LAYERSMODEL_H
