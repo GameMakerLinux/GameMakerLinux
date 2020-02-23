@@ -37,8 +37,11 @@
 #include "windowsuapoptionsresourceitem.h"
 #include "tvosoptionsresourceitem.h"
 #include "html5optionsresourceitem.h"
+#include "tilesetresourceitem.h"
 #include "dependencies/instancelayer.h"
 #include "dependencies/backgroundlayer.h"
 #include "dependencies/objectinstance.h"
+#include "dependencies/folderlayer.h"
+#include "dependencies/tilelayer.h"
 
 #endif // ALLRESOURCEITEMS_H

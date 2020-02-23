@@ -15,38 +15,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ROOMLAYER_H
-#define ROOMLAYER_H
+#ifndef FOLDERLAYER_H
+#define FOLDERLAYER_H
 
-#include "resources/resourceitem.h"
+#include "roomlayer.h"
 
-class RoomLayer : public ResourceItem
+class FolderLayer : public RoomLayer
 {
     Q_OBJECT
 
 public:
-    enum class Type {
-        Folder,
-        Instances,
-        Background,
-        Unknown
-    };
-
-    RoomLayer(ResourceType type);
-    ~RoomLayer() = default;
+    FolderLayer();
 
     void load(QJsonObject object);
-    Type type() const;
 
-    int depth() const;
-    bool acceptObject(ResourceItem * item);
-
-protected:
-    void setDepth(int d);
+    void addSubLayer(RoomLayer * layer);
 
 private:
-    int m_depth = 0;
-    Type m_type = Type::Unknown;
+    QVector<RoomLayer *> m_subLayers;
 };
 
-#endif // ROOMLAYER_H
+#endif // FOLDERLAYER_H

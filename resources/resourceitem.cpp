@@ -88,6 +88,9 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
     case ResourceType::Folder:
         item = new FolderResourceItem;
         break;
+    case ResourceType::FolderLayer:
+        item = new FolderLayer;
+        break;
     case ResourceType::Font:
         item = new FontResourceItem;
         break;
@@ -129,6 +132,12 @@ ResourceItem * ResourceItem::create(ResourceType type, QString id)
         break;
     case ResourceType::tvOSOptions:
         item = new tvOSOptionsResourceItem;
+        break;
+    case ResourceType::TileLayer:
+        item = new TileLayer;
+        break;
+    case ResourceType::TileSet:
+        item = new TileSetResourceItem;
         break;
     case ResourceType::WindowsOptions:
         item = new WindowsOptionsResourceItem;

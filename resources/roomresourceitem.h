@@ -21,6 +21,7 @@
 #include "resourceitem.h"
 #include "dependencies/roomsettings.h"
 
+class FolderLayer;
 class RoomResourceItem : public ResourceItem
 {
     Q_OBJECT
@@ -37,6 +38,7 @@ public:
     QVector<RoomLayer *> layers() const;
 
 private:
+    void loadSubLayers(FolderLayer * parentLayer, QJsonArray layers);
     QVector<RoomLayer *> m_layers;
     RoomSettings m_settings;
 };

@@ -123,6 +123,8 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
         case ResourceType::Folder:
             addItemAction(&contextMenu, static_cast<FolderResourceItem*>(item)->filterType(), modelIndex);
             break;
+        case ResourceType::FolderLayer:
+            break;
         case ResourceType::Font:
             break;
         case ResourceType::HTML5Options:
@@ -170,6 +172,8 @@ void ResourcesTreeDock::onContextMenuRequested(const QPoint & pos)
         case ResourceType::SpriteFrame:
             break;
         case ResourceType::SpriteImage:
+            break;
+        case ResourceType::TileLayer:
             break;
         case ResourceType::TileSet:
             break;
