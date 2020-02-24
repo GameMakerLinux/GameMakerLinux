@@ -288,6 +288,7 @@ void ObjectEditor::load()
     {
         ui->spriteViewer->setIcon({});
     }
+    ui->maskLineEdit->setText(pItem->maskSprite()->name());
 
     // EVENTS
     eventsModel.clear();
