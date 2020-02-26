@@ -27,7 +27,7 @@ class FolderLayer : public RoomLayer
 public:
     FolderLayer();
 
-    void load(QJsonObject object);
+    void load(QJsonObject object) override;
 
     void addSubLayer(RoomLayer * layer);
     QVector<RoomLayer *> subLayers() const;

@@ -35,6 +35,11 @@ ResourceItem *ResourceItem::child(int index)
     return nullptr;
 }
 
+void ResourceItem::initialize()
+{
+    // do nothing
+}
+
 QJsonObject ResourceItem::save()
 {
     QMessageBox::warning(nullptr, "Unimplemented", QString("It's not possible to save this kind of resources: %1.").arg(Utils::resourceTypeToString(type())));

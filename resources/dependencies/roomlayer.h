@@ -34,9 +34,8 @@ public:
     };
 
     RoomLayer(ResourceType type);
-    ~RoomLayer() = default;
 
-    void load(QJsonObject object);
+    void load(QJsonObject object) override;
     Type type() const;
 
     int depth() const;

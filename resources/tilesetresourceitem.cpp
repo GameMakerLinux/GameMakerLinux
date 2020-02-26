@@ -16,6 +16,9 @@
 */
 
 #include "tilesetresourceitem.h"
+#include "spriteresourceitem.h"
+#include "utils/uuid.h"
+#include <QPixmap>
 
 TileSetResourceItem::TileSetResourceItem()
     : ResourceItem { ResourceType::TileSet }
@@ -25,4 +28,39 @@ TileSetResourceItem::TileSetResourceItem()
 void TileSetResourceItem::load(QJsonObject object)
 {
     setName(object["name"].toString());
+
+    m_spriteId = object["spriteId"].toString();
+
+    m_tileSize.rwidth() = object["tilewidth"].toInt();
+    m_tileSize.rheight() = object["tileheight"].toInt();
+    m_tileCount = object["tile_count"].toInt();
+}
+
+void TileSetResourceItem::initialize()
+{
+    if (!Uuid::isNull(m_spriteId))
+    {
+        m_sprite = ResourceItem::get<SpriteResourceItem>(m_spriteId);
+    }
+}
+
+int TileSetResourceItem::tileWidth() const
+{
+    return m_tileSize.width();
+}
+
+int TileSetResourceItem::tileHeight() const
+{
+    return m_tileSize.height();
+}
+
+QPixmap TileSetResourceItem::getTile(uint32_t id) const
+{
+    auto spritePix = m_sprite->pixmap();
+    int tilesPerRow = spritePix.width() / tileWidth();
+    // because tile id 0 is the second (the first one being the "empty" tile with id "-1"
+    id++;
+    int x = static_cast<int32_t>(id) % tilesPerRow;
+    int y = static_cast<int32_t>(id) / tilesPerRow;
+    return spritePix.copy(x, y, tileWidth(), tileHeight());
 }

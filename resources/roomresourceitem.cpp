@@ -38,6 +38,14 @@ void RoomResourceItem::load(QJsonObject object)
     loadSubLayers(nullptr, layers);
 }
 
+void RoomResourceItem::initialize()
+{
+    for (auto & layer : m_layers)
+    {
+        layer->initialize();
+    }
+}
+
 int RoomResourceItem::height() const
 {
     return m_settings.height();

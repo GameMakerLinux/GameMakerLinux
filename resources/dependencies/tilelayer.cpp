@@ -19,6 +19,9 @@
 #include "resources/tilesetresourceitem.h"
 #include "utils/uuid.h"
 #include <QPixmap>
+#include <QDebug>
+#include <QJsonArray>
+#include <QPainter>
 
 TileLayer::TileLayer()
     : RoomLayer { ResourceType::TileLayer }
@@ -28,16 +31,59 @@ TileLayer::TileLayer()
 void TileLayer::load(QJsonObject object)
 {
     RoomLayer::load(object);
+    qDebug() << "loading" << id();
 
-    auto tilesetId = object["tilesetId"].toString();
+    m_tilesetId = object["tilesetId"].toString();
 
-    if (!Uuid::isNull(tilesetId))
+    auto tilesData = object["tiles"].toObject();
+    m_widthCount = tilesData["SerialiseWidth"].toInt();
+    m_heightCount = tilesData["SerialiseHeight"].toInt();
+    auto tilesId = tilesData["TileSerialiseData"].toArray();
+    m_tiles.resize(static_cast<size_t>(tilesId.size()));
+    std::transform(tilesId.begin(), tilesId.end(), m_tiles.begin(), [](QJsonValue value) {
+        return static_cast<uint32_t>(value.toDouble());
+    });
+}
+
+void TileLayer::initialize()
+{
+    if (!Uuid::isNull(m_tilesetId))
     {
-        tilesetItem = ResourceItem::get<TileSetResourceItem>(tilesetId);
+        m_tilesetItem = ResourceItem::get<TileSetResourceItem>(m_tilesetId);
     }
 }
 
 QPixmap TileLayer::render() const
 {
-    return QPixmap();
+    if (m_tilesetItem == nullptr)
+    {
+        return QPixmap();
+    }
+
+    auto tileWidth = m_tilesetItem->tileWidth();
+    auto tileHeight = m_tilesetItem->tileHeight();
+    QPixmap surface(m_widthCount * tileWidth, m_heightCount * tileHeight);
+    surface.fill(Qt::transparent);
+
+    QPainter painter;
+    painter.begin(&surface);
+
+    for (int y = 0; y < m_heightCount; y++)
+    {
+        for (int x = 0; x < m_widthCount; x++)
+        {
+            auto tileId = m_tiles[static_cast<size_t>(x + y * m_widthCount)];
+            if (tileId != 0xFFFFFFFF)
+            {
+                int x_dst = x * tileWidth;
+                int y_dst = y * tileHeight;
+
+                auto tilePix = m_tilesetItem->getTile(tileId);
+                painter.drawPixmap(x_dst, y_dst, tilePix);
+            }
+        }
+    }
+    painter.end();
+
+    return surface;
 }

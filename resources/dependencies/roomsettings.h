@@ -39,11 +39,3 @@ private:
 };
 
 #endif // ROOMSETTINGS_H
-/*
-        "id": "586aef19-2d9b-4e45-b2c7-34d3db3965f5",
-        "Height": 720,
-        "inheritRoomSettings": false,
-        "modelName": "GMRoomSettings",
-        "persistent": false,
-        "mvc": "1.0",
-        "Width": 1280*/

@@ -28,7 +28,7 @@ class BackgroundLayer : public RoomLayer
 public:
     BackgroundLayer();
 
-    void load(QJsonObject object);
+    void load(QJsonObject object) override;
 
     SpriteResourceItem * sprite() const;
     QColor colour() const;

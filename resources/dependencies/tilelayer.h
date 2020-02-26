@@ -28,12 +28,18 @@ class TileLayer : public RoomLayer
 public:
     TileLayer();
 
-    void load(QJsonObject object);
+    void load(QJsonObject object) override;
+    void initialize() override;
 
     QPixmap render() const;
 
 private:
-    TileSetResourceItem * tilesetItem = nullptr;
+    TileSetResourceItem * m_tilesetItem = nullptr;
+    int m_widthCount;
+    int m_heightCount;
+    std::vector<uint32_t> m_tiles;
+
+    QString m_tilesetId;
 };
 
 #endif // TILELAYER_H

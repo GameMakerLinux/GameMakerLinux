@@ -19,6 +19,7 @@
 #define TILESETRESOURCEITEM_H
 
 #include "resourceitem.h"
+#include "spriteresourceitem.h"
 #include <QSize>
 
 class TileSetResourceItem : public ResourceItem
@@ -29,9 +30,18 @@ public:
     TileSetResourceItem();
 
     void load(QJsonObject object) override;
+    void initialize() override;
+
+    int tileWidth() const;
+    int tileHeight() const;
+    QPixmap getTile(uint32_t id) const;
 
 private:
-    QSize tileSize;
+    QSize m_tileSize;
+    int m_tileCount;
+    SpriteResourceItem * m_sprite;
+
+    QString m_spriteId;
 };
 
 #endif // TILESETRESOURCEITEM_H

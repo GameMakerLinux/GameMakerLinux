@@ -20,6 +20,7 @@
 
 #include "resourceitem.h"
 #include "dependencies/roomsettings.h"
+#include <QJsonArray>
 
 class FolderLayer;
 class RoomResourceItem : public ResourceItem
@@ -30,6 +31,7 @@ public:
     RoomResourceItem();
 
     void load(QJsonObject object) override;
+    void initialize() override;
     QString filename() const override;
 
     int height() const;

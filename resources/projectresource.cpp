@@ -31,6 +31,7 @@ void ProjectResource::load(QJsonObject object)
 
     setId(object["id"].toString());
 
+    QVector<ResourceItem*> resources;
     auto resourcesJson = object["resources"].toArray();
     for (auto value : resourcesJson)
     {
@@ -44,6 +45,12 @@ void ProjectResource::load(QJsonObject object)
 
         auto json = Utils::readFileToJSON(GameSettings::rootPath() + "/" + filenameYY);
         item->load(json);
+        resources.push_back(item);
+    }
+
+    for (auto & item : resources)
+    {
+        item->initialize();
     }
 
     // main options FIX

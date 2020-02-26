@@ -28,9 +28,6 @@ public:
     AmazonFireOptionsResourceItem();
 
     void load(QJsonObject object) override;
-
-    // ResourceItem interface
-public:
     QString filename() const override;
 };
 
