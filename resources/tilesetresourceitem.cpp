@@ -54,13 +54,16 @@ int TileSetResourceItem::tileHeight() const
     return m_tileSize.height();
 }
 
+int TileSetResourceItem::tileCount() const
+{
+    return m_tileCount;
+}
+
 QPixmap TileSetResourceItem::getTile(uint32_t id) const
 {
     auto spritePix = m_sprite->pixmap();
     int tilesPerRow = spritePix.width() / tileWidth();
-    // because tile id 0 is the second (the first one being the "empty" tile with id "-1"
-    id++;
     int x = static_cast<int32_t>(id) % tilesPerRow;
     int y = static_cast<int32_t>(id) / tilesPerRow;
-    return spritePix.copy(x, y, tileWidth(), tileHeight());
+    return spritePix.copy(x * tileWidth(), y * tileHeight(), tileWidth(), tileHeight());
 }

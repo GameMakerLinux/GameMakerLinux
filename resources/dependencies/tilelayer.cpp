@@ -18,7 +18,6 @@
 #include "tilelayer.h"
 #include "resources/tilesetresourceitem.h"
 #include "utils/uuid.h"
-#include <QPixmap>
 #include <QDebug>
 #include <QJsonArray>
 #include <QPainter>
@@ -50,40 +49,42 @@ void TileLayer::initialize()
     if (!Uuid::isNull(m_tilesetId))
     {
         m_tilesetItem = ResourceItem::get<TileSetResourceItem>(m_tilesetId);
+        m_dirty = true;
     }
 }
 
-QPixmap TileLayer::render() const
+QPixmap TileLayer::render()
 {
-    if (m_tilesetItem == nullptr)
+    if (m_tilesetItem && m_dirty)
     {
-        return QPixmap();
-    }
+        auto tileWidth = m_tilesetItem->tileWidth();
+        auto tileHeight = m_tilesetItem->tileHeight();
+        auto tileCount = m_tilesetItem->tileCount();
+        m_rendered = QPixmap(m_widthCount * tileWidth, m_heightCount * tileHeight);
+        m_rendered.fill(Qt::transparent);
 
-    auto tileWidth = m_tilesetItem->tileWidth();
-    auto tileHeight = m_tilesetItem->tileHeight();
-    QPixmap surface(m_widthCount * tileWidth, m_heightCount * tileHeight);
-    surface.fill(Qt::transparent);
+        QPainter painter;
+        painter.begin(&m_rendered);
 
-    QPainter painter;
-    painter.begin(&surface);
-
-    for (int y = 0; y < m_heightCount; y++)
-    {
-        for (int x = 0; x < m_widthCount; x++)
+        for (int y = 0; y < m_heightCount; y++)
         {
-            auto tileId = m_tiles[static_cast<size_t>(x + y * m_widthCount)];
-            if (tileId != 0xFFFFFFFF)
+            for (int x = 0; x < m_widthCount; x++)
             {
-                int x_dst = x * tileWidth;
-                int y_dst = y * tileHeight;
+                auto tileId = m_tiles[static_cast<size_t>(x + y * m_widthCount)];
+                if (tileId != 0 && tileId < static_cast<uint32_t>(tileCount))
+                {
+                    int x_dst = x * tileWidth;
+                    int y_dst = y * tileHeight;
 
-                auto tilePix = m_tilesetItem->getTile(tileId);
-                painter.drawPixmap(x_dst, y_dst, tilePix);
+                    auto tilePix = m_tilesetItem->getTile(tileId);
+                    painter.drawPixmap(x_dst, y_dst, tilePix);
+                }
             }
         }
-    }
-    painter.end();
+        painter.end();
 
-    return surface;
+        m_dirty = false;
+    }
+
+    return m_rendered;
 }

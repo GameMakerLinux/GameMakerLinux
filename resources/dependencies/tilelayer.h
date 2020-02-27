@@ -19,6 +19,7 @@
 #define TILELAYER_H
 
 #include "roomlayer.h"
+#include <QPixmap>
 
 class TileSetResourceItem;
 class TileLayer : public RoomLayer
@@ -31,13 +32,15 @@ public:
     void load(QJsonObject object) override;
     void initialize() override;
 
-    QPixmap render() const;
+    QPixmap render();
 
 private:
     TileSetResourceItem * m_tilesetItem = nullptr;
     int m_widthCount;
     int m_heightCount;
     std::vector<uint32_t> m_tiles;
+    QPixmap m_rendered;
+    bool m_dirty = false;
 
     QString m_tilesetId;
 };

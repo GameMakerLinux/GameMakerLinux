@@ -34,6 +34,7 @@ public:
 
     int tileWidth() const;
     int tileHeight() const;
+    int tileCount() const;
     QPixmap getTile(uint32_t id) const;
 
 private:
