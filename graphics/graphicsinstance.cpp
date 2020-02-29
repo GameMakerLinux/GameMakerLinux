@@ -17,14 +17,13 @@
 
 #include "graphicsinstance.h"
 #include "resources/dependencies/objectinstance.h"
-#include <QIcon>
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 
 GraphicsInstance::GraphicsInstance(ObjectInstance * instance)
-    : QGraphicsPixmapItem { QIcon::fromTheme("help-about").pixmap(16, 16) }
+    : QGraphicsPixmapItem { instance->thumbnail(16, 16) }
     , m_objectInstance { instance }
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);

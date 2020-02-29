@@ -33,7 +33,8 @@ public:
     QPoint position() const;
     void setPosition(int x, int y);
     void setPosition(QPointF p);
-    ObjectResourceItem * object();
+    ObjectResourceItem * object() const;
+    QPixmap thumbnail(int width, int height) const override;
 
 private:
     QPoint m_position;

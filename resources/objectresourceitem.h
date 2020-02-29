@@ -33,6 +33,7 @@ public:
     void load(QJsonObject object) override;
     QJsonObject save() override;
     QString filename() const override;
+    QPixmap thumbnail(int width, int height) const override;
 
     int eventsCount() const;
     ObjectEvent * getEvent(int id) const;

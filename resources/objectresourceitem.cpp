@@ -16,12 +16,13 @@
 */
 
 #include "objectresourceitem.h"
-#include <QJsonArray>
 #include "utils/uuid.h"
 #include "utils/utils.h"
 #include "dependencies/objectevent.h"
 #include "spriteresourceitem.h"
 #include "gamesettings.h"
+#include <QJsonArray>
+#include <QPixmap>
 
 ObjectResourceItem::ObjectResourceItem()
     : ResourceItem { ResourceType::Object }
@@ -238,4 +239,13 @@ void ObjectResourceItem::setSensor(bool b)
 QString ObjectResourceItem::filename() const
 {
     return QString("objects/%1/%1.yy").arg(name());
+}
+
+QPixmap ObjectResourceItem::thumbnail(int width, int height) const
+{
+    if (sprite())
+    {
+        return sprite()->thumbnail(width, height);
+    }
+    return QPixmap();
 }

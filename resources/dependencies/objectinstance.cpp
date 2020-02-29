@@ -18,8 +18,11 @@
 #include "objectinstance.h"
 #include "utils/uuid.h"
 #include "resources/objectresourceitem.h"
+#include "resources/spriteresourceitem.h"
 #include <experimental/random>
 #include <QDebug>
+#include <QPixmap>
+#include <QIcon>
 
 ObjectInstance::ObjectInstance()
     : ResourceItem { ResourceType::ObjectInstance }
@@ -66,10 +69,23 @@ void ObjectInstance::setPosition(QPointF p)
     setPosition(static_cast<int>(p.x()), static_cast<int>(p.y()));
 }
 
-ObjectResourceItem * ObjectInstance::object()
+ObjectResourceItem * ObjectInstance::object() const
 {
     if (!Uuid::isNull(m_objId))
         return ResourceItem::get<ObjectResourceItem>(m_objId);
     qWarning() << "Instance" << name() << "hasn't an object.";
     return nullptr;
+}
+
+
+QPixmap ObjectInstance::thumbnail(int width, int height) const
+{
+    if (auto pItem = object(); pItem)
+    {
+        if (auto pSprite = pItem->sprite(); pSprite)
+        {
+            return pSprite->pixmap();
+        }
+    }
+    return QIcon::fromTheme("help-about").pixmap(width, height);
 }
