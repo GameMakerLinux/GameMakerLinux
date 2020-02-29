@@ -246,6 +246,9 @@ QString ResourceItem::generateName(ResourceType type)
     case ResourceType::Object:
         typeName = "object";
         break;
+    case ResourceType::Script:
+        typeName = "script";
+        break;
     case ResourceType::Sprite:
         typeName = "sprite";
         break;
