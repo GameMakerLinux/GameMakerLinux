@@ -5,21 +5,18 @@ An attempt to have a Game Maker IDE on Linux.
 ## What is working?
 
 * Opening a project
-* Editing scripts
+* Creating scripts and objects
+* Editing scripts and objects
 * Editing events scripts
-* Visualisation of a room backgrounds
-* Reorder the resources in the tree view via drag-and-drop (not saved)
-* Saving the project file (only the "resources" field)
-* Renaming an object
+* Visualisation of a room (showing/hiding layers and moving instances)
 
 ## TODO
 
 * Add key names ("Key Press: Enter" instead of "Key Press: 13")
-* Add new events to objects
-* Delete events from objects
 * Change events types
-* Save the reordering of the resources tree
 * Edition of sprites, sounds, etc.
+* Saving
+* Reorder the resources in the tree view via drag-and-drop
 * Everything else...
 
 ## Things that will never be done
