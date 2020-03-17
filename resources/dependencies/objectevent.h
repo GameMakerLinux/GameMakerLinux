@@ -40,7 +40,7 @@ public:
         DrawEvent,
         KeyPressEvent,
         KeyReleaseEvent,
-        AsyncEvent,
+        TriggerEvent,
         CleanUpEvent,
         GestureEvent,
         EVENTS_COUNT

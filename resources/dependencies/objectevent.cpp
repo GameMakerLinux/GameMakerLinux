@@ -223,8 +223,6 @@ QString ObjectEvent::getName(EventType eventType, int eventNumber)
         case KeyPressEvent:
         case KeyReleaseEvent:
             return QString("%1 - %2").arg(eventsTypeNames[eventType][0]).arg(eventNumber);
-        case AsyncEvent:
-            return QString("Async - %1").arg(eventsTypeNames[eventType][eventNumber]);
         case GestureEvent:
         {
             QString str;
@@ -242,6 +240,7 @@ QString ObjectEvent::getName(EventType eventType, int eventNumber)
         case MouseEvent:
         case OtherEvent:
         case DrawEvent:
+        case TriggerEvent:
         case CleanUpEvent:
             if (eventsTypeNames[eventType].contains(eventNumber))
             {
