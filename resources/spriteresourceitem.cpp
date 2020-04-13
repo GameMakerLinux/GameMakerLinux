@@ -49,8 +49,7 @@ QPixmap SpriteResourceItem::thumbnail(int width, int height) const
     }
     else
     {
-        pix = QPixmap(width, height);
-        pix.fill(Qt::transparent);
+        pix = emptyThumbnail(width, height);
     }
     return pix;
 }

@@ -62,6 +62,7 @@ RoomEditor::RoomEditor(RoomResourceItem* item)
 
     ui->layersTreeView->setCurrentIndex(layersModel.index(0, 0, QModelIndex()));
     ui->layersTreeView->pressed(layersModel.index(0, 0, QModelIndex()));
+    ui->layersTreeView->expandAll();
 }
 
 RoomEditor::~RoomEditor()

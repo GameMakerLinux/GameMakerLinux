@@ -165,7 +165,7 @@ static QMap<int, QString> eventsTypeNames[] = {
         { 58, "Animation Update" },
         { 60, "Image Loaded" },
         { 61, "Sound Loaded" },
-        { 62, "Async(?)" },
+        { 62, "Async" },
         { 63, "Dialog" },
         { 66, "In-App Purchase" },
         { 67, "Cloud" },

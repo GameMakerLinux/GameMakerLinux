@@ -26,6 +26,13 @@ ResourceItem::ResourceItem(ResourceType type)
 {
 }
 
+QPixmap ResourceItem::emptyThumbnail(int width, int height) const
+{
+    QPixmap pix(width, height);
+    pix.fill(Qt::transparent);
+    return pix;
+}
+
 ResourceItem *ResourceItem::child(int index)
 {
     if (index < children.size())

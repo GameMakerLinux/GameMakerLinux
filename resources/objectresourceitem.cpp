@@ -247,5 +247,5 @@ QPixmap ObjectResourceItem::thumbnail(int width, int height) const
     {
         return sprite()->thumbnail(width, height);
     }
-    return QPixmap();
+    return emptyThumbnail(width, height);
 }

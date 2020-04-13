@@ -45,6 +45,14 @@ void ResourcesTreeDock::setModel(ResourcesModel * model)
 {
     resourcesTree->setModel(model);
     resModel = model;
+    connect(resModel, &ResourcesModel::rowsInserted, [this](const QModelIndex & parent, int first, int last) {
+        Q_UNUSED(first)
+        Q_UNUSED(last)
+        resourcesTree->expand(parent);
+    });
+    connect(resModel, &ResourcesModel::modelReset, [this]() {
+        resourcesTree->expandAll();
+    });
 }
 
 void ResourcesTreeDock::onItemDoubleClicked(const QModelIndex & index)

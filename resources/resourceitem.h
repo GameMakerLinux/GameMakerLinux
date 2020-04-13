@@ -114,6 +114,8 @@ signals:
 protected:
     ResourceItem(ResourceType type);
 
+    QPixmap emptyThumbnail(int width, int height) const;
+
 private:
     QString m_id;
     QString m_name;

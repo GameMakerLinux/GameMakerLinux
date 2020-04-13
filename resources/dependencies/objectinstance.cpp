@@ -77,7 +77,6 @@ ObjectResourceItem * ObjectInstance::object() const
     return nullptr;
 }
 
-
 QPixmap ObjectInstance::thumbnail(int width, int height) const
 {
     if (auto pItem = object(); pItem)
